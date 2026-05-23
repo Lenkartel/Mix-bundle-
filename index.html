@@ -1,33 +1,36 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<meta name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 
 <title>Mix Bundle Builder</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
 -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-margin:0;
-padding:0;
+width:100%;
 height:100%;
 overflow:hidden;
-font-family:"Plus Jakarta Sans",system-ui;
+font-family:"Plus Jakarta Sans",sans-serif;
 }
 
 :root{
---theme:#00a651;
---theme-dark:#008447;
---theme-soft:#eafff1;
---accent:#ffcc00;
+--green:#00a651;
+--green2:#00d26a;
+--dark:#0f172a;
+--soft:#f4fff8;
 }
 
 body{
@@ -36,63 +39,47 @@ background:
 linear-gradient(
 135deg,
 #dfffe9,
-#c5ffd9,
-#e9fff1
+#bfffd5,
+#effff5
 );
 
 display:flex;
 align-items:center;
 justify-content:center;
-overflow:hidden;
+
 padding:10px;
+position:relative;
+overflow:hidden;
 }
 
-.wave{
-position:fixed;
-width:700px;
-height:700px;
+.bg-circle{
+position:absolute;
 border-radius:50%;
-
-background:
-radial-gradient(circle,
-rgba(0,166,81,.16),
-transparent 70%);
-
-filter:blur(50px);
-
-animation:float 18s infinite linear;
-
-z-index:-1;
+filter:blur(70px);
+opacity:.35;
+z-index:0;
 }
 
-.wave.one{
-top:-250px;
-left:-250px;
+.bg1{
+width:280px;
+height:280px;
+background:#00ff88;
+top:-120px;
+left:-100px;
 }
 
-.wave.two{
-bottom:-250px;
-right:-250px;
-animation-duration:25s;
+.bg2{
+width:320px;
+height:320px;
+background:#00c76a;
+bottom:-120px;
+right:-100px;
 }
 
-@keyframes float{
+.app{
 
-0%{
-transform:translateY(0) rotate(0deg);
-}
-
-50%{
-transform:translateY(25px) rotate(8deg);
-}
-
-100%{
-transform:translateY(0) rotate(0deg);
-}
-
-}
-
-.page{
+position:relative;
+z-index:1;
 
 width:100%;
 max-width:430px;
@@ -103,17 +90,17 @@ rgba(255,255,255,.82);
 
 backdrop-filter:blur(14px);
 
-border-radius:28px;
+border-radius:30px;
 
-padding:18px;
-
-overflow:hidden;
+padding:16px;
 
 box-shadow:
 0 20px 60px rgba(0,0,0,.12);
 
 display:flex;
 flex-direction:column;
+
+overflow:hidden;
 }
 
 .header{
@@ -121,24 +108,22 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:10px;
-gap:10px;
 }
 
-.title-block h1{
-margin:0;
+.title h1{
 font-size:24px;
 font-weight:900;
-color:var(--theme);
+color:var(--green);
 line-height:1;
 }
 
-.title-block p{
-margin:4px 0 0;
+.title p{
 font-size:11px;
+margin-top:4px;
 color:#555;
 }
 
-.logo-wrap{
+.logo-box{
 
 display:flex;
 align-items:center;
@@ -154,39 +139,31 @@ box-shadow:
 0 8px 20px rgba(0,0,0,.06);
 }
 
-.logo-wrap img{
-display:block;
+.logo-box img{
+height:24px;
 object-fit:contain;
-}
-
-.logo-eco{
-height:24px;
-}
-
-.logo-dark{
-height:24px;
 }
 
 .price-circle{
 
-width:140px;
-height:140px;
+width:150px;
+height:150px;
 
-margin:10px auto;
+margin:8px auto 14px;
 
 border-radius:50%;
 
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00c76a
+var(--green),
+var(--green2)
 );
 
 display:flex;
 flex-direction:column;
-align-items:center;
 justify-content:center;
+align-items:center;
 
 color:white;
 
@@ -194,19 +171,19 @@ box-shadow:
 0 18px 40px rgba(0,166,81,.35);
 
 animation:pulse 2s infinite;
+
 flex-shrink:0;
 }
 
 .price-circle h2{
-margin:0;
-font-size:34px;
+font-size:38px;
 font-weight:900;
 }
 
 .price-circle span{
-margin-top:5px;
-font-size:11px;
-opacity:.95;
+font-size:12px;
+margin-top:4px;
+opacity:.92;
 }
 
 @keyframes pulse{
@@ -225,13 +202,13 @@ transform:scale(1);
 
 }
 
-.duration-tabs{
+.tabs{
 
 display:grid;
 grid-template-columns:repeat(5,1fr);
 
 gap:6px;
-margin:8px 0 12px;
+margin-bottom:12px;
 }
 
 .tab{
@@ -240,13 +217,12 @@ padding:10px 4px;
 
 border-radius:12px;
 
+background:white;
+
 text-align:center;
 
+font-size:10px;
 font-weight:800;
-
-font-size:11px;
-
-background:white;
 
 cursor:pointer;
 
@@ -261,88 +237,76 @@ box-shadow:
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00c76a
+var(--green),
+var(--green2)
 );
 
 color:white;
 }
 
-.plan-card{
+.card{
 
 flex:1;
 
-border-radius:22px;
+background:white;
+
+border-radius:24px;
 
 padding:16px;
 
-background:white;
+overflow:hidden;
 
 box-shadow:
-0 14px 35px rgba(0,0,0,.08);
-
-overflow:hidden;
+0 12px 30px rgba(0,0,0,.06);
 }
 
-.plan-tag{
+.badge{
 
-font-size:10px;
-
-background:var(--theme-soft);
-
-color:var(--theme);
+display:inline-block;
 
 padding:5px 10px;
 
 border-radius:999px;
 
-display:inline-block;
-
-margin-bottom:8px;
-
+font-size:10px;
 font-weight:800;
+
+background:#ecfff3;
+color:var(--green);
+
+margin-bottom:10px;
 }
 
-.plan-name{
-
+.card h3{
 font-size:24px;
-
 font-weight:900;
-
-color:var(--theme);
-
-margin-bottom:6px;
+color:var(--green);
+margin-bottom:5px;
 }
 
-.plan-duration{
-
+.card p{
 font-size:12px;
-
 color:#555;
-
-line-height:1.5;
-
 margin-bottom:12px;
 }
 
-.input-group{
+.group{
 margin-top:14px;
 }
 
-.input-group label{
+.group label{
 
 display:flex;
 justify-content:space-between;
 
+font-size:12px;
 font-weight:800;
 
 margin-bottom:6px;
-
-font-size:12px;
 }
 
-.slider-value{
-color:var(--theme);
+.value{
+color:var(--green);
 }
 
 input[type=range]{
@@ -357,8 +321,8 @@ appearance:none;
 background:
 linear-gradient(
 90deg,
-#00a651,
-#00c76a
+var(--green),
+var(--green2)
 );
 
 outline:none;
@@ -368,58 +332,58 @@ input[type=range]::-webkit-slider-thumb{
 
 appearance:none;
 
-width:18px;
-height:18px;
+width:20px;
+height:20px;
 
 border-radius:50%;
 
 background:white;
 
-border:3px solid var(--theme);
+border:3px solid var(--green);
 
 cursor:pointer;
 }
 
-.summary-card{
+.summary{
 
 margin-top:14px;
-
-padding:12px;
-
-border-radius:16px;
 
 background:
 linear-gradient(
 135deg,
 #f7fff9,
-#e8fff1
+#ebfff3
 );
 
-border:1px solid rgba(0,166,81,.15);
+border:1px solid rgba(0,166,81,.12);
+
+padding:12px;
+
+border-radius:16px;
 }
 
-.summary-card div{
-margin:6px 0;
-font-weight:700;
+.summary div{
 font-size:12px;
+font-weight:700;
+margin:6px 0;
 }
 
-.plan-cta{
+.pay-btn{
 
 margin-top:14px;
 
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00c76a
+var(--green),
+var(--green2)
 );
 
 color:white;
 
-padding:14px;
+padding:15px;
 
-border-radius:14px;
+border-radius:16px;
 
 text-align:center;
 
@@ -431,9 +395,45 @@ cursor:pointer;
 
 box-shadow:
 0 12px 25px rgba(0,166,81,.35);
+
+transition:.25s;
 }
 
-.modal-overlay{
+.pay-btn:active{
+transform:scale(.98);
+}
+
+.toast{
+
+position:absolute;
+
+top:18px;
+left:50%;
+
+transform:translateX(-50%);
+
+background:
+linear-gradient(
+135deg,
+#111827,
+#1f2937
+);
+
+color:white;
+
+padding:12px 16px;
+
+border-radius:14px;
+
+font-size:12px;
+font-weight:700;
+
+display:none;
+
+z-index:999;
+}
+
+.modal{
 
 position:fixed;
 inset:0;
@@ -452,74 +452,91 @@ padding:20px;
 
 background:white;
 
-padding:20px;
-
-border-radius:20px;
-
 width:100%;
-max-width:380px;
+max-width:360px;
+
+border-radius:22px;
+
+padding:20px;
 }
 
-.modal-title{
-
-font-weight:900;
-
-margin-bottom:6px;
-
+.modal-box h2{
 font-size:22px;
-
-color:var(--theme);
+font-weight:900;
+color:var(--green);
+margin-bottom:10px;
 }
 
 .modal-details{
 
-background:#fafafa;
+background:#f9fafb;
 
 padding:14px;
 
 border-radius:14px;
 
-margin-bottom:14px;
-
-line-height:1.8;
+line-height:1.9;
 
 font-size:14px;
+
+margin-bottom:14px;
 }
 
-.modal-footer{
+.modal-actions{
 
 display:flex;
-justify-content:flex-end;
 gap:10px;
+justify-content:flex-end;
 }
 
 .btn{
 
 padding:12px 14px;
 
+border:none;
+
 border-radius:12px;
 
-border:0;
+font-weight:800;
 
 cursor:pointer;
-
-font-weight:800;
 }
 
-.btn-primary{
+.cancel{
+background:#eee;
+}
+
+.confirm{
 
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00c76a
+var(--green),
+var(--green2)
 );
 
 color:white;
 }
 
-.btn-ghost{
-background:#eee;
+@media(max-height:760px){
+
+.price-circle{
+width:130px;
+height:130px;
+}
+
+.price-circle h2{
+font-size:32px;
+}
+
+.card{
+padding:14px;
+}
+
+.group{
+margin-top:12px;
+}
+
 }
 
 </style>
@@ -527,28 +544,32 @@ background:#eee;
 
 <body>
 
-<div class="wave one"></div>
-<div class="wave two"></div>
+<div class="bg-circle bg1"></div>
+<div class="bg-circle bg2"></div>
 
-<div class="page">
+<div class="toast" id="toast">
+Bundle selected successfully
+</div>
 
-<header class="header">
+<div class="app">
 
-<div class="title-block">
+<div class="header">
+
+<div class="title">
 <h1>Mix Bundle</h1>
 <p>Voice • SMS • Data</p>
 </div>
 
-<div class="logo-wrap">
-<img src="assets/ecocash.png" class="logo-eco">
-<img src="assets/logo.avif" class="logo-dark">
+<div class="logo-box">
+<img src="assets/ecocash.png">
+<img src="assets/logo.avif">
 </div>
 
-</header>
+</div>
 
 <div class="price-circle">
 
-<h2 id="priceCircle">
+<h2 id="price">
 $0.00
 </h2>
 
@@ -558,7 +579,7 @@ Bundle Price
 
 </div>
 
-<div class="duration-tabs">
+<div class="tabs">
 
 <div class="tab active"
 onclick="selectPlan('daily',this)">
@@ -587,25 +608,23 @@ Monthly
 
 </div>
 
-<div class="plan-card">
+<div class="card">
 
-<div class="plan-tag">
+<div class="badge">
 MIX IT YOUR WAY 📱
 </div>
 
-<div class="plan-name">
-Bundle Builder
-</div>
+<h3>Bundle Builder</h3>
 
-<div class="plan-duration">
+<p>
 Customise your Voice, SMS and Data bundle.
-</div>
+</p>
 
-<div class="input-group">
+<div class="group">
 
 <label>
 <span>Voice</span>
-<span class="slider-value" id="voiceValue">
+<span class="value" id="voiceValue">
 0 Min
 </span>
 </label>
@@ -618,11 +637,11 @@ oninput="calculateBundle()">
 
 </div>
 
-<div class="input-group">
+<div class="group">
 
 <label>
 <span>SMS</span>
-<span class="slider-value" id="smsValue">
+<span class="value" id="smsValue">
 0 SMS
 </span>
 </label>
@@ -635,11 +654,11 @@ oninput="calculateBundle()">
 
 </div>
 
-<div class="input-group">
+<div class="group">
 
 <label>
 <span>Data</span>
-<span class="slider-value" id="dataValue">
+<span class="value" id="dataValue">
 0 GB
 </span>
 </label>
@@ -652,32 +671,42 @@ oninput="calculateBundle()">
 
 </div>
 
-<div class="summary-card">
+<div class="summary">
 
 <div>
-📆 <span id="summaryDuration">Daily</span>
-</div>
-
-<div>
-📞 <span id="summaryVoice">0 Minutes</span>
+📆 <span id="summaryDuration">
+Daily
+</span>
 </div>
 
 <div>
-💬 <span id="summarySms">0 SMS</span>
+📞 <span id="summaryVoice">
+0 Minutes
+</span>
 </div>
 
 <div>
-🌐 <span id="summaryData">0 GB</span>
+💬 <span id="summarySms">
+0 SMS
+</span>
 </div>
 
 <div>
-💵 <span id="summaryAmount">USD 0.00</span>
+🌐 <span id="summaryData">
+0 GB
+</span>
+</div>
+
+<div>
+💵 <span id="summaryAmount">
+USD 0.00
+</span>
 </div>
 
 </div>
 
-<div class="plan-cta"
-onclick="openBundleModal()">
+<div class="pay-btn"
+onclick="openModal()">
 
 Pay with EcoCash
 
@@ -687,27 +716,29 @@ Pay with EcoCash
 
 </div>
 
-<div class="modal-overlay" id="modal">
+<div class="modal" id="modal">
 
 <div class="modal-box">
 
-<div class="modal-title">
-Confirm Bundle
+<h2>
+Bundle Selected
+</h2>
+
+<div class="modal-details"
+id="details">
 </div>
 
-<div class="modal-details" id="details"></div>
+<div class="modal-actions">
 
-<div class="modal-footer">
-
-<button class="btn btn-ghost"
+<button class="btn cancel"
 onclick="closeModal()">
 Cancel
 </button>
 
-<button class="btn btn-primary"
-onclick="goLogin()">
+<button class="btn confirm"
+onclick="confirmBundle()">
 
-Pay Now
+Continue
 
 </button>
 
@@ -765,7 +796,9 @@ function selectPlan(plan,el){
 currentPlan = plan;
 
 document.querySelectorAll(".tab")
-.forEach(tab=>tab.classList.remove("active"));
+.forEach(tab=>{
+tab.classList.remove("active");
+});
 
 el.classList.add("active");
 
@@ -821,13 +854,15 @@ document.getElementById("dataValue")
 .innerHTML = data + " GB";
 
 const total =
+
 (
 (data / plan.maxData) +
 (voice / plan.maxVoice) +
 (sms / plan.maxSms)
+
 ) / 3 * plan.price;
 
-document.getElementById("priceCircle")
+document.getElementById("price")
 .innerHTML =
 "$" + total.toFixed(2);
 
@@ -835,13 +870,16 @@ document.getElementById("summaryDuration")
 .innerHTML = currentPlan;
 
 document.getElementById("summaryVoice")
-.innerHTML = voice + " Minutes";
+.innerHTML =
+voice + " Minutes";
 
 document.getElementById("summarySms")
-.innerHTML = sms + " SMS";
+.innerHTML =
+sms + " SMS";
 
 document.getElementById("summaryData")
-.innerHTML = data + " GB";
+.innerHTML =
+data + " GB";
 
 document.getElementById("summaryAmount")
 .innerHTML =
@@ -849,7 +887,7 @@ document.getElementById("summaryAmount")
 
 }
 
-function openBundleModal(){
+function openModal(){
 
 const voice =
 document.getElementById("voice").value;
@@ -864,10 +902,11 @@ const amount =
 document.getElementById("summaryAmount")
 .textContent;
 
-document.getElementById("details").innerHTML = `
+document.getElementById("details")
+.innerHTML = `
 
 <div>
-<strong>Duration:</strong>
+<strong>Bundle:</strong>
 ${currentPlan}
 </div>
 
@@ -905,23 +944,25 @@ document.getElementById("modal")
 
 }
 
-function goLogin(){
-
-window.location.href =
-"login.html";
-
-}
-
-document.getElementById("modal")
-.onclick = function(e){
-
-if(e.target === this){
+function confirmBundle(){
 
 closeModal();
 
-}
+const toast =
+document.getElementById("toast");
 
-};
+toast.innerHTML =
+"Bundle selected successfully";
+
+toast.style.display = "block";
+
+setTimeout(()=>{
+
+toast.style.display = "none";
+
+},2500);
+
+}
 
 updatePlan();
 
