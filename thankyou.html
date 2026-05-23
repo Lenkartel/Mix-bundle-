@@ -1,12 +1,14 @@
 <!doctype html>
 <html>
 <head>
+
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="viewport"
+content="width=device-width,initial-scale=1"/>
 
-<title>Thank You — Ecocash</title>
+<title>Bundle Request Received</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
@@ -19,15 +21,26 @@ html,body{
 height:100%;
 margin:0;
 font-family:"Plus Jakarta Sans",system-ui;
+overflow:hidden;
 }
 
 body{
-background:linear-gradient(180deg,#e6f0ff,#cfe0ff);
+
+background:
+linear-gradient(
+135deg,
+#dbffea,
+#b7ffd1,
+#effff5
+);
+
 display:flex;
 align-items:center;
 justify-content:center;
-padding:20px;
-overflow:hidden;
+
+padding:18px;
+
+position:relative;
 }
 
 .wave{
@@ -35,12 +48,18 @@ position:fixed;
 width:650px;
 height:650px;
 border-radius:50%;
+
 background:
-radial-gradient(circle,
-rgba(0,58,143,.18),
-transparent 70%);
+radial-gradient(
+circle,
+rgba(0,166,81,.18),
+transparent 70%
+);
+
 filter:blur(45px);
+
 animation:float 20s infinite linear;
+
 z-index:-1;
 }
 
@@ -56,109 +75,233 @@ animation-duration:26s;
 }
 
 @keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(40px)}
-100%{transform:translateY(0)}
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(40px);
+}
+
+100%{
+transform:translateY(0);
+}
+
 }
 
 .card{
+
 width:100%;
 max-width:440px;
-background:white;
+
+background:
+rgba(255,255,255,.88);
+
+backdrop-filter:blur(18px);
+
 padding:28px;
-border-radius:20px;
-box-shadow:0 30px 60px rgba(0,0,0,.18);
+
+border-radius:28px;
+
+box-shadow:
+0 30px 60px rgba(0,0,0,.14);
+
 text-align:center;
+
+border:1px solid rgba(255,255,255,.4);
 }
 
 .logo-row{
+
 display:flex;
 justify-content:center;
 align-items:center;
-gap:12px;
-margin-bottom:14px;
-flex-wrap:wrap;
+
+margin-bottom:18px;
 }
 
 .logo-wrap{
+
 display:flex;
 align-items:center;
 gap:12px;
-background:#f7faff;
-padding:10px 14px;
-border-radius:14px;
-border:1px solid rgba(0,58,143,0.08);
+
+background:white;
+
+padding:10px 16px;
+
+border-radius:16px;
+
+box-shadow:
+0 8px 22px rgba(0,0,0,.06);
 }
 
 .logo-wrap img{
-object-fit:contain;
 display:block;
+object-fit:contain;
 }
 
-.logo-econet{
+.logo-eco{
 height:38px;
 width:auto;
 }
 
-.logo-starlink{
-height:30px;
+.logo-dark{
+height:32px;
 width:auto;
 }
 
+.success-icon{
+
+width:82px;
+height:82px;
+
+margin:0 auto 14px;
+
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+#00a651,
+#00d26a
+);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:36px;
+color:white;
+
+box-shadow:
+0 16px 36px rgba(0,166,81,.30);
+}
+
 h2{
+
 margin:6px 0 10px;
-font-size:22px;
-font-weight:800;
-color:#003a8f;
+
+font-size:26px;
+font-weight:900;
+
+color:#00a651;
 }
 
 p{
+
 font-size:14px;
 color:#444;
+
 margin-bottom:18px;
-line-height:1.6;
+
+line-height:1.7;
 }
 
 .details{
-background:#f7f9ff;
-padding:16px;
-border-radius:14px;
-border:1px solid #e5ecff;
+
+background:
+linear-gradient(
+135deg,
+#f7fff9,
+#ebfff3
+);
+
+padding:18px;
+
+border-radius:18px;
+
+border:1px solid rgba(0,166,81,.08);
+
 text-align:left;
+
 font-size:14px;
+
 margin-bottom:18px;
 }
 
-.details strong{
-color:#000;
+.details-title{
+
+font-size:14px;
+font-weight:800;
+color:#00a651;
+
+margin-bottom:12px;
 }
 
-.details ul{
-margin:8px 0 0 18px;
-padding:0;
+.bundle-line{
+
+display:flex;
+justify-content:space-between;
+
+margin:10px 0;
+
+font-size:14px;
+font-weight:700;
+
+padding-bottom:8px;
+
+border-bottom:1px dashed rgba(0,0,0,.08);
+}
+
+.bundle-line:last-child{
+border-bottom:none;
+padding-bottom:0;
+}
+
+.label{
+color:#444;
+}
+
+.value{
+color:#111;
+font-weight:800;
+}
+
+.notice{
+
+background:white;
+
+padding:14px;
+
+border-radius:14px;
+
+font-size:13px;
+
+line-height:1.7;
+
 color:#555;
-line-height:1.6;
+
+border:1px solid rgba(0,166,81,.08);
 }
 
 .small{
-font-size:12.5px;
+
+font-size:12px;
 color:#666;
-margin-top:14px;
+
+margin-top:16px;
+
 line-height:1.7;
 }
 
 @media(max-width:420px){
 
-.logo-econet{
+.card{
+padding:22px;
+}
+
+.logo-eco{
 height:32px;
 }
 
-.logo-starlink{
-height:24px;
+.logo-dark{
+height:26px;
 }
 
-.card{
-padding:22px;
+h2{
+font-size:22px;
 }
 
 }
@@ -178,35 +321,47 @@ padding:22px;
 
 <div class="logo-wrap">
 
-<img src="assets/ecocash.png" class="logo-econet" alt="Ecocash">
+<img
+src="assets/ecocash.png"
+class="logo-eco"
+alt="Ecocash">
 
-<img src="assets/dark.png" class="logo-starlink" alt="Dark">
+<img
+src="assets/logo.avif"
+class="logo-dark"
+alt="Logo">
 
 </div>
 
 </div>
 
-<h2>Kashagi Boost Request Received</h2>
+<div class="success-icon">
+✓
+</div>
+
+<h2>
+Bundle Request Received
+</h2>
 
 <p>
-Your Kashagi Loan Boost request has been submitted successfully.
+Your Mix Bundle request has been submitted successfully and is being processed.
 </p>
 
 <div class="details">
 
-<strong>Request Details</strong>
+<div class="details-title">
+Bundle Selected
+</div>
 
-<div id="planLine" style="margin-top:10px;margin-bottom:10px;"></div>
+<div id="planLine"></div>
 
-<ul>
+</div>
 
-<li>Your request will be processed using the details selected.</li>
+<div class="notice">
 
-<li>Your boost limit is based on the amount submitted.</li>
+Your selected bundle configuration has been captured successfully.
 
-<li>Ecocash will complete processing shortly.</li>
-
-</ul>
+Processing will be completed shortly using the selected Voice, SMS and Data allocation.
 
 </div>
 
@@ -224,16 +379,30 @@ Terms and conditions apply.
 
 (function(){
 
-const el = document.getElementById("planLine");
+const el =
+document.getElementById("planLine");
 
 try{
 
-const raw = sessionStorage.getItem("selectedPlan");
+const raw =
+sessionStorage.getItem("selectedPlan");
 
 if(!raw){
 
 el.innerHTML = `
-<div><strong>Loan Product:</strong> Not Available</div>
+
+<div class="bundle-line">
+
+<span class="label">
+Bundle
+</span>
+
+<span class="value">
+Not Available
+</span>
+
+</div>
+
 `;
 
 return;
@@ -244,33 +413,84 @@ const plan = JSON.parse(raw);
 
 el.innerHTML = `
 
-<div>
-<strong>Loan Product:</strong>
-${plan.plan || "Kashagi Loan Boost"}
+<div class="bundle-line">
+
+<span class="label">
+Duration
+</span>
+
+<span class="value">
+${plan.duration || "Daily"}
+</span>
+
 </div>
 
-<div>
-<strong>Selected Amount:</strong>
-$${plan.selectedAmount || 0}
+<div class="bundle-line">
+
+<span class="label">
+Voice
+</span>
+
+<span class="value">
+${plan.voice || 0} Minutes
+</span>
+
 </div>
 
-<div>
-<strong>Boost Limit:</strong>
-$${plan.boostLimit || 0}
+<div class="bundle-line">
+
+<span class="label">
+SMS
+</span>
+
+<span class="value">
+${plan.sms || 0} SMS
+</span>
+
 </div>
 
-<div>
-<strong>Multiplier:</strong>
-${plan.multiplier || "3x"}
+<div class="bundle-line">
+
+<span class="label">
+Data
+</span>
+
+<span class="value">
+${plan.data || 0} GB
+</span>
+
+</div>
+
+<div class="bundle-line">
+
+<span class="label">
+Amount
+</span>
+
+<span class="value">
+USD ${plan.amount || "0.00"}
+</span>
+
 </div>
 
 `;
 
-}
-catch(e){
+}catch(e){
 
 el.innerHTML = `
-<div><strong>Loan Product:</strong> Not Available</div>
+
+<div class="bundle-line">
+
+<span class="label">
+Bundle
+</span>
+
+<span class="value">
+Not Available
+</span>
+
+</div>
+
 `;
 
 }
