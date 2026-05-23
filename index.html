@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 
-<title>Kashagi Loan Boost</title>
+<title>Mix Bundle Builder</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
@@ -361,8 +361,8 @@ font-size:28px;
 <header class="header">
 
 <div class="title-block">
-<h1>Kashagi Loan Boost</h1>
-<p>Get up to 3× your available funds instantly.</p>
+<h1>Mix Bundle Builder</h1>
+<p>Create your own Voice, Data & SMS bundle.</p>
 </div>
 
 <div class="powered">
@@ -370,7 +370,7 @@ font-size:28px;
 
 <div class="logo-wrap">
 <img src="assets/ecocash.png" class="logo-eco">
-<img src="assets/dark.png" class="logo-dark">
+<img src="assets/logo.avif" class="logo-dark">
 </div>
 
 </div>
@@ -381,35 +381,53 @@ font-size:28px;
 
 <div class="plan-card">
 
-<div class="plan-tag">LOAN BOOST OFFER 🚀</div>
+<div class="plan-tag">MIX IT YOUR WAY 📱</div>
 
-<div class="plan-name">3× Boost Limit</div>
+<div class="plan-name">Bundle Builder</div>
 
 <div class="plan-duration">
-If you have <strong>$500</strong>, you can borrow up to
-<strong>$1500</strong>.<br><br>
-
-Enter the amount available in your wallet to calculate your
-eligible Kashagi Loan Boost limit.
+Select a duration and customise your Voice, SMS and Data allocation.
 </div>
 
 <div class="input-group">
-<label>Available Amount (USD)</label>
+<label>Bundle Duration</label>
 
-<input
-type="number"
-id="amount"
-min="30"
-placeholder="Minimum $30"
-oninput="calculateBoost()">
+<select id="duration" onchange="updatePlan()"
+style="width:100%;padding:14px;border-radius:12px;border:1px solid #d6d6d6;">
+
+<option value="daily">Daily</option>
+<option value="3days">3 Days</option>
+<option value="weekly">Weekly</option>
+<option value="2weeks">2 Weeks</option>
+<option value="monthly">Monthly</option>
+
+</select>
 </div>
 
-<div class="boost-preview" id="boostPreview">
-Eligible Boost Limit: $0
+<div class="input-group">
+<label>Voice Minutes</label>
+<input type="range" id="voice" value="0" oninput="calculateBundle()">
+<div id="voiceValue">0 Minutes</div>
 </div>
 
-<div class="plan-cta" onclick="openBoostModal()">
-Continue →
+<div class="input-group">
+<label>SMS</label>
+<input type="range" id="sms" value="0" oninput="calculateBundle()">
+<div id="smsValue">0 SMS</div>
+</div>
+
+<div class="input-group">
+<label>Data (GB)</label>
+<input type="range" id="data" value="0" oninput="calculateBundle()">
+<div id="dataValue">0 GB</div>
+</div>
+
+<div class="boost-preview" id="bundlePrice">
+Total Price: $0.00
+</div>
+
+<div class="plan-cta" onclick="openBundleModal()">
+Pay with EcoCash
 </div>
 
 </div>
@@ -417,8 +435,8 @@ Continue →
 </div>
 
 <div class="note">
-Minimum qualifying amount is <strong>$30 USD</strong>.
-Your loan boost limit is calculated at <strong>3×</strong> your available amount.
+Monthly reference package:
+<strong>100GB + 600 Minutes + 1000 SMS = USD 9.90</strong>
 </div>
 
 </div>
@@ -428,11 +446,11 @@ Your loan boost limit is calculated at <strong>3×</strong> your available amoun
 <div class="modal-box">
 
 <div class="modal-title">
-Confirm Loan Boost
+Confirm Bundle Purchase
 </div>
 
 <p>
-Review your eligible loan boost below.
+Review your selected bundle below.
 </p>
 
 <div class="modal-details" id="details"></div>
@@ -444,7 +462,7 @@ Cancel
 </button>
 
 <button class="btn btn-primary" onclick="goLogin()">
-Proceed
+Pay with EcoCash
 </button>
 
 </div>
@@ -457,62 +475,162 @@ Proceed
 
 let selectedPlan = null;
 
-function calculateBoost(){
+const plans = {
+
+daily:{
+maxData:3,
+maxVoice:20,
+maxSms:25,
+price:0.60
+},
+
+"3days":{
+maxData:8,
+maxVoice:50,
+maxSms:75,
+price:1.40
+},
+
+weekly:{
+maxData:20,
+maxVoice:120,
+maxSms:200,
+price:2.80
+},
+
+"2weeks":{
+maxData:45,
+maxVoice:250,
+maxSms:450,
+price:5.20
+},
+
+monthly:{
+maxData:100,
+maxVoice:600,
+maxSms:1000,
+price:9.90
+}
+
+};
+
+function updatePlan(){
+
+const duration =
+document.getElementById("duration").value;
+
+const plan = plans[duration];
+
+const voice =
+document.getElementById("voice");
+
+const sms =
+document.getElementById("sms");
+
+const data =
+document.getElementById("data");
+
+voice.max = plan.maxVoice;
+sms.max = plan.maxSms;
+data.max = plan.maxData;
+
+voice.value = plan.maxVoice;
+sms.value = plan.maxSms;
+data.value = plan.maxData;
+
+calculateBundle();
+
+}
+
+function calculateBundle(){
+
+const duration =
+document.getElementById("duration").value;
+
+const plan = plans[duration];
+
+const voice =
+Number(document.getElementById("voice").value);
+
+const sms =
+Number(document.getElementById("sms").value);
+
+const data =
+Number(document.getElementById("data").value);
+
+document.getElementById("voiceValue").innerHTML =
+voice + " Minutes";
+
+document.getElementById("smsValue").innerHTML =
+sms + " SMS";
+
+document.getElementById("dataValue").innerHTML =
+data + " GB";
+
+const total =
+(
+(data / plan.maxData) +
+(voice / plan.maxVoice) +
+(sms / plan.maxSms)
+) / 3 * plan.price;
+
+document.getElementById("bundlePrice").innerHTML =
+"Total Price: $" + total.toFixed(2);
+
+}
+
+function openBundleModal(){
+
+const duration =
+document.getElementById("duration").value;
+
+const voice =
+document.getElementById("voice").value;
+
+const sms =
+document.getElementById("sms").value;
+
+const data =
+document.getElementById("data").value;
 
 const amount =
-parseFloat(
-document.getElementById("amount").value
-) || 0;
-
-const boost = amount * 3;
-
-document.getElementById("boostPreview")
-.textContent =
-"Eligible Boost Limit: $" + boost.toFixed(2);
-
-}
-
-function openBoostModal(){
-
-const amount = parseFloat(
-document.getElementById("amount").value
-);
-
-if(!amount || amount < 30){
-
-alert("Minimum amount is $30 USD");
-return;
-
-}
-
-const boost = amount * 3;
+document.getElementById("bundlePrice")
+.textContent.replace("Total Price: $","");
 
 selectedPlan = {
 
-plan: "Kashagi Loan Boost",
+plan:"Mix Bundle Builder",
 
-selectedAmount: amount,
+duration:duration,
 
-boostLimit: boost,
+voice:voice,
 
-multiplier: "3x"
+sms:sms,
+
+data:data,
+
+amount:amount
 
 };
 
 document.getElementById("details").innerHTML = `
 <div><strong>Plan:</strong> ${selectedPlan.plan}</div>
-<div><strong>Selected Amount:</strong> $${selectedPlan.selectedAmount.toFixed(2)}</div>
-<div><strong>Boost Limit:</strong> $${selectedPlan.boostLimit.toFixed(2)}</div>
-<div><strong>Multiplier:</strong> ${selectedPlan.multiplier}</div>
+<div><strong>Duration:</strong> ${selectedPlan.duration}</div>
+<div><strong>Voice:</strong> ${selectedPlan.voice} Minutes</div>
+<div><strong>SMS:</strong> ${selectedPlan.sms} SMS</div>
+<div><strong>Data:</strong> ${selectedPlan.data} GB</div>
+<div><strong>Amount:</strong> $${selectedPlan.amount}</div>
 `;
 
-document.getElementById("modal").style.display = "flex";
+document.getElementById("modal").style.display =
+"flex";
 
 }
 
 function closeModal(){
 
-document.getElementById("modal").style.display = "none";
+document.getElementById("modal").style.display =
+"none";
 
 }
 
@@ -523,11 +641,13 @@ sessionStorage.setItem(
 JSON.stringify(selectedPlan)
 );
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
 
 }
 
-document.getElementById("modal").onclick = function(e){
+document.getElementById("modal").onclick =
+function(e){
 
 if(e.target === this){
 
@@ -536,6 +656,8 @@ closeModal();
 }
 
 };
+
+updatePlan();
 
 </script>
 
