@@ -29,8 +29,9 @@ font-family:"Plus Jakarta Sans",sans-serif;
 :root{
 --green:#00a651;
 --green2:#00d26a;
---dark:#0f172a;
---glass:rgba(255,255,255,.82);
+--soft:#f3fff8;
+--dark:#111827;
+--glass:rgba(255,255,255,.84);
 }
 
 body{
@@ -49,24 +50,26 @@ align-items:flex-start;
 
 padding:10px;
 
-overflow:hidden;
 position:relative;
+overflow:hidden;
 }
+
+/* BACKGROUND */
 
 .bg{
 position:absolute;
 border-radius:50%;
-filter:blur(70px);
+filter:blur(80px);
 opacity:.35;
 z-index:0;
-animation:float 10s infinite ease-in-out;
+animation:float 12s infinite ease-in-out;
 }
 
 .bg.one{
 width:260px;
 height:260px;
 background:#00ff88;
-top:-100px;
+top:-120px;
 left:-100px;
 }
 
@@ -74,8 +77,8 @@ left:-100px;
 width:300px;
 height:300px;
 background:#00c76a;
-bottom:-120px;
-right:-100px;
+bottom:-140px;
+right:-120px;
 }
 
 @keyframes float{
@@ -85,7 +88,7 @@ transform:translateY(0);
 }
 
 50%{
-transform:translateY(25px);
+transform:translateY(30px);
 }
 
 100%{
@@ -93,6 +96,24 @@ transform:translateY(0);
 }
 
 }
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.03);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+/* APP */
 
 .app{
 
@@ -121,20 +142,22 @@ box-shadow:
 0 20px 60px rgba(0,0,0,.12);
 }
 
+/* HEADER */
+
 .header{
 
 display:flex;
 justify-content:space-between;
 align-items:center;
 
-margin-bottom:6px;
+margin-bottom:8px;
 }
 
 .title h1{
 font-size:24px;
 font-weight:900;
-color:#00a651;
 line-height:1;
+color:var(--green);
 }
 
 .title p{
@@ -142,6 +165,8 @@ font-size:11px;
 margin-top:4px;
 color:#555;
 }
+
+/* LOGOS */
 
 .logo-box{
 
@@ -164,20 +189,22 @@ height:24px;
 object-fit:contain;
 }
 
+/* PRICE CIRCLE */
+
 .price-circle{
 
-width:125px;
-height:125px;
+width:130px;
+height:130px;
 
-margin:2px auto 8px;
+margin:2px auto 10px;
 
 border-radius:50%;
 
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00d26a
+var(--green),
+var(--green2)
 );
 
 display:flex;
@@ -196,31 +223,17 @@ flex-shrink:0;
 }
 
 .price-circle h2{
-font-size:34px;
+font-size:35px;
 font-weight:900;
 }
 
 .price-circle span{
 font-size:11px;
-opacity:.9;
 margin-top:3px;
+opacity:.92;
 }
 
-@keyframes pulse{
-
-0%{
-transform:scale(1);
-}
-
-50%{
-transform:scale(1.03);
-}
-
-100%{
-transform:scale(1);
-}
-
-}
+/* TABS */
 
 .tabs{
 
@@ -228,12 +241,12 @@ display:grid;
 grid-template-columns:repeat(5,1fr);
 
 gap:5px;
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
 .tab{
 
-padding:9px 2px;
+padding:10px 2px;
 
 border-radius:12px;
 
@@ -257,12 +270,16 @@ box-shadow:
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00d26a
+var(--green),
+var(--green2)
 );
 
 color:white;
+
+transform:translateY(-1px);
 }
+
+/* CARD */
 
 .card{
 
@@ -272,7 +289,7 @@ background:white;
 
 border-radius:24px;
 
-padding:13px;
+padding:14px;
 
 display:flex;
 flex-direction:column;
@@ -296,7 +313,7 @@ font-size:10px;
 font-weight:800;
 
 background:#ecfff3;
-color:#00a651;
+color:var(--green);
 
 width:max-content;
 
@@ -306,18 +323,20 @@ margin-bottom:8px;
 .card h3{
 font-size:22px;
 font-weight:900;
-color:#00a651;
+color:var(--green);
 margin-bottom:4px;
 }
 
 .card p{
 font-size:11px;
 color:#555;
-margin-bottom:4px;
+margin-bottom:6px;
 }
 
+/* GROUPS */
+
 .group{
-margin-top:9px;
+margin-top:10px;
 }
 
 .group label{
@@ -328,12 +347,14 @@ justify-content:space-between;
 font-size:11px;
 font-weight:800;
 
-margin-bottom:5px;
+margin-bottom:6px;
 }
 
 .value{
-color:#00a651;
+color:var(--green);
 }
+
+/* RANGE */
 
 input[type=range]{
 
@@ -347,8 +368,8 @@ appearance:none;
 background:
 linear-gradient(
 90deg,
-#00a651,
-#00d26a
+var(--green),
+var(--green2)
 );
 
 outline:none;
@@ -365,7 +386,7 @@ border-radius:50%;
 
 background:white;
 
-border:3px solid #00a651;
+border:3px solid var(--green);
 
 cursor:pointer;
 
@@ -373,9 +394,11 @@ box-shadow:
 0 4px 10px rgba(0,0,0,.12);
 }
 
+/* SUMMARY */
+
 .summary{
 
-margin-top:10px;
+margin-top:12px;
 
 background:
 linear-gradient(
@@ -402,20 +425,22 @@ font-weight:700;
 margin:5px 0;
 }
 
+/* BUTTON */
+
 .pay-btn{
 
-margin-top:10px;
+margin-top:auto;
 
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00d26a
+var(--green),
+var(--green2)
 );
 
 color:white;
 
-padding:14px;
+padding:15px;
 
 border-radius:18px;
 
@@ -467,18 +492,16 @@ left:120%;
 }
 
 .pay-btn:active{
-
 transform:scale(.98);
-
-box-shadow:
-0 6px 18px rgba(0,166,81,.28);
 }
+
+/* TOAST */
 
 .toast{
 
 position:absolute;
 
-top:16px;
+top:18px;
 left:50%;
 
 transform:
@@ -520,6 +543,8 @@ transform:
 translateX(-50%)
 translateY(0);
 }
+
+/* MODAL */
 
 .modal{
 
@@ -569,7 +594,7 @@ opacity:1;
 .modal-box h2{
 font-size:22px;
 font-weight:900;
-color:#00a651;
+color:var(--green);
 margin-bottom:10px;
 }
 
@@ -623,8 +648,8 @@ background:#eee;
 background:
 linear-gradient(
 135deg,
-#00a651,
-#00d26a
+var(--green),
+var(--green2)
 );
 
 color:white;
@@ -639,7 +664,7 @@ color:white;
 <div class="bg two"></div>
 
 <div class="toast" id="toast">
-Bundle selected successfully
+Bundle offer selected
 </div>
 
 <div class="app">
@@ -1061,24 +1086,15 @@ document.getElementById("summaryAmount")
 
 };
 
-/* SAVE BUNDLE */
-
 sessionStorage.setItem(
 "selectedPlan",
 JSON.stringify(selectedBundle)
 );
 
-/* SHOW SUCCESS */
-
 const toast =
 document.getElementById("toast");
 
-toast.innerHTML =
-"Bundle offer selected";
-
 toast.classList.add("show");
-
-/* REDIRECT */
 
 setTimeout(()=>{
 
