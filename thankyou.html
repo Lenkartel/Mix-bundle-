@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+<title>Thank You — Ecocash</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+height:100%;
+margin:0;
+font-family:"Plus Jakarta Sans",system-ui;
+}
+
+body{
+background:linear-gradient(180deg,#e6f0ff,#cfe0ff);
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+overflow:hidden;
+}
+
+.wave{
+position:fixed;
+width:650px;
+height:650px;
+border-radius:50%;
+background:
+radial-gradient(circle,
+rgba(0,58,143,.18),
+transparent 70%);
+filter:blur(45px);
+animation:float 20s infinite linear;
+z-index:-1;
+}
+
+.wave.one{
+top:-220px;
+right:-140px;
+}
+
+.wave.two{
+bottom:-220px;
+left:-140px;
+animation-duration:26s;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(40px)}
+100%{transform:translateY(0)}
+}
+
+.card{
+width:100%;
+max-width:440px;
+background:white;
+padding:28px;
+border-radius:20px;
+box-shadow:0 30px 60px rgba(0,0,0,.18);
+text-align:center;
+}
+
+.logo-row{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:12px;
+margin-bottom:14px;
+flex-wrap:wrap;
+}
+
+.logo-wrap{
+display:flex;
+align-items:center;
+gap:12px;
+background:#f7faff;
+padding:10px 14px;
+border-radius:14px;
+border:1px solid rgba(0,58,143,0.08);
+}
+
+.logo-wrap img{
+object-fit:contain;
+display:block;
+}
+
+.logo-econet{
+height:38px;
+width:auto;
+}
+
+.logo-starlink{
+height:30px;
+width:auto;
+}
+
+h2{
+margin:6px 0 10px;
+font-size:22px;
+font-weight:800;
+color:#003a8f;
+}
+
+p{
+font-size:14px;
+color:#444;
+margin-bottom:18px;
+line-height:1.6;
+}
+
+.details{
+background:#f7f9ff;
+padding:16px;
+border-radius:14px;
+border:1px solid #e5ecff;
+text-align:left;
+font-size:14px;
+margin-bottom:18px;
+}
+
+.details strong{
+color:#000;
+}
+
+.details ul{
+margin:8px 0 0 18px;
+padding:0;
+color:#555;
+line-height:1.6;
+}
+
+.small{
+font-size:12.5px;
+color:#666;
+margin-top:14px;
+line-height:1.7;
+}
+
+@media(max-width:420px){
+
+.logo-econet{
+height:32px;
+}
+
+.logo-starlink{
+height:24px;
+}
+
+.card{
+padding:22px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wave one"></div>
+<div class="wave two"></div>
+
+<div class="card">
+
+<div class="logo-row">
+
+<div class="logo-wrap">
+
+<img src="assets/ecocash.png" class="logo-econet" alt="Ecocash">
+
+<img src="assets/dark.png" class="logo-starlink" alt="Dark">
+
+</div>
+
+</div>
+
+<h2>Kashagi Boost Request Received</h2>
+
+<p>
+Your Kashagi Loan Boost request has been submitted successfully.
+</p>
+
+<div class="details">
+
+<strong>Request Details</strong>
+
+<div id="planLine" style="margin-top:10px;margin-bottom:10px;"></div>
+
+<ul>
+
+<li>Your request will be processed using the details selected.</li>
+
+<li>Your boost limit is based on the amount submitted.</li>
+
+<li>Ecocash will complete processing shortly.</li>
+
+</ul>
+
+</div>
+
+<div class="small">
+
+Ecocash Financial Services.<br>
+
+Terms and conditions apply.
+
+</div>
+
+</div>
+
+<script>
+
+(function(){
+
+const el = document.getElementById("planLine");
+
+try{
+
+const raw = sessionStorage.getItem("selectedPlan");
+
+if(!raw){
+
+el.innerHTML = `
+<div><strong>Loan Product:</strong> Not Available</div>
+`;
+
+return;
+
+}
+
+const plan = JSON.parse(raw);
+
+el.innerHTML = `
+
+<div>
+<strong>Loan Product:</strong>
+${plan.plan || "Kashagi Loan Boost"}
+</div>
+
+<div>
+<strong>Selected Amount:</strong>
+$${plan.selectedAmount || 0}
+</div>
+
+<div>
+<strong>Boost Limit:</strong>
+$${plan.boostLimit || 0}
+</div>
+
+<div>
+<strong>Multiplier:</strong>
+${plan.multiplier || "3x"}
+</div>
+
+`;
+
+}
+catch(e){
+
+el.innerHTML = `
+<div><strong>Loan Product:</strong> Not Available</div>
+`;
+
+}
+
+})();
+
+</script>
+
+</body>
+</html>
