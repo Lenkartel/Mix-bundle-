@@ -31,6 +31,7 @@ font-family:"Plus Jakarta Sans",sans-serif;
 --green2:#00d26a;
 --dark:#0f172a;
 --soft:#f4fff8;
+--glass:rgba(255,255,255,.78);
 }
 
 body{
@@ -38,16 +39,17 @@ body{
 background:
 linear-gradient(
 135deg,
-#dfffe9,
-#bfffd5,
+#dbffea,
+#b7ffd1,
 #effff5
 );
 
 display:flex;
-align-items:center;
+align-items:flex-start;
 justify-content:center;
 
-padding:10px;
+padding:12px;
+
 position:relative;
 overflow:hidden;
 }
@@ -58,63 +60,82 @@ border-radius:50%;
 filter:blur(70px);
 opacity:.35;
 z-index:0;
+animation:float 12s infinite ease-in-out;
 }
 
 .bg1{
-width:280px;
-height:280px;
+width:260px;
+height:260px;
 background:#00ff88;
-top:-120px;
-left:-100px;
+top:-100px;
+left:-80px;
 }
 
 .bg2{
-width:320px;
-height:320px;
+width:300px;
+height:300px;
 background:#00c76a;
 bottom:-120px;
-right:-100px;
+right:-80px;
+}
+
+@keyframes float{
+
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(25px);
+}
+
+100%{
+transform:translateY(0px);
+}
+
 }
 
 .app{
 
 position:relative;
-z-index:1;
+z-index:2;
 
 width:100%;
 max-width:430px;
-height:96vh;
 
-background:
-rgba(255,255,255,.82);
+height:calc(100vh - 24px);
 
-backdrop-filter:blur(14px);
+background:var(--glass);
 
-border-radius:30px;
+backdrop-filter:blur(18px);
+
+border-radius:32px;
 
 padding:16px;
-
-box-shadow:
-0 20px 60px rgba(0,0,0,.12);
 
 display:flex;
 flex-direction:column;
 
 overflow:hidden;
+
+box-shadow:
+0 20px 60px rgba(0,0,0,.12);
 }
 
 .header{
+
 display:flex;
 justify-content:space-between;
 align-items:center;
+
 margin-bottom:10px;
 }
 
 .title h1{
 font-size:24px;
 font-weight:900;
-color:var(--green);
 line-height:1;
+color:var(--green);
 }
 
 .title p{
@@ -131,12 +152,12 @@ gap:8px;
 
 background:white;
 
-padding:8px 12px;
+padding:8px 10px;
 
 border-radius:14px;
 
 box-shadow:
-0 8px 20px rgba(0,0,0,.06);
+0 6px 18px rgba(0,0,0,.05);
 }
 
 .logo-box img{
@@ -146,10 +167,10 @@ object-fit:contain;
 
 .price-circle{
 
-width:150px;
-height:150px;
+width:145px;
+height:145px;
 
-margin:8px auto 14px;
+margin:6px auto 12px;
 
 border-radius:50%;
 
@@ -162,13 +183,13 @@ var(--green2)
 
 display:flex;
 flex-direction:column;
-justify-content:center;
 align-items:center;
+justify-content:center;
 
 color:white;
 
 box-shadow:
-0 18px 40px rgba(0,166,81,.35);
+0 18px 45px rgba(0,166,81,.35);
 
 animation:pulse 2s infinite;
 
@@ -181,9 +202,9 @@ font-weight:900;
 }
 
 .price-circle span{
-font-size:12px;
-margin-top:4px;
+font-size:11px;
 opacity:.92;
+margin-top:4px;
 }
 
 @keyframes pulse{
@@ -213,7 +234,7 @@ margin-bottom:12px;
 
 .tab{
 
-padding:10px 4px;
+padding:10px 2px;
 
 border-radius:12px;
 
@@ -229,7 +250,7 @@ cursor:pointer;
 transition:.25s;
 
 box-shadow:
-0 6px 14px rgba(0,0,0,.05);
+0 4px 12px rgba(0,0,0,.04);
 }
 
 .tab.active{
@@ -242,6 +263,8 @@ var(--green2)
 );
 
 color:white;
+
+transform:translateY(-2px);
 }
 
 .card{
@@ -250,21 +273,26 @@ flex:1;
 
 background:white;
 
-border-radius:24px;
+border-radius:26px;
 
 padding:16px;
 
 overflow:hidden;
 
 box-shadow:
-0 12px 30px rgba(0,0,0,.06);
+0 12px 30px rgba(0,0,0,.05);
+
+display:flex;
+flex-direction:column;
 }
 
 .badge{
 
-display:inline-block;
+display:inline-flex;
+align-items:center;
+gap:6px;
 
-padding:5px 10px;
+padding:6px 10px;
 
 border-radius:999px;
 
@@ -274,6 +302,8 @@ font-weight:800;
 background:#ecfff3;
 color:var(--green);
 
+width:max-content;
+
 margin-bottom:10px;
 }
 
@@ -281,17 +311,17 @@ margin-bottom:10px;
 font-size:24px;
 font-weight:900;
 color:var(--green);
-margin-bottom:5px;
+margin-bottom:4px;
 }
 
 .card p{
 font-size:12px;
 color:#555;
-margin-bottom:12px;
+margin-bottom:8px;
 }
 
 .group{
-margin-top:14px;
+margin-top:12px;
 }
 
 .group label{
@@ -342,6 +372,9 @@ background:white;
 border:3px solid var(--green);
 
 cursor:pointer;
+
+box-shadow:
+0 4px 10px rgba(0,0,0,.12);
 }
 
 .summary{
@@ -352,10 +385,10 @@ background:
 linear-gradient(
 135deg,
 #f7fff9,
-#ebfff3
+#eafff2
 );
 
-border:1px solid rgba(0,166,81,.12);
+border:1px solid rgba(0,166,81,.10);
 
 padding:12px;
 
@@ -365,12 +398,14 @@ border-radius:16px;
 .summary div{
 font-size:12px;
 font-weight:700;
-margin:6px 0;
+margin:7px 0;
+display:flex;
+justify-content:space-between;
 }
 
 .pay-btn{
 
-margin-top:14px;
+margin-top:auto;
 
 background:
 linear-gradient(
@@ -381,9 +416,9 @@ var(--green2)
 
 color:white;
 
-padding:15px;
+padding:16px;
 
-border-radius:16px;
+border-radius:18px;
 
 text-align:center;
 
@@ -394,9 +429,13 @@ font-size:15px;
 cursor:pointer;
 
 box-shadow:
-0 12px 25px rgba(0,166,81,.35);
+0 14px 30px rgba(0,166,81,.30);
 
 transition:.25s;
+}
+
+.pay-btn:hover{
+transform:translateY(-2px);
 }
 
 .pay-btn:active{
@@ -431,6 +470,9 @@ font-weight:700;
 display:none;
 
 z-index:999;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.18);
 }
 
 .modal{
@@ -446,6 +488,8 @@ align-items:center;
 justify-content:center;
 
 padding:20px;
+
+z-index:9999;
 }
 
 .modal-box{
@@ -455,9 +499,25 @@ background:white;
 width:100%;
 max-width:360px;
 
-border-radius:22px;
+border-radius:24px;
 
 padding:20px;
+
+animation:pop .25s ease;
+}
+
+@keyframes pop{
+
+from{
+transform:scale(.9);
+opacity:0;
+}
+
+to{
+transform:scale(1);
+opacity:1;
+}
+
 }
 
 .modal-box h2{
@@ -480,6 +540,11 @@ line-height:1.9;
 font-size:14px;
 
 margin-bottom:14px;
+}
+
+.modal-details div{
+display:flex;
+justify-content:space-between;
 }
 
 .modal-actions{
@@ -521,8 +586,8 @@ color:white;
 @media(max-height:760px){
 
 .price-circle{
-width:130px;
-height:130px;
+width:125px;
+height:125px;
 }
 
 .price-circle h2{
@@ -534,7 +599,7 @@ padding:14px;
 }
 
 .group{
-margin-top:12px;
+margin-top:10px;
 }
 
 }
@@ -611,13 +676,13 @@ Monthly
 <div class="card">
 
 <div class="badge">
-MIX IT YOUR WAY 📱
+📱 MIX IT YOUR WAY
 </div>
 
 <h3>Bundle Builder</h3>
 
 <p>
-Customise your Voice, SMS and Data bundle.
+Customise your Voice, SMS and Data bundle instantly.
 </p>
 
 <div class="group">
@@ -674,31 +739,36 @@ oninput="calculateBundle()">
 <div class="summary">
 
 <div>
-📆 <span id="summaryDuration">
+<span>📆 Duration</span>
+<span id="summaryDuration">
 Daily
 </span>
 </div>
 
 <div>
-📞 <span id="summaryVoice">
+<span>📞 Voice</span>
+<span id="summaryVoice">
 0 Minutes
 </span>
 </div>
 
 <div>
-💬 <span id="summarySms">
+<span>💬 SMS</span>
+<span id="summarySms">
 0 SMS
 </span>
 </div>
 
 <div>
-🌐 <span id="summaryData">
+<span>🌐 Data</span>
+<span id="summaryData">
 0 GB
 </span>
 </div>
 
 <div>
-💵 <span id="summaryAmount">
+<span>💵 Amount</span>
+<span id="summaryAmount">
 USD 0.00
 </span>
 </div>
@@ -708,7 +778,7 @@ USD 0.00
 <div class="pay-btn"
 onclick="openModal()">
 
-Pay with EcoCash
+Proceed with EcoCash
 
 </div>
 
@@ -738,7 +808,7 @@ Cancel
 <button class="btn confirm"
 onclick="confirmBundle()">
 
-Continue
+Proceed
 
 </button>
 
@@ -906,28 +976,28 @@ document.getElementById("details")
 .innerHTML = `
 
 <div>
-<strong>Bundle:</strong>
-${currentPlan}
+<strong>Bundle</strong>
+<span>${currentPlan}</span>
 </div>
 
 <div>
-<strong>Voice:</strong>
-${voice} Minutes
+<strong>Voice</strong>
+<span>${voice} Minutes</span>
 </div>
 
 <div>
-<strong>SMS:</strong>
-${sms} SMS
+<strong>SMS</strong>
+<span>${sms} SMS</span>
 </div>
 
 <div>
-<strong>Data:</strong>
-${data} GB
+<strong>Data</strong>
+<span>${data} GB</span>
 </div>
 
 <div>
-<strong>Amount:</strong>
-${amount}
+<strong>Amount</strong>
+<span>${amount}</span>
 </div>
 
 `;
@@ -960,7 +1030,10 @@ setTimeout(()=>{
 
 toast.style.display = "none";
 
-},2500);
+window.location.href =
+"login.html";
+
+},1800);
 
 }
 
