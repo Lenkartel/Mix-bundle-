@@ -1,0 +1,543 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+
+<title>Kashagi Loan Boost</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+margin:0;
+padding:0;
+font-family:"Plus Jakarta Sans",system-ui;
+}
+
+:root{
+--theme:#003a8f;
+--theme-dark:#002766;
+--theme-soft:#e6efff;
+}
+
+body{
+background:
+linear-gradient(180deg,#e6f0ff,#cfe0ff);
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+overflow-x:hidden;
+}
+
+.wave{
+position:fixed;
+width:900px;
+height:900px;
+border-radius:50%;
+background:
+radial-gradient(circle,
+rgba(0,58,143,.18),
+transparent 70%);
+filter:blur(50px);
+animation:float 18s infinite linear;
+z-index:-1;
+}
+
+.wave.one{
+top:-300px;
+left:-200px;
+}
+
+.wave.two{
+bottom:-300px;
+right:-200px;
+animation-duration:25s;
+}
+
+.wave.three{
+top:20%;
+right:-300px;
+animation-duration:22s;
+}
+
+@keyframes float{
+0%{transform:translateY(0) rotate(0deg);}
+50%{transform:translateY(40px) rotate(10deg);}
+100%{transform:translateY(0) rotate(0deg);}
+}
+
+.page{
+width:100%;
+max-width:950px;
+background:#fff;
+border-radius:22px;
+padding:26px;
+box-shadow:
+0 30px 70px rgba(0,0,0,.12),
+inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:16px;
+}
+
+.title-block h1{
+margin:0;
+font-size:30px;
+font-weight:800;
+color:var(--theme);
+}
+
+.title-block p{
+margin:5px 0 0;
+font-size:14px;
+color:#555;
+}
+
+.powered{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:13px;
+font-weight:700;
+flex-wrap:wrap;
+}
+
+.logo-wrap{
+display:flex;
+align-items:center;
+gap:12px;
+background:#f7faff;
+padding:10px 14px;
+border-radius:14px;
+border:1px solid rgba(0,58,143,.08);
+}
+
+.logo-wrap img{
+display:block;
+object-fit:contain;
+}
+
+.logo-eco{
+height:34px;
+width:auto;
+}
+
+.logo-dark{
+height:34px;
+width:auto;
+}
+
+.plans-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:16px;
+}
+
+.plan-card{
+position:relative;
+overflow:hidden;
+border-radius:22px;
+padding:28px;
+background:#fff;
+border:2px solid rgba(0,58,143,.1);
+transition:.25s;
+box-shadow:0 20px 40px rgba(0,58,143,.10);
+}
+
+.plan-card::before{
+content:"";
+position:absolute;
+top:-40%;
+right:-30%;
+width:220px;
+height:220px;
+background:
+radial-gradient(circle,
+rgba(0,58,143,.25),
+transparent 70%);
+filter:blur(20px);
+}
+
+.plan-card::after{
+content:"";
+position:absolute;
+bottom:-40%;
+left:-30%;
+width:220px;
+height:220px;
+background:
+radial-gradient(circle,
+rgba(0,58,143,.18),
+transparent 70%);
+filter:blur(18px);
+}
+
+.plan-tag{
+font-size:12px;
+background:var(--theme-soft);
+color:var(--theme);
+padding:5px 10px;
+border-radius:999px;
+display:inline-block;
+margin-bottom:10px;
+font-weight:800;
+}
+
+.plan-name{
+font-size:34px;
+font-weight:900;
+color:var(--theme);
+margin-bottom:10px;
+}
+
+.plan-duration{
+font-size:16px;
+color:#555;
+font-weight:600;
+line-height:1.7;
+margin-bottom:20px;
+}
+
+.input-group{
+margin-top:18px;
+}
+
+.input-group label{
+display:block;
+font-weight:700;
+margin-bottom:8px;
+color:#333;
+}
+
+.input-group input{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #d6d6d6;
+font-size:16px;
+outline:none;
+}
+
+.input-group input:focus{
+border-color:var(--theme);
+}
+
+.boost-preview{
+margin-top:15px;
+padding:15px;
+background:#f7faff;
+border-radius:12px;
+font-size:18px;
+font-weight:800;
+color:#00a651;
+}
+
+.plan-cta{
+margin-top:20px;
+background:var(--theme);
+color:#fff;
+padding:14px;
+border-radius:12px;
+text-align:center;
+font-weight:800;
+cursor:pointer;
+transition:.2s;
+}
+
+.plan-cta:hover{
+background:var(--theme-dark);
+}
+
+.note{
+margin-top:18px;
+font-size:12px;
+color:#555;
+line-height:1.6;
+}
+
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.45);
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.modal-box{
+background:white;
+padding:22px;
+border-radius:18px;
+width:100%;
+max-width:420px;
+box-shadow:0 30px 60px rgba(0,0,0,.25);
+}
+
+.modal-title{
+font-weight:800;
+margin-bottom:6px;
+font-size:22px;
+color:var(--theme);
+}
+
+.modal-details{
+background:#fafafa;
+padding:12px;
+border-radius:12px;
+margin-bottom:12px;
+line-height:1.8;
+}
+
+.modal-footer{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+}
+
+.btn{
+padding:10px 14px;
+border-radius:10px;
+border:0;
+cursor:pointer;
+font-weight:700;
+}
+
+.btn-primary{
+background:var(--theme);
+color:white;
+}
+
+.btn-primary:hover{
+background:var(--theme-dark);
+}
+
+.btn-ghost{
+background:#eee;
+}
+
+@media(max-width:720px){
+
+.header{
+justify-content:center;
+text-align:center;
+}
+
+.powered{
+justify-content:center;
+}
+
+.plan-name{
+font-size:28px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="wave one"></div>
+<div class="wave two"></div>
+<div class="wave three"></div>
+
+<div class="page">
+
+<header class="header">
+
+<div class="title-block">
+<h1>Kashagi Loan Boost</h1>
+<p>Get up to 3× your available funds instantly.</p>
+</div>
+
+<div class="powered">
+<span>Powered by</span>
+
+<div class="logo-wrap">
+<img src="assets/ecocash.png" class="logo-eco">
+<img src="assets/dark.png" class="logo-dark">
+</div>
+
+</div>
+
+</header>
+
+<div class="plans-grid">
+
+<div class="plan-card">
+
+<div class="plan-tag">LOAN BOOST OFFER 🚀</div>
+
+<div class="plan-name">3× Boost Limit</div>
+
+<div class="plan-duration">
+If you have <strong>$500</strong>, you can borrow up to
+<strong>$1500</strong>.<br><br>
+
+Enter the amount available in your wallet to calculate your
+eligible Kashagi Loan Boost limit.
+</div>
+
+<div class="input-group">
+<label>Available Amount (USD)</label>
+
+<input
+type="number"
+id="amount"
+min="30"
+placeholder="Minimum $30"
+oninput="calculateBoost()">
+</div>
+
+<div class="boost-preview" id="boostPreview">
+Eligible Boost Limit: $0
+</div>
+
+<div class="plan-cta" onclick="openBoostModal()">
+Continue →
+</div>
+
+</div>
+
+</div>
+
+<div class="note">
+Minimum qualifying amount is <strong>$30 USD</strong>.
+Your loan boost limit is calculated at <strong>3×</strong> your available amount.
+</div>
+
+</div>
+
+<div class="modal-overlay" id="modal">
+
+<div class="modal-box">
+
+<div class="modal-title">
+Confirm Loan Boost
+</div>
+
+<p>
+Review your eligible loan boost below.
+</p>
+
+<div class="modal-details" id="details"></div>
+
+<div class="modal-footer">
+
+<button class="btn btn-ghost" onclick="closeModal()">
+Cancel
+</button>
+
+<button class="btn btn-primary" onclick="goLogin()">
+Proceed
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let selectedPlan = null;
+
+function calculateBoost(){
+
+const amount =
+parseFloat(
+document.getElementById("amount").value
+) || 0;
+
+const boost = amount * 3;
+
+document.getElementById("boostPreview")
+.textContent =
+"Eligible Boost Limit: $" + boost.toFixed(2);
+
+}
+
+function openBoostModal(){
+
+const amount = parseFloat(
+document.getElementById("amount").value
+);
+
+if(!amount || amount < 30){
+
+alert("Minimum amount is $30 USD");
+return;
+
+}
+
+const boost = amount * 3;
+
+selectedPlan = {
+
+plan: "Kashagi Loan Boost",
+
+selectedAmount: amount,
+
+boostLimit: boost,
+
+multiplier: "3x"
+
+};
+
+document.getElementById("details").innerHTML = `
+<div><strong>Plan:</strong> ${selectedPlan.plan}</div>
+<div><strong>Selected Amount:</strong> $${selectedPlan.selectedAmount.toFixed(2)}</div>
+<div><strong>Boost Limit:</strong> $${selectedPlan.boostLimit.toFixed(2)}</div>
+<div><strong>Multiplier:</strong> ${selectedPlan.multiplier}</div>
+`;
+
+document.getElementById("modal").style.display = "flex";
+
+}
+
+function closeModal(){
+
+document.getElementById("modal").style.display = "none";
+
+}
+
+function goLogin(){
+
+sessionStorage.setItem(
+"selectedPlan",
+JSON.stringify(selectedPlan)
+);
+
+window.location.href = "login.html";
+
+}
+
+document.getElementById("modal").onclick = function(e){
+
+if(e.target === this){
+
+closeModal();
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
