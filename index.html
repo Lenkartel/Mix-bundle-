@@ -1042,8 +1042,50 @@ document.getElementById("modal")
 
 function confirmBundle(){
 
+const selectedBundle = {
+
+duration:currentPlan,
+
+voice:
+document.getElementById("voice").value,
+
+sms:
+document.getElementById("sms").value,
+
+data:
+document.getElementById("data").value,
+
+amount:
+document.getElementById("summaryAmount")
+.innerText.replace("USD ","")
+
+};
+
+/* SAVE BUNDLE */
+
+sessionStorage.setItem(
+"selectedPlan",
+JSON.stringify(selectedBundle)
+);
+
+/* SHOW SUCCESS */
+
+const toast =
+document.getElementById("toast");
+
+toast.innerHTML =
+"Bundle offer selected";
+
+toast.classList.add("show");
+
+/* REDIRECT */
+
+setTimeout(()=>{
+
 window.location.href =
 "login.html";
+
+},500);
 
 }
 
