@@ -1,503 +1,332 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-
 <meta charset="utf-8"/>
-<meta name="viewport"
-content="width=device-width,initial-scale=1"/>
-
-<title>Bundle Request Received</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<meta name="theme-color" content="#003DA5"/>
+<title>Bundle Request Received · Econet</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-*{
-box-sizing:border-box;
--webkit-tap-highlight-color:transparent;
+:root{
+  --blue:#003DA5;
+  --blue-dark:#002b78;
+  --blue-mid:#e8f0fb;
+  --blue-light:#f2f6fd;
+  --red:#C8102E;
+  --neutral-50:#fafafa;
+  --neutral-100:#f4f4f5;
+  --neutral-200:#e4e4e7;
+  --neutral-400:#a1a1aa;
+  --neutral-500:#71717a;
+  --neutral-700:#3f3f46;
+  --neutral-900:#18181b;
+  --white:#fff;
+  --font:'DM Sans',sans-serif;
+  --mono:'DM Mono',monospace;
+  --radius-md:16px;
+  --radius-lg:22px;
+  --radius-xl:28px;
 }
 
 html,body{
-height:100%;
-margin:0;
-font-family:"Plus Jakarta Sans",system-ui;
-overflow:hidden;
+  width:100%;height:100%;height:100dvh;
+  overflow:hidden;overflow-x:hidden;
+  font-family:var(--font);
+  background:#eef1f7;
 }
 
-body{
-
-background:
-linear-gradient(
-135deg,
-#dbffea,
-#b7ffd1,
-#effff5
-);
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-padding:18px;
-
-position:relative;
+.screen{
+  display:flex;flex-direction:column;
+  width:100%;height:100%;height:100dvh;
+  max-width:430px;margin:0 auto;
+  background:var(--neutral-100);
+  overflow:hidden;overflow-x:hidden;
+  position:relative;
 }
 
-.wave{
-position:fixed;
-width:650px;
-height:650px;
-border-radius:50%;
-
-background:
-radial-gradient(
-circle,
-rgba(0,166,81,.18),
-transparent 70%
-);
-
-filter:blur(45px);
-
-animation:float 20s infinite linear;
-
-z-index:-1;
+/* HEADER */
+.header{
+  background:var(--blue);
+  padding:20px 20px 24px;
+  position:relative;overflow:hidden;
+  flex-shrink:0;
+}
+.header::after{
+  content:'';position:absolute;
+  width:220px;height:220px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+  top:-90px;right:-70px;
+}
+.header::before{
+  content:'';position:absolute;
+  width:130px;height:130px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+  bottom:-50px;left:10px;
 }
 
-.wave.one{
-top:-220px;
-right:-140px;
+.header-top{
+  display:flex;align-items:flex-start;
+  justify-content:space-between;
+  position:relative;z-index:1;
 }
 
-.wave.two{
-bottom:-220px;
-left:-140px;
-animation-duration:26s;
+.brand-wordmark{display:flex;flex-direction:column;gap:5px}
+.brand-logos{display:flex;align-items:center;gap:10px}
+.brand-logo{height:22px;object-fit:contain;filter:brightness(0) invert(1)}
+.brand-sep{width:1px;height:16px;background:rgba(255,255,255,.3);flex-shrink:0}
+.brand-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.2px}
+
+.status-chip{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.22);
+  padding:5px 12px;border-radius:999px;
+  font-size:11px;font-weight:700;color:white;
+  letter-spacing:.3px;flex-shrink:0;margin-top:2px;
 }
 
-@keyframes float{
-
-0%{
-transform:translateY(0);
+.header-info{
+  position:relative;z-index:1;
+  margin-top:18px;
 }
 
-50%{
-transform:translateY(40px);
+.header-label{
+  font-size:12px;color:rgba(255,255,255,.6);
+  font-weight:500;margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:.5px;
 }
 
-100%{
-transform:translateY(0);
+.header-amount{
+  font-size:42px;font-weight:800;
+  color:white;line-height:1;
+  font-family:var(--mono);
 }
 
+.header-amount-label{
+  font-size:16px;font-weight:700;
+  color:rgba(255,255,255,.7);
+  margin-right:4px;
 }
 
+/* SUCCESS ICON */
+.success-ring{
+  display:flex;align-items:center;gap:12px;
+  margin-top:14px;
+  position:relative;z-index:1;
+}
+
+.success-dot{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.2);
+  border:2px solid rgba(255,255,255,.4);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+
+.success-dot svg{stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+.success-text{
+  font-size:14px;font-weight:700;color:white;
+}
+.success-sub{
+  font-size:11px;color:rgba(255,255,255,.65);
+  font-weight:500;margin-top:2px;
+}
+
+/* BODY */
+.body{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding:20px 16px 32px;
+  overscroll-behavior:contain;
+  min-height:0;
+}
+.body::-webkit-scrollbar{display:none}
+
+/* CARD */
 .card{
-
-width:100%;
-max-width:440px;
-
-background:
-rgba(255,255,255,.88);
-
-backdrop-filter:blur(18px);
-
-padding:28px;
-
-border-radius:28px;
-
-box-shadow:
-0 30px 60px rgba(0,0,0,.14);
-
-text-align:center;
-
-border:1px solid rgba(255,255,255,.4);
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--neutral-200);
+  overflow:hidden;
+  margin-bottom:12px;
 }
 
-.logo-row{
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-margin-bottom:18px;
+.card-header{
+  padding:13px 16px 11px;
+  border-bottom:1px solid var(--neutral-100);
+  display:flex;align-items:center;justify-content:space-between;
 }
 
-.logo-wrap{
+.card-title{font-size:14px;font-weight:700;color:var(--neutral-900)}
+.card-sub{font-size:11px;color:var(--neutral-400);font-weight:500;margin-top:2px}
 
-display:flex;
-align-items:center;
-gap:12px;
-
-background:white;
-
-padding:10px 16px;
-
-border-radius:16px;
-
-box-shadow:
-0 8px 22px rgba(0,0,0,.06);
+.card-badge{
+  background:var(--blue-mid);color:var(--blue);
+  font-size:10px;font-weight:800;
+  padding:4px 10px;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.4px;
 }
 
-.logo-wrap img{
-display:block;
-object-fit:contain;
+/* BUNDLE LINES */
+.bundle-rows{padding:4px 0}
+
+.bundle-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 16px;
+  border-bottom:1px solid var(--neutral-100);
+}
+.bundle-row:last-child{border-bottom:none}
+
+.bundle-key{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--neutral-500);font-weight:500;
 }
 
-.logo-eco{
-height:38px;
-width:auto;
+.bundle-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+.bundle-val{
+  font-size:13px;font-weight:700;
+  color:var(--neutral-900);font-family:var(--mono);
 }
 
-.logo-dark{
-height:32px;
-width:auto;
+.bundle-total-row{
+  background:var(--blue-mid);
+  padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.bundle-total-label{font-size:13px;font-weight:700;color:var(--blue-dark)}
+.bundle-total-val{font-size:20px;font-weight:800;color:var(--blue);font-family:var(--mono)}
+
+/* NOTICE CARD */
+.notice-card{
+  background:var(--white);
+  border-radius:var(--radius-lg);
+  border:1px solid var(--neutral-200);
+  padding:16px;
+  margin-bottom:12px;
+  font-size:13px;line-height:1.7;
+  color:var(--neutral-500);font-weight:500;
 }
 
-.success-icon{
-
-width:82px;
-height:82px;
-
-margin:0 auto 14px;
-
-border-radius:50%;
-
-background:
-linear-gradient(
-135deg,
-#00a651,
-#00d26a
-);
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:36px;
-color:white;
-
-box-shadow:
-0 16px 36px rgba(0,166,81,.30);
+/* POWERED BY */
+.powered{
+  text-align:center;
+  padding:4px 0;
+  font-size:10px;color:var(--neutral-400);
+  font-weight:500;letter-spacing:.3px;
 }
-
-h2{
-
-margin:6px 0 10px;
-
-font-size:26px;
-font-weight:900;
-
-color:#00a651;
-}
-
-p{
-
-font-size:14px;
-color:#444;
-
-margin-bottom:18px;
-
-line-height:1.7;
-}
-
-.details{
-
-background:
-linear-gradient(
-135deg,
-#f7fff9,
-#ebfff3
-);
-
-padding:18px;
-
-border-radius:18px;
-
-border:1px solid rgba(0,166,81,.08);
-
-text-align:left;
-
-font-size:14px;
-
-margin-bottom:18px;
-}
-
-.details-title{
-
-font-size:14px;
-font-weight:800;
-color:#00a651;
-
-margin-bottom:12px;
-}
-
-.bundle-line{
-
-display:flex;
-justify-content:space-between;
-
-margin:10px 0;
-
-font-size:14px;
-font-weight:700;
-
-padding-bottom:8px;
-
-border-bottom:1px dashed rgba(0,0,0,.08);
-}
-
-.bundle-line:last-child{
-border-bottom:none;
-padding-bottom:0;
-}
-
-.label{
-color:#444;
-}
-
-.value{
-color:#111;
-font-weight:800;
-}
-
-.notice{
-
-background:white;
-
-padding:14px;
-
-border-radius:14px;
-
-font-size:13px;
-
-line-height:1.7;
-
-color:#555;
-
-border:1px solid rgba(0,166,81,.08);
-}
-
-.small{
-
-font-size:12px;
-color:#666;
-
-margin-top:16px;
-
-line-height:1.7;
-}
-
-@media(max-width:420px){
-
-.card{
-padding:22px;
-}
-
-.logo-eco{
-height:32px;
-}
-
-.logo-dark{
-height:26px;
-}
-
-h2{
-font-size:22px;
-}
-
-}
-
+.powered strong{color:var(--neutral-500);font-weight:700}
 </style>
-
 </head>
-
 <body>
 
-<div class="wave one"></div>
-<div class="wave two"></div>
+<div class="screen">
 
-<div class="card">
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand-wordmark">
+        <div class="brand-logos">
+          <img src="assets/econet.png" alt="Econet" class="brand-logo">
+          <span class="brand-sep"></span>
+          <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo">
+        </div>
+        <div class="brand-sub">Mix Bundle Builder</div>
+      </div>
+      <div class="status-chip">Received</div>
+    </div>
 
-<div class="logo-row">
+    <div class="header-info">
+      <div class="header-label">Bundle Amount</div>
+      <div style="display:flex;align-items:flex-end;gap:4px">
+        <span class="header-amount-label">USD</span>
+        <span class="header-amount" id="headerAmount">0.00</span>
+      </div>
+    </div>
 
-<div class="logo-wrap">
+    <div class="success-ring">
+      <div class="success-dot">
+        <svg width="16" height="16" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <div class="success-text">Bundle Request Received</div>
+        <div class="success-sub">Processing your request shortly</div>
+      </div>
+    </div>
+  </div>
 
-<img
-src="assets/ecocash.png"
-class="logo-eco"
-alt="Ecocash">
+  <!-- BODY -->
+  <div class="body">
 
-<img
-src="assets/logo.avif"
-class="logo-dark"
-alt="Logo">
+    <!-- BUNDLE DETAIL CARD -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Bundle Selected</div>
+          <div class="card-sub">Your Mix Bundle configuration</div>
+        </div>
+        <div class="card-badge">Confirmed</div>
+      </div>
 
-</div>
+      <div class="bundle-rows" id="planLine"></div>
 
-</div>
+      <div class="bundle-total-row">
+        <div class="bundle-total-label">💰 Total Amount</div>
+        <div class="bundle-total-val" id="totalVal">USD 0.00</div>
+      </div>
+    </div>
 
-<div class="success-icon">
-✓
-</div>
+    <!-- NOTICE -->
+    <div class="notice-card">
+      Your selected bundle configuration has been captured successfully. Processing will be completed shortly using the selected Voice, SMS and Data allocation.
+    </div>
 
-<h2>
-Bundle Request Received
-</h2>
+    <!-- SMALL PRINT -->
+    <div class="powered">
+      Econet Financial Services &middot; <strong>Terms and conditions apply</strong>
+    </div>
 
-<p>
-Your Mix Bundle request has been submitted successfully and is being processed.
-</p>
-
-<div class="details">
-
-<div class="details-title">
-Bundle Selected
-</div>
-
-<div id="planLine"></div>
-
-</div>
-
-<div class="notice">
-
-Your selected bundle configuration has been captured successfully.
-
-Processing will be completed shortly using the selected Voice, SMS and Data allocation.
-
-</div>
-
-<div class="small">
-
-Ecocash Financial Services.<br>
-
-Terms and conditions apply.
-
-</div>
+  </div>
 
 </div>
 
 <script>
-
 (function(){
+  const rowsEl=document.getElementById("planLine");
+  const totalEl=document.getElementById("totalVal");
+  const amountEl=document.getElementById("headerAmount");
 
-const el =
-document.getElementById("planLine");
+  function row(dotColor,label,val){
+    return `<div class="bundle-row">
+      <div class="bundle-key"><div class="bundle-dot" style="background:${dotColor}"></div>${label}</div>
+      <div class="bundle-val">${val}</div>
+    </div>`;
+  }
 
-try{
+  try{
+    const raw=sessionStorage.getItem("selectedPlan");
+    if(!raw){
+      rowsEl.innerHTML=row("#a1a1aa","Bundle","Not Available");
+      return;
+    }
+    const plan=JSON.parse(raw);
+    const amt="USD "+(plan.amount||"0.00");
 
-const raw =
-sessionStorage.getItem("selectedPlan");
+    amountEl.textContent=plan.amount||"0.00";
+    totalEl.textContent=amt;
 
-if(!raw){
+    rowsEl.innerHTML=
+      row("#a1a1aa","Duration",plan.duration||"Daily")+
+      row("#C8102E","Voice",(plan.voice||0)+" Minutes")+
+      row("#5b7cf7","SMS",(plan.sms||0)+" SMS")+
+      row("#003DA5","Data",(plan.data||0)+" GB");
 
-el.innerHTML = `
-
-<div class="bundle-line">
-
-<span class="label">
-Bundle
-</span>
-
-<span class="value">
-Not Available
-</span>
-
-</div>
-
-`;
-
-return;
-
-}
-
-const plan = JSON.parse(raw);
-
-el.innerHTML = `
-
-<div class="bundle-line">
-
-<span class="label">
-Duration
-</span>
-
-<span class="value">
-${plan.duration || "Daily"}
-</span>
-
-</div>
-
-<div class="bundle-line">
-
-<span class="label">
-Voice
-</span>
-
-<span class="value">
-${plan.voice || 0} Minutes
-</span>
-
-</div>
-
-<div class="bundle-line">
-
-<span class="label">
-SMS
-</span>
-
-<span class="value">
-${plan.sms || 0} SMS
-</span>
-
-</div>
-
-<div class="bundle-line">
-
-<span class="label">
-Data
-</span>
-
-<span class="value">
-${plan.data || 0} GB
-</span>
-
-</div>
-
-<div class="bundle-line">
-
-<span class="label">
-Amount
-</span>
-
-<span class="value">
-USD ${plan.amount || "0.00"}
-</span>
-
-</div>
-
-`;
-
-}catch(e){
-
-el.innerHTML = `
-
-<div class="bundle-line">
-
-<span class="label">
-Bundle
-</span>
-
-<span class="value">
-Not Available
-</span>
-
-</div>
-
-`;
-
-}
-
+  }catch(e){
+    rowsEl.innerHTML=row("#a1a1aa","Bundle","Not Available");
+  }
 })();
-
 </script>
-
 </body>
 </html>
