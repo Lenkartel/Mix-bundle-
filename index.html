@@ -266,25 +266,73 @@ html,body{
 
 /* RANGE */
 input[type=range]{
-  width:100%;height:6px;border-radius:999px;
+  width:100%;height:8px;border-radius:999px;
   appearance:none;outline:none;cursor:pointer;
-  background:var(--neutral-100);
+  background:var(--neutral-200);
+  transition:background .15s ease;
 }
-.slider-voice input[type=range]{accent-color:var(--red)}
-.slider-sms input[type=range]{accent-color:#5b7cf7}
-.slider-data input[type=range]{accent-color:var(--blue)}
 
 input[type=range]::-webkit-slider-thumb{
   appearance:none;
-  width:20px;height:20px;border-radius:50%;
+  width:22px;height:22px;border-radius:50%;
   background:white;
-  border:2.5px solid currentColor;
-  cursor:pointer;
-  box-shadow:0 2px 8px rgba(0,0,0,.13);
+  border:3px solid currentColor;
+  cursor:grab;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+  transition:transform .1s ease;
+}
+input[type=range]:active::-webkit-slider-thumb{
+  cursor:grabbing;
+  transform:scale(1.15);
 }
 .slider-voice input[type=range]::-webkit-slider-thumb{border-color:var(--red)}
 .slider-sms input[type=range]::-webkit-slider-thumb{border-color:#5b7cf7}
 .slider-data input[type=range]::-webkit-slider-thumb{border-color:var(--blue)}
+
+/* hint label */
+.slider-hint{
+  font-size:9px;color:var(--neutral-400);
+  font-weight:600;letter-spacing:.3px;
+  margin-top:5px;display:flex;justify-content:space-between;
+}
+
+/* LANDSCAPE */
+@media (orientation:landscape){
+  .screen{flex-direction:row}
+
+  .header{
+    width:210px;min-width:210px;
+    height:100%;
+    overflow-y:auto;
+    border-radius:0;
+    padding:16px 16px 20px;
+    display:flex;flex-direction:column;
+    justify-content:space-between;
+  }
+  .header::-webkit-scrollbar{display:none}
+
+  .price-amount{font-size:36px}
+
+  .header-top{margin-bottom:12px}
+
+  .content-wrap{
+    flex:1;
+    display:flex;flex-direction:column;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .body{padding:0 0 76px}
+
+  .section{padding:10px 12px 0}
+  .bundle-card{margin:10px 12px 0}
+  .summary-card{margin:10px 12px 0}
+  .summary-card + div{padding:12px 12px 4px}
+
+  .sticky-footer{padding:10px 12px max(14px,env(safe-area-inset-bottom))}
+
+  .slider-item{padding:9px 14px}
+}
 
 /* SUMMARY CARD */
 .summary-card{
@@ -504,6 +552,9 @@ input[type=range]::-webkit-slider-thumb{
     </div>
   </div>
 
+  <!-- CONTENT WRAP (body + footer) -->
+  <div class="content-wrap">
+
   <!-- BODY -->
   <div class="body">
 
@@ -547,6 +598,7 @@ input[type=range]::-webkit-slider-thumb{
             <div class="slider-value" id="voiceValue">0 Min</div>
           </div>
           <input type="range" id="voice" value="0" oninput="calculateBundle()">
+          <div class="slider-hint"><span>0</span><span id="voiceMax">20 Min</span></div>
         </div>
 
         <div class="slider-item slider-sms">
@@ -561,6 +613,7 @@ input[type=range]::-webkit-slider-thumb{
             <div class="slider-value" id="smsValue">0 SMS</div>
           </div>
           <input type="range" id="sms" value="0" oninput="calculateBundle()">
+          <div class="slider-hint"><span>0</span><span id="smsMax">25 SMS</span></div>
         </div>
 
         <div class="slider-item slider-data">
@@ -575,6 +628,7 @@ input[type=range]::-webkit-slider-thumb{
             <div class="slider-value" id="dataValue">0 GB</div>
           </div>
           <input type="range" id="data" value="0" oninput="calculateBundle()">
+          <div class="slider-hint"><span>0</span><span id="dataMax">3 GB</span></div>
         </div>
 
       </div>
@@ -633,6 +687,8 @@ input[type=range]::-webkit-slider-thumb{
     <button class="pay-btn" onclick="openModal()">Proceed with EcoCash</button>
   </div>
 
+  </div><!-- /content-wrap -->
+
   <!-- MODAL SHEET -->
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
     <div class="modal-sheet">
@@ -687,6 +743,11 @@ function selectPlan(plan,el){
   updatePlan();
 }
 
+function fillSlider(el,color){
+  const pct=el.max>0?((el.value-el.min)/(el.max-el.min)*100):0;
+  el.style.background=`linear-gradient(to right,${color} ${pct}%,#e4e4e7 ${pct}%)`;
+}
+
 function updatePlan(){
   const p=plans[currentPlan];
   const v=document.getElementById("voice");
@@ -695,6 +756,9 @@ function updatePlan(){
   v.max=p.maxVoice;v.value=p.maxVoice;
   s.max=p.maxSms;s.value=p.maxSms;
   d.max=p.maxData;d.value=p.maxData;
+  document.getElementById("voiceMax").textContent=p.maxVoice+" Min";
+  document.getElementById("smsMax").textContent=p.maxSms+" SMS";
+  document.getElementById("dataMax").textContent=p.maxData+" GB";
   calculateBundle();
 }
 
@@ -707,6 +771,10 @@ function calculateBundle(){
   document.getElementById("voiceValue").textContent=v+" Min";
   document.getElementById("smsValue").textContent=s+" SMS";
   document.getElementById("dataValue").textContent=d+" GB";
+
+  fillSlider(document.getElementById("voice"),"#C8102E");
+  fillSlider(document.getElementById("sms"),"#5b7cf7");
+  fillSlider(document.getElementById("data"),"#003DA5");
 
   document.getElementById("voiceBar").style.width=(v/p.maxVoice*100)+"%";
   document.getElementById("smsBar").style.width=(s/p.maxSms*100)+"%";
