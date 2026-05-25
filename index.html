@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-<meta name="theme-color" content="#003DA5"/>
+<meta name="theme-color" content="#002370"/>
 <title>Mix Bundle Builder · Econet</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 :root{
   --blue:#003DA5;
-  --blue-dark:#002b78;
+  --blue-dark:#002370;
   --blue-mid:#e8f0fb;
   --blue-light:#f2f6fd;
   --red:#C8102E;
@@ -27,342 +27,345 @@
   --font:'DM Sans',sans-serif;
   --mono:'DM Mono',monospace;
   --radius-md:16px;
-  --radius-lg:22px;
+  --radius-lg:20px;
   --radius-xl:28px;
 }
 
 html,body{
-  width:100%;
-  height:100%;
-  height:100dvh;
-  overflow:hidden;
-  overflow-x:hidden;
+  width:100%;height:100%;height:100dvh;
+  overflow:hidden;overflow-x:hidden;
   font-family:var(--font);
-  background:#eef1f7;
+  background:#0e1525;
 }
 
 .screen{
   display:flex;flex-direction:column;
-  width:100%;
-  height:100%;
-  height:100dvh;
-  max-width:430px;
-  margin:0 auto;
-  background:var(--neutral-100);
-  overflow:hidden;
-  overflow-x:hidden;
+  width:100%;height:100%;height:100dvh;
+  max-width:430px;margin:0 auto;
+  background:#0e1525;
+  overflow:hidden;overflow-x:hidden;
   position:relative;
 }
 
-/* HEADER */
+/* ── HEADER ── */
 .header{
-  background:var(--blue);
-  padding:20px 20px 24px;
-  position:relative;
-  overflow:hidden;
+  background:var(--blue-dark);
+  padding:18px 20px 20px;
+  position:relative;overflow:hidden;
   flex-shrink:0;
 }
+
 .header::after{
-  content:'';position:absolute;
-  width:220px;height:220px;border-radius:50%;
-  background:rgba(255,255,255,.05);
-  top:-90px;right:-70px;
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:44px 44px;
+  pointer-events:none;
 }
-.header::before{
-  content:'';position:absolute;
-  width:130px;height:130px;border-radius:50%;
-  background:rgba(255,255,255,.04);
-  bottom:-50px;left:10px;
+
+.header-glow-a{
+  position:absolute;
+  width:260px;height:260px;border-radius:50%;
+  background:rgba(0,61,165,.65);
+  filter:blur(60px);
+  top:-110px;right:-80px;
+  pointer-events:none;
+}
+
+.header-glow-b{
+  position:absolute;
+  width:180px;height:180px;border-radius:50%;
+  background:rgba(200,16,46,.2);
+  filter:blur(50px);
+  bottom:-60px;left:-30px;
+  pointer-events:none;
 }
 
 .header-top{
   display:flex;align-items:flex-start;
   justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:14px;
   position:relative;z-index:1;
 }
 
-.brand-wordmark{
-  display:flex;flex-direction:column;
-  gap:5px;
-}
-
-.brand-logos{
-  display:flex;align-items:center;gap:10px;
-}
-
-.brand-logo{
-  height:22px;
-  object-fit:contain;
-  filter:brightness(0) invert(1);
-}
-
-.brand-sep{
-  width:1px;height:16px;
-  background:rgba(255,255,255,.3);
-  flex-shrink:0;
-}
-
-.powered-by{
-  font-size:10px;font-weight:500;
-  color:rgba(255,255,255,.5);
-  letter-spacing:.2px;
-}
+.brand-wordmark{display:flex;flex-direction:column;gap:4px}
+.brand-logos{display:flex;align-items:center;gap:10px}
+.brand-logo{height:20px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.brand-sep{width:1px;height:14px;background:rgba(255,255,255,.28);flex-shrink:0}
+.brand-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.4);letter-spacing:.2px}
 
 .plan-chip{
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
   padding:5px 12px;border-radius:999px;
-  font-size:11px;font-weight:700;
-  color:white;letter-spacing:.3px;
-  text-transform:uppercase;
-  flex-shrink:0;
-  margin-top:2px;
+  font-size:11px;font-weight:700;color:white;
+  letter-spacing:.3px;text-transform:uppercase;
+  flex-shrink:0;margin-top:2px;
+  transition:all .2s;
+}
+
+.header-hero{position:relative;z-index:1;margin-bottom:14px}
+
+.header-eyebrow{
+  font-size:10px;font-weight:700;
+  color:rgba(255,255,255,.4);
+  text-transform:uppercase;letter-spacing:1.2px;
+  margin-bottom:5px;
+}
+
+.header-title{
+  font-size:26px;font-weight:900;
+  color:white;line-height:1.05;letter-spacing:-.7px;
+}
+
+.header-title span{
+  color:transparent;
+  -webkit-text-stroke:1.5px rgba(255,255,255,.38);
 }
 
 .header-info{position:relative;z-index:1}
 
 .header-label{
-  font-size:12px;color:rgba(255,255,255,.6);
-  font-weight:500;margin-bottom:5px;
+  font-size:11px;color:rgba(255,255,255,.5);
+  font-weight:500;margin-bottom:4px;
   text-transform:uppercase;letter-spacing:.5px;
 }
 
 .price-row{
   display:flex;align-items:flex-end;gap:5px;
-  margin-bottom:14px;
+  margin-bottom:10px;
 }
 
 .price-currency{
-  font-size:18px;font-weight:700;
-  color:rgba(255,255,255,.7);margin-bottom:5px;
+  font-size:16px;font-weight:700;
+  color:rgba(255,255,255,.6);margin-bottom:4px;
 }
 
 .price-amount{
-  font-size:50px;font-weight:800;
+  font-size:44px;font-weight:800;
   color:white;line-height:1;
   font-family:var(--mono);
   font-variant-numeric:tabular-nums;
 }
 
 .price-tag{
-  margin-bottom:5px;
-  background:rgba(255,255,255,.18);
+  margin-bottom:4px;
+  background:rgba(255,255,255,.15);
   padding:3px 8px;border-radius:6px;
-  font-size:10px;color:rgba(255,255,255,.85);
-  font-weight:600;text-transform:uppercase;letter-spacing:.4px;
+  font-size:10px;color:rgba(255,255,255,.8);
+  font-weight:700;text-transform:uppercase;letter-spacing:.4px;
 }
 
-/* MINI BARS */
 .mini-bars{display:flex;gap:6px}
 .mini-bar-wrap{flex:1}
 .mini-bar-label{
   font-size:9px;font-weight:700;
-  color:rgba(255,255,255,.55);
-  margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px;
+  color:rgba(255,255,255,.45);
+  margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;
 }
 .mini-bar-track{
-  height:3px;background:rgba(255,255,255,.18);
+  height:3px;background:rgba(255,255,255,.15);
   border-radius:999px;overflow:hidden;
 }
 .mini-bar-fill{
   height:100%;border-radius:999px;
-  background:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.8);
   transition:width .3s ease;
 }
 
-/* SCROLL BODY */
+/* ── SCROLL BODY ── */
 .content-wrap{
-  flex:1;
-  display:flex;flex-direction:column;
-  overflow:hidden;
-  position:relative;
-  min-height:0;
+  flex:1;display:flex;flex-direction:column;
+  overflow:hidden;position:relative;min-height:0;
 }
 
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:0 0 88px;
-  overscroll-behavior:contain;
-  min-height:0;
+  padding:14px 14px 96px;
+  overscroll-behavior:contain;min-height:0;
 }
 .body::-webkit-scrollbar{display:none}
 
-/* SECTIONS */
-.section{padding:14px 16px 0}
-
-.section-label{
-  font-size:10px;font-weight:700;
-  color:var(--neutral-400);
-  text-transform:uppercase;letter-spacing:.9px;
-  margin-bottom:10px;
-}
-
-/* TABS */
-.tabs-track{
-  display:flex;gap:7px;
-  overflow-x:auto;padding-bottom:2px;
-  padding-right:16px;
-}
-.tabs-track::-webkit-scrollbar{display:none}
-
-.tab{
-  flex-shrink:0;
-  padding:8px 16px;border-radius:999px;
-  font-size:12px;font-weight:700;
-  background:var(--white);color:var(--neutral-500);
-  border:1.5px solid var(--neutral-200);
-  cursor:pointer;transition:all .16s ease;
-  white-space:nowrap;
-}
-.tab.active{
-  background:var(--blue);color:white;border-color:var(--blue);
-}
-
-/* BUNDLE CARD */
-.bundle-card{
-  margin:14px 16px 0;
-  background:var(--white);
+/* ── PLAN CARDS ── */
+.plan-card{
   border-radius:var(--radius-lg);
   overflow:hidden;
-  border:1px solid var(--neutral-200);
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease;
+  position:relative;
 }
 
-.bundle-card-header{
-  padding:13px 16px 11px;
-  border-bottom:1px solid var(--neutral-100);
+/* card shell base */
+.plan-card .card-shell{
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  position:relative;
+  transition:background .2s,border-color .2s,box-shadow .2s;
+}
+
+/* per-plan colour tints — closed */
+.plan-card[data-plan="daily"]   .card-shell{background:rgba(160,195,255,.13);border:1px solid rgba(160,195,255,.22)}
+.plan-card[data-plan="3days"]   .card-shell{background:rgba(245,158,11,.15); border:1px solid rgba(245,158,11,.28)}
+.plan-card[data-plan="weekly"]  .card-shell{background:rgba(250,204,21,.13); border:1px solid rgba(250,204,21,.26)}
+.plan-card[data-plan="2weeks"]  .card-shell{background:rgba(56,189,248,.15); border:1px solid rgba(56,189,248,.28)}
+.plan-card[data-plan="monthly"] .card-shell{background:rgba(200,16,46,.17);  border:1px solid rgba(200,16,46,.32)}
+
+/* per-plan colour tints — open/active (brighter) */
+.plan-card[data-plan="daily"].active   .card-shell{background:rgba(160,195,255,.24);border-color:rgba(160,195,255,.45);box-shadow:0 8px 28px rgba(100,160,255,.18)}
+.plan-card[data-plan="3days"].active   .card-shell{background:rgba(245,158,11,.26); border-color:rgba(245,158,11,.5); box-shadow:0 8px 28px rgba(245,158,11,.18)}
+.plan-card[data-plan="weekly"].active  .card-shell{background:rgba(250,204,21,.22); border-color:rgba(250,204,21,.46);box-shadow:0 8px 28px rgba(250,204,21,.15)}
+.plan-card[data-plan="2weeks"].active  .card-shell{background:rgba(56,189,248,.24); border-color:rgba(56,189,248,.5); box-shadow:0 8px 28px rgba(56,189,248,.18)}
+.plan-card[data-plan="monthly"].active .card-shell{background:rgba(200,16,46,.28);  border-color:rgba(200,16,46,.55); box-shadow:0 8px 28px rgba(200,16,46,.22)}
+
+/* accent top bar per plan */
+.plan-card .accent{height:4px;width:100%}
+.plan-card[data-plan="daily"]   .accent{background:rgba(160,195,255,.8)}
+.plan-card[data-plan="3days"]   .accent{background:#f59e0b}
+.plan-card[data-plan="weekly"]  .accent{background:#facc15}
+.plan-card[data-plan="2weeks"]  .accent{background:#38bdf8}
+.plan-card[data-plan="monthly"] .accent{background:var(--red)}
+
+.plan-card:active{transform:scale(.985)}
+
+/* CARD HEADER ROW */
+.card-head{
   display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px 12px;
 }
 
-.bundle-card-title{font-size:14px;font-weight:700;color:var(--neutral-900)}
-.bundle-card-sub{font-size:11px;color:var(--neutral-400);font-weight:500;margin-top:2px}
+.card-head-left{display:flex;flex-direction:column;gap:3px}
 
-.live-badge{
-  background:var(--blue-light);color:var(--blue);
+.card-period{
   font-size:10px;font-weight:800;
-  padding:4px 10px;border-radius:999px;
-  text-transform:uppercase;letter-spacing:.4px;
+  color:rgba(255,255,255,.5);
+  text-transform:uppercase;letter-spacing:.8px;
 }
 
-/* SLIDERS */
-.sliders{padding:4px 0}
-
-.slider-item{
-  padding:12px 16px;
-  border-bottom:1px solid var(--neutral-100);
-}
-.slider-item:last-child{border-bottom:none}
-
-.slider-head{
-  display:flex;justify-content:space-between;
-  align-items:center;margin-bottom:10px;
+.card-price{
+  font-family:var(--mono);
+  font-size:24px;font-weight:700;
+  color:white;line-height:1;
 }
 
-.slider-label-group{display:flex;flex-direction:column;gap:2px}
-
-.slider-type{
-  display:flex;align-items:center;gap:7px;
+.card-price sup{
+  font-size:12px;font-weight:600;
+  color:rgba(255,255,255,.6);
+  vertical-align:super;
+  margin-right:1px;
 }
 
-.slider-emoji{font-size:16px;line-height:1;flex-shrink:0}
-
-.slider-name{font-size:13px;font-weight:700;color:var(--neutral-700)}
-.slider-desc{font-size:10px;color:var(--neutral-400);font-weight:500;margin-left:15px}
-
-.slider-value{
-  font-family:var(--mono);font-size:14px;
-  font-weight:500;color:var(--neutral-900);
+/* SPECS PILLS — shown when collapsed */
+.card-specs{
+  display:flex;gap:6px;flex-wrap:wrap;
+  padding:0 16px 14px;
 }
 
-/* RANGE */
+.spec-pill{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;
+  padding:3px 10px;
+  font-size:10px;font-weight:700;
+  color:rgba(255,255,255,.7);
+  font-family:var(--mono);
+}
+
+.plan-card.active .spec-pill{display:none}
+
+/* SELECTED BADGE */
+.selected-badge{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:10px;font-weight:800;
+  color:white;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+  display:none;
+}
+.plan-card.active .selected-badge{display:block}
+
+/* BEST VALUE badge for monthly */
+.plan-card[data-plan="monthly"] .best-badge{
+  background:var(--red);
+  border:none;
+  color:white;
+  font-size:9px;font-weight:800;
+  padding:3px 8px;border-radius:999px;
+  letter-spacing:.4px;text-transform:uppercase;
+  margin-left:6px;
+}
+
+/* SLIDERS SECTION inside card */
+.card-sliders{
+  display:none;
+  padding:0 14px 14px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.plan-card.active .card-sliders{display:block}
+
+.slide-row{margin-bottom:12px}
+.slide-row:last-child{margin-bottom:0}
+
+.slide-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:7px;
+}
+
+.slide-label{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:700;
+  color:rgba(255,255,255,.75);
+}
+
+.slide-emoji{font-size:14px;line-height:1}
+
+.slide-val{
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  color:white;
+}
+
+/* RANGE on dark bg */
 input[type=range]{
-  width:100%;height:8px;border-radius:999px;
+  width:100%;height:7px;border-radius:999px;
   appearance:none;outline:none;cursor:pointer;
-  background:var(--neutral-200);
+  background:rgba(255,255,255,.15);
   transition:background .15s ease;
 }
 
 input[type=range]::-webkit-slider-thumb{
   appearance:none;
-  width:22px;height:22px;border-radius:50%;
+  width:20px;height:20px;border-radius:50%;
   background:white;
-  border:3px solid currentColor;
+  border:2.5px solid currentColor;
   cursor:grab;
-  box-shadow:0 2px 10px rgba(0,0,0,.15);
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
   transition:transform .1s ease;
 }
 input[type=range]:active::-webkit-slider-thumb{
-  cursor:grabbing;
-  transform:scale(1.15);
-}
-.slider-voice input[type=range]::-webkit-slider-thumb{border-color:var(--red)}
-.slider-sms input[type=range]::-webkit-slider-thumb{border-color:#5b7cf7}
-.slider-data input[type=range]::-webkit-slider-thumb{border-color:var(--blue)}
-
-/* hint label */
-.slider-hint{
-  font-size:9px;color:var(--neutral-400);
-  font-weight:600;letter-spacing:.3px;
-  margin-top:5px;display:flex;justify-content:space-between;
+  cursor:grabbing;transform:scale(1.15);
 }
 
-/* PORTRAIT FIT - no sideways overflow */
-@media (orientation:landscape){}
+.voice-slider input[type=range]::-webkit-slider-thumb{border-color:#f87171}
+.sms-slider input[type=range]::-webkit-slider-thumb{border-color:#818cf8}
+.data-slider input[type=range]::-webkit-slider-thumb{border-color:#60a5fa}
 
-/* SUMMARY CARD */
-.summary-card{
-  margin:14px 16px 0;
-  background:var(--white);
-  border-radius:var(--radius-lg);
-  border:1px solid var(--neutral-200);
-  overflow:hidden;
+.slide-hint{
+  display:flex;justify-content:space-between;
+  font-size:9px;color:rgba(255,255,255,.3);
+  font-weight:600;margin-top:4px;letter-spacing:.2px;
 }
 
-.summary-header{
-  padding:12px 16px;
-  border-bottom:1px solid var(--neutral-100);
-  font-size:13px;font-weight:700;color:var(--neutral-700);
-}
-
-.summary-rows{padding:4px 0}
-
-.summary-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:10px 16px;
-  border-bottom:1px solid var(--neutral-100);
-}
-.summary-row:last-child{border-bottom:none}
-
-.summary-key{
-  display:flex;align-items:center;gap:8px;
-  font-size:12px;color:var(--neutral-500);font-weight:500;
-}
-
-.summary-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-.summary-val{
-  font-size:13px;font-weight:700;
-  color:var(--neutral-900);font-family:var(--mono);
-}
-
-.summary-total-row{
-  background:var(--blue-mid);
-  padding:13px 16px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-
-.summary-total-label{font-size:13px;font-weight:700;color:var(--blue-dark)}
-.summary-total-val{
-  font-size:20px;font-weight:800;
-  color:var(--blue);font-family:var(--mono);
-}
-
-/* STICKY FOOTER */
+/* ── STICKY FOOTER ── */
 .sticky-footer{
   position:absolute;bottom:0;left:0;right:0;
-  padding:12px 16px max(20px, env(safe-area-inset-bottom));
-  background:linear-gradient(to top,var(--neutral-100) 72%,transparent);
+  padding:12px 14px max(20px,env(safe-area-inset-bottom));
+  background:linear-gradient(to top,#0e1525 72%,transparent);
   z-index:10;
 }
 
@@ -371,23 +374,22 @@ input[type=range]:active::-webkit-slider-thumb{
   border:none;width:100%;padding:16px;
   border-radius:var(--radius-md);
   font-family:var(--font);font-size:15px;font-weight:800;
-  cursor:pointer;
-  letter-spacing:-.1px;
+  cursor:pointer;letter-spacing:-.1px;
   transition:all .15s ease;
 }
 .pay-btn:active{transform:scale(.98);background:var(--blue-dark)}
 
-/* MODAL SHEET */
+/* ── MODAL SHEET ── */
 .modal-overlay{
   position:absolute;inset:0;
-  background:rgba(24,24,27,.5);
+  background:rgba(0,0,0,.65);
   display:none;align-items:flex-end;justify-content:center;
   z-index:100;
 }
 .modal-overlay.open{display:flex}
 
 .modal-sheet{
-  background:var(--white);width:100%;
+  background:#fff;width:100%;
   border-radius:var(--radius-xl) var(--radius-xl) 0 0;
   padding:0 0 32px;
   animation:slideUp .22s ease;overflow:hidden;
@@ -405,7 +407,7 @@ input[type=range]:active::-webkit-slider-thumb{
 
 .sheet-header{
   padding:16px 20px 14px;
-  border-bottom:1px solid var(--neutral-100);
+  border-bottom:1px solid var(--neutral-200);
   display:flex;align-items:center;justify-content:space-between;
 }
 
@@ -416,8 +418,7 @@ input[type=range]:active::-webkit-slider-thumb{
   background:var(--neutral-100);
   display:flex;align-items:center;justify-content:center;
   font-size:13px;cursor:pointer;
-  color:var(--neutral-500);font-weight:700;
-  border:none;
+  color:var(--neutral-500);font-weight:700;border:none;
 }
 
 .sheet-body{padding:16px 20px}
@@ -431,17 +432,14 @@ input[type=range]:active::-webkit-slider-thumb{
 .sheet-rows{
   background:var(--neutral-50);
   border-radius:var(--radius-md);overflow:hidden;
-  border:1px solid var(--neutral-200);
-  margin-bottom:14px;
+  border:1px solid var(--neutral-200);margin-bottom:14px;
 }
 
 .sheet-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding:12px 14px;
-  border-bottom:1px solid var(--neutral-100);
+  padding:12px 14px;border-bottom:1px solid var(--neutral-100);
 }
 .sheet-row:last-child{border-bottom:none}
-
 .sheet-row-key{font-size:13px;color:var(--neutral-500);font-weight:500}
 .sheet-row-val{font-size:13px;font-weight:700;color:var(--neutral-900)}
 
@@ -472,18 +470,28 @@ input[type=range]:active::-webkit-slider-thumb{
 }
 .btn-confirm:active{background:var(--blue-dark);transform:scale(.98)}
 
-/* TOAST */
+/* ── TOAST ── */
 .toast{
   position:absolute;top:16px;left:50%;
   transform:translateX(-50%) translateY(-8px);
-  background:var(--neutral-900);color:white;
+  background:#fff;color:var(--neutral-900);
   padding:10px 18px;border-radius:999px;
   font-size:12px;font-weight:700;
   opacity:0;pointer-events:none;
   transition:.22s ease;z-index:200;
   white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* POWERED BY */
+.powered{
+  text-align:center;
+  padding:6px 0 2px;
+  font-size:10px;color:rgba(255,255,255,.25);
+  font-weight:500;letter-spacing:.3px;
+}
+.powered strong{color:rgba(255,255,255,.4);font-weight:700}
 </style>
 </head>
 <body>
@@ -492,6 +500,9 @@ input[type=range]:active::-webkit-slider-thumb{
 
   <!-- HEADER -->
   <div class="header">
+    <div class="header-glow-a"></div>
+    <div class="header-glow-b"></div>
+
     <div class="header-top">
       <div class="brand-wordmark">
         <div class="brand-logos">
@@ -499,9 +510,14 @@ input[type=range]:active::-webkit-slider-thumb{
           <span class="brand-sep"></span>
           <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo">
         </div>
-        <div class="powered-by">Mix Bundle Builder</div>
+        <div class="brand-sub">Mix Bundle Builder</div>
       </div>
       <div class="plan-chip" id="planTag">Daily</div>
+    </div>
+
+    <div class="header-hero">
+      <div class="header-eyebrow">Build your perfect bundle</div>
+      <div class="header-title">Mix It <span>Your Way</span></div>
     </div>
 
     <div class="header-info">
@@ -528,144 +544,18 @@ input[type=range]:active::-webkit-slider-thumb{
     </div>
   </div>
 
-  <!-- CONTENT WRAP (body + footer) -->
+  <!-- CONTENT -->
   <div class="content-wrap">
-
-  <!-- BODY -->
-  <div class="body">
-
-    <!-- DURATION -->
-    <div class="section">
-      <div class="section-label">Duration</div>
-      <div class="tabs-track">
-        <div class="tab active" onclick="selectPlan('daily',this)">Daily</div>
-        <div class="tab" onclick="selectPlan('3days',this)">3 Days</div>
-        <div class="tab" onclick="selectPlan('weekly',this)">Weekly</div>
-        <div class="tab" onclick="selectPlan('2weeks',this)">2 Weeks</div>
-        <div class="tab" onclick="selectPlan('monthly',this)">Monthly</div>
-      </div>
-    </div>
-
-    <!-- SLIDERS -->
-    <div class="section" style="padding-top:14px">
-      <div class="section-label">Customise</div>
-    </div>
-
-    <div class="bundle-card">
-      <div class="bundle-card-header">
-        <div>
-          <div class="bundle-card-title">Mix It Your Way</div>
-          <div class="bundle-card-sub">Drag sliders to set Voice, SMS &amp; Data</div>
-        </div>
-        <div class="live-badge">Live Price</div>
-      </div>
-
-      <div class="sliders">
-
-        <div class="slider-item slider-voice">
-          <div class="slider-head">
-            <div class="slider-label-group">
-              <div class="slider-type">
-                <span class="slider-emoji">📞</span>
-                <div class="slider-name">Voice</div>
-              </div>
-              <div class="slider-desc">On-net &amp; Off-net minutes</div>
-            </div>
-            <div class="slider-value" id="voiceValue">0 Min</div>
-          </div>
-          <input type="range" id="voice" value="0" oninput="calculateBundle()">
-          <div class="slider-hint"><span>0</span><span id="voiceMax">20 Min</span></div>
-        </div>
-
-        <div class="slider-item slider-sms">
-          <div class="slider-head">
-            <div class="slider-label-group">
-              <div class="slider-type">
-                <span class="slider-emoji">💬</span>
-                <div class="slider-name">SMS</div>
-              </div>
-              <div class="slider-desc">Messages to all networks</div>
-            </div>
-            <div class="slider-value" id="smsValue">0 SMS</div>
-          </div>
-          <input type="range" id="sms" value="0" oninput="calculateBundle()">
-          <div class="slider-hint"><span>0</span><span id="smsMax">25 SMS</span></div>
-        </div>
-
-        <div class="slider-item slider-data">
-          <div class="slider-head">
-            <div class="slider-label-group">
-              <div class="slider-type">
-                <span class="slider-emoji">🌐</span>
-                <div class="slider-name">Data</div>
-              </div>
-              <div class="slider-desc">4G / LTE mobile internet</div>
-            </div>
-            <div class="slider-value" id="dataValue">0 GB</div>
-          </div>
-          <input type="range" id="data" value="0" oninput="calculateBundle()">
-          <div class="slider-hint"><span>0</span><span id="dataMax">3 GB</span></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- SUMMARY -->
-    <div class="summary-card">
-      <div class="summary-header">Bundle Summary</div>
-      <div class="summary-rows">
-        <div class="summary-row">
-          <div class="summary-key">
-            <div class="summary-dot" style="background:var(--neutral-400)"></div>
-            Duration
-          </div>
-          <div class="summary-val" id="summaryDuration">Daily</div>
-        </div>
-        <div class="summary-row">
-          <div class="summary-key">
-            <div class="summary-dot" style="background:var(--red)"></div>
-            Voice
-          </div>
-          <div class="summary-val" id="summaryVoice">0 Minutes</div>
-        </div>
-        <div class="summary-row">
-          <div class="summary-key">
-            <div class="summary-dot" style="background:#5b7cf7"></div>
-            SMS
-          </div>
-          <div class="summary-val" id="summarySms">0 SMS</div>
-        </div>
-        <div class="summary-row">
-          <div class="summary-key">
-            <div class="summary-dot" style="background:var(--blue)"></div>
-            Data
-          </div>
-          <div class="summary-val" id="summaryData">0 GB</div>
-        </div>
-      </div>
-      <div class="summary-total-row">
-        <div class="summary-total-label">💰 Total Amount</div>
-        <div class="summary-total-val" id="summaryAmount">USD 0.00</div>
-      </div>
-    </div>
-
-    <!-- POWERED BY -->
-    <div style="text-align:center;padding:18px 16px 4px">
-      <div style="font-size:10px;color:var(--neutral-400);font-weight:500;letter-spacing:.3px">
-        Powered by <strong style="color:var(--neutral-500)">Econet Wireless</strong> &middot; <strong style="color:var(--neutral-500)">EcoCash</strong>
-      </div>
-    </div>
-
+  <div class="body" id="planList">
+    <!-- plan cards injected by JS -->
   </div>
 
-  <!-- FOOTER BUTTON -->
   <div class="sticky-footer">
     <button class="pay-btn" onclick="openModal()">Proceed with EcoCash</button>
   </div>
+  </div>
 
-  </div><!-- /content-wrap -->
-
-  <!-- MODAL SHEET -->
+  <!-- MODAL -->
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
     <div class="modal-sheet">
       <div class="sheet-handle"></div>
@@ -694,90 +584,214 @@ input[type=range]:active::-webkit-slider-thumb{
 </div>
 
 <script>
-let currentPlan="daily";
-
 const plans={
-  daily:{maxData:3,maxVoice:20,maxSms:25,price:.60},
-  "3days":{maxData:8,maxVoice:50,maxSms:75,price:1.40},
-  weekly:{maxData:20,maxVoice:120,maxSms:200,price:2.80},
-  "2weeks":{maxData:45,maxVoice:250,maxSms:450,price:5.20},
-  monthly:{maxData:100,maxVoice:600,maxSms:1000,price:9.90}
+  daily:  {label:"Daily",   maxVoice:20,  maxSms:25,   maxData:3,   price:.60},
+  "3days":{label:"3 Days",  maxVoice:50,  maxSms:75,   maxData:8,   price:1.40},
+  weekly: {label:"Weekly",  maxVoice:120, maxSms:200,  maxData:20,  price:2.80},
+  "2weeks":{label:"2 Weeks",maxVoice:250, maxSms:450,  maxData:45,  price:5.20},
+  monthly:{label:"Monthly", maxVoice:600, maxSms:1000, maxData:100, price:9.90}
 };
 
-const planLabels={
-  daily:"Daily","3days":"3 Days",
-  weekly:"Weekly","2weeks":"2 Weeks",monthly:"Monthly"
-};
+// per-plan slider state — starts at max
+const state={};
+Object.keys(plans).forEach(k=>{
+  state[k]={voice:plans[k].maxVoice,sms:plans[k].maxSms,data:plans[k].maxData};
+});
 
-function selectPlan(plan,el){
-  currentPlan=plan;
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  el.classList.add("active");
-  const lbl=planLabels[plan];
-  document.getElementById("planTag").textContent=lbl;
-  document.getElementById("planTagInline").textContent=lbl.toUpperCase();
-  updatePlan();
+let activePlan=null;
+
+/* ── Build cards ── */
+function buildCards(){
+  const list=document.getElementById("planList");
+  list.innerHTML="";
+
+  Object.keys(plans).forEach(key=>{
+    const p=plans[key];
+    const isMonthly=key==="monthly";
+
+    const card=document.createElement("div");
+    card.className="plan-card";
+    card.dataset.plan=key;
+
+    card.innerHTML=`
+      <div class="card-shell">
+        <div class="accent"></div>
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-period">${p.label}${isMonthly?'<span class="best-badge">Best Value</span>':''}</div>
+            <div class="card-price" id="cp-${key}"><sup>USD</sup>${calcPrice(key).toFixed(2)}</div>
+          </div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <div class="selected-badge">Selected</div>
+          </div>
+        </div>
+
+        <div class="card-specs" id="specs-${key}">
+          <div class="spec-pill">${p.maxVoice} Min</div>
+          <div class="spec-pill">${p.maxSms} SMS</div>
+          <div class="spec-pill">${p.maxData} GB</div>
+        </div>
+
+        <div class="card-sliders">
+
+          <div class="slide-row voice-slider">
+            <div class="slide-head">
+              <div class="slide-label"><span class="slide-emoji">📞</span> Voice</div>
+              <div class="slide-val" id="sv-${key}">0 Min</div>
+            </div>
+            <input type="range" id="sr-voice-${key}" min="0" max="${p.maxVoice}" value="${state[key].voice}"
+              oninput="onSlide('${key}','voice',this)">
+            <div class="slide-hint"><span>0</span><span>${p.maxVoice} Min</span></div>
+          </div>
+
+          <div class="slide-row sms-slider">
+            <div class="slide-head">
+              <div class="slide-label"><span class="slide-emoji">💬</span> SMS</div>
+              <div class="slide-val" id="ss-${key}">0 SMS</div>
+            </div>
+            <input type="range" id="sr-sms-${key}" min="0" max="${p.maxSms}" value="${state[key].sms}"
+              oninput="onSlide('${key}','sms',this)">
+            <div class="slide-hint"><span>0</span><span>${p.maxSms} SMS</span></div>
+          </div>
+
+          <div class="slide-row data-slider">
+            <div class="slide-head">
+              <div class="slide-label"><span class="slide-emoji">🌐</span> Data</div>
+              <div class="slide-val" id="sd-${key}">0 GB</div>
+            </div>
+            <input type="range" id="sr-data-${key}" min="0" max="${p.maxData}" value="${state[key].data}"
+              oninput="onSlide('${key}','data',this)">
+            <div class="slide-hint"><span>0</span><span>${p.maxData} GB</span></div>
+          </div>
+
+        </div>
+      </div>
+    `;
+
+    card.addEventListener("click",e=>{
+      if(e.target.tagName==="INPUT") return;
+      selectPlan(key);
+    });
+
+    list.appendChild(card);
+  });
+
+  // powered by footer
+  const pw=document.createElement("div");
+  pw.className="powered";
+  pw.innerHTML='Powered by <strong>Econet Wireless</strong> &middot; <strong>EcoCash</strong>';
+  list.appendChild(pw);
+
+  refreshAll();
 }
 
+/* ── Price calc ── */
+function calcPrice(key){
+  const p=plans[key];
+  const s=state[key];
+  return ((s.data/p.maxData)+(s.voice/p.maxVoice)+(s.sms/p.maxSms))/3*p.price;
+}
+
+/* ── Slider fill ── */
 function fillSlider(el,color){
   const pct=el.max>0?((el.value-el.min)/(el.max-el.min)*100):0;
-  el.style.background=`linear-gradient(to right,${color} ${pct}%,#e4e4e7 ${pct}%)`;
+  el.style.background=`linear-gradient(to right,${color} ${pct}%,rgba(255,255,255,.15) ${pct}%)`;
 }
 
-function updatePlan(){
-  const p=plans[currentPlan];
-  const v=document.getElementById("voice");
-  const s=document.getElementById("sms");
-  const d=document.getElementById("data");
-  v.max=p.maxVoice;v.value=p.maxVoice;
-  s.max=p.maxSms;s.value=p.maxSms;
-  d.max=p.maxData;d.value=p.maxData;
-  document.getElementById("voiceMax").textContent=p.maxVoice+" Min";
-  document.getElementById("smsMax").textContent=p.maxSms+" SMS";
-  document.getElementById("dataMax").textContent=p.maxData+" GB";
-  calculateBundle();
+/* ── On slide ── */
+function onSlide(key,type,el){
+  state[key][type]=Number(el.value);
+  if(type==="voice") fillSlider(el,"#f87171");
+  if(type==="sms")   fillSlider(el,"#818cf8");
+  if(type==="data")  fillSlider(el,"#60a5fa");
+  refreshCard(key);
+  if(key===activePlan) refreshHeader();
 }
 
-function calculateBundle(){
-  const p=plans[currentPlan];
-  const v=Number(document.getElementById("voice").value);
-  const s=Number(document.getElementById("sms").value);
-  const d=Number(document.getElementById("data").value);
+/* ── Refresh single card ── */
+function refreshCard(key){
+  const s=state[key];
+  const price=calcPrice(key).toFixed(2);
 
-  document.getElementById("voiceValue").textContent=v+" Min";
-  document.getElementById("smsValue").textContent=s+" SMS";
-  document.getElementById("dataValue").textContent=d+" GB";
+  const cp=document.getElementById("cp-"+key);
+  if(cp) cp.innerHTML=`<sup>USD</sup>${price}`;
 
-  fillSlider(document.getElementById("voice"),"#C8102E");
-  fillSlider(document.getElementById("sms"),"#5b7cf7");
-  fillSlider(document.getElementById("data"),"#003DA5");
-
-  document.getElementById("voiceBar").style.width=(v/p.maxVoice*100)+"%";
-  document.getElementById("smsBar").style.width=(s/p.maxSms*100)+"%";
-  document.getElementById("dataBar").style.width=(d/p.maxData*100)+"%";
-
-  const total=((d/p.maxData)+(v/p.maxVoice)+(s/p.maxSms))/3*p.price;
-  const fmt=total.toFixed(2);
-
-  document.getElementById("price").textContent=fmt;
-  document.getElementById("summaryDuration").textContent=planLabels[currentPlan];
-  document.getElementById("summaryVoice").textContent=v+" Minutes";
-  document.getElementById("summarySms").textContent=s+" SMS";
-  document.getElementById("summaryData").textContent=d+" GB";
-  document.getElementById("summaryAmount").textContent="USD "+fmt;
+  const sv=document.getElementById("sv-"+key);
+  const ss=document.getElementById("ss-"+key);
+  const sd=document.getElementById("sd-"+key);
+  if(sv) sv.textContent=s.voice+" Min";
+  if(ss) ss.textContent=s.sms+" SMS";
+  if(sd) sd.textContent=s.data+" GB";
 }
 
+/* ── Refresh all cards + sliders ── */
+function refreshAll(){
+  Object.keys(plans).forEach(key=>{
+    refreshCard(key);
+    ["voice","sms","data"].forEach(t=>{
+      const el=document.getElementById("sr-"+t+"-"+key);
+      if(!el) return;
+      el.value=state[key][t];
+      const colors={voice:"#f87171",sms:"#818cf8",data:"#60a5fa"};
+      fillSlider(el,colors[t]);
+    });
+  });
+  refreshHeader();
+}
+
+/* ── Refresh header with active plan ── */
+function refreshHeader(){
+  if(!activePlan){
+    document.getElementById("price").textContent="0.00";
+    document.getElementById("planTag").textContent="Select";
+    document.getElementById("planTagInline").textContent="—";
+    document.getElementById("voiceBar").style.width="0%";
+    document.getElementById("smsBar").style.width="0%";
+    document.getElementById("dataBar").style.width="0%";
+    return;
+  }
+  const key=activePlan;
+  const p=plans[key];
+  const s=state[key];
+  const price=calcPrice(key).toFixed(2);
+
+  document.getElementById("price").textContent=price;
+  document.getElementById("planTag").textContent=p.label;
+  document.getElementById("planTagInline").textContent=p.label.toUpperCase();
+
+  document.getElementById("voiceBar").style.width=(s.voice/p.maxVoice*100)+"%";
+  document.getElementById("smsBar").style.width=(s.sms/p.maxSms*100)+"%";
+  document.getElementById("dataBar").style.width=(s.data/p.maxData*100)+"%";
+}
+
+/* ── Select plan ── */
+function selectPlan(key){
+  activePlan=key;
+  document.querySelectorAll(".plan-card").forEach(c=>{
+    c.classList.toggle("active",c.dataset.plan===key);
+  });
+  refreshHeader();
+}
+
+/* ── Modal ── */
 function openModal(){
-  const v=document.getElementById("voice").value;
-  const s=document.getElementById("sms").value;
-  const d=document.getElementById("data").value;
-  const amt=document.getElementById("summaryAmount").textContent;
+  if(!activePlan){
+    const toast=document.getElementById("toast");
+    toast.textContent="Please select a plan first";
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"),2000);
+    return;
+  }
+  const key=activePlan;
+  const p=plans[key];
+  const s=state[key];
+  const amt="USD "+calcPrice(key).toFixed(2);
 
   document.getElementById("details").innerHTML=`
-    <div class="sheet-row"><span class="sheet-row-key">Duration</span><span class="sheet-row-val">${planLabels[currentPlan]}</span></div>
-    <div class="sheet-row"><span class="sheet-row-key">Voice</span><span class="sheet-row-val">${v} Minutes</span></div>
-    <div class="sheet-row"><span class="sheet-row-key">SMS</span><span class="sheet-row-val">${s} SMS</span></div>
-    <div class="sheet-row"><span class="sheet-row-key">Data</span><span class="sheet-row-val">${d} GB</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">Duration</span><span class="sheet-row-val">${p.label}</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">Voice</span><span class="sheet-row-val">${s.voice} Minutes</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">SMS</span><span class="sheet-row-val">${s.sms} SMS</span></div>
+    <div class="sheet-row"><span class="sheet-row-key">Data</span><span class="sheet-row-val">${s.data} GB</span></div>
   `;
   document.getElementById("modalTotal").textContent=amt;
   document.getElementById("modal").classList.add("open");
@@ -792,14 +806,16 @@ function handleOverlayClick(e){
 }
 
 function confirmBundle(){
-  const selectedBundle={
-    duration:currentPlan,
-    voice:document.getElementById("voice").value,
-    sms:document.getElementById("sms").value,
-    data:document.getElementById("data").value,
-    amount:document.getElementById("summaryAmount").innerText.replace("USD ","")
-  };
-  sessionStorage.setItem("selectedPlan",JSON.stringify(selectedBundle));
+  if(!activePlan) return;
+  const key=activePlan;
+  const s=state[key];
+  sessionStorage.setItem("selectedPlan",JSON.stringify({
+    duration:key,
+    voice:s.voice,
+    sms:s.sms,
+    data:s.data,
+    amount:calcPrice(key).toFixed(2)
+  }));
   closeModal();
   const toast=document.getElementById("toast");
   toast.classList.add("show");
@@ -807,7 +823,7 @@ function confirmBundle(){
   setTimeout(()=>{window.location.href="login.html"},500);
 }
 
-updatePlan();
+buildCards();
 </script>
 </body>
 </html>
