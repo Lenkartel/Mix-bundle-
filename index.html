@@ -3,564 +3,654 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-<meta name="theme-color" content="#002370"/>
+<meta name="theme-color" content="#0033a0"/>
 <title>Mix Bundle Builder · Econet</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 :root{
-  --blue:#003DA5;
-  --blue-dark:#002370;
-  --blue-mid:#e8f0fb;
-  --blue-light:#f2f6fd;
-  --red:#C8102E;
-  --red-dark:#a00d24;
-  --neutral-50:#fafafa;
-  --neutral-100:#f4f4f5;
-  --neutral-200:#e4e4e7;
-  --neutral-400:#a1a1aa;
-  --neutral-500:#71717a;
-  --neutral-700:#3f3f46;
-  --neutral-900:#18181b;
-  --white:#fff;
-  --font:'DM Sans',sans-serif;
+  --navy:#0033a0;
+  --navy-dark:#001f6b;
+  --navy-deep:#001450;
+  --blue:#1a6fff;
+  --blue-mid:#3b82f6;
+  --sky:#e8f1ff;
+  --sky-mid:#d0e4ff;
+  --sky-deep:#b8d3ff;
+  --red:#d0021b;
+  --page:#f0f5ff;
+  --white:#ffffff;
+  --card:#ffffff;
+  --border:#d5e3f7;
+  --border-strong:#b8ccef;
+  --ink:#0a1f44;
+  --ink-mid:#2d4470;
+  --ink-soft:#6b82a8;
+  --ink-faint:#9eb5d4;
+  --font:'Plus Jakarta Sans',sans-serif;
   --mono:'DM Mono',monospace;
-  --radius-md:16px;
-  --radius-lg:20px;
-  --radius-xl:28px;
+  --r:12px;
+  --r-lg:16px;
+  --r-xl:22px;
+  --shadow:0 1px 3px rgba(0,51,160,.08),0 4px 16px rgba(0,51,160,.06);
+  --shadow-md:0 2px 8px rgba(0,51,160,.1),0 8px 24px rgba(0,51,160,.08);
 }
 
 html,body{
   width:100%;height:100%;height:100dvh;
-  overflow:hidden;overflow-x:hidden;
-  font-family:var(--font);
-  background:#0e1525;
+  overflow:hidden;font-family:var(--font);
+  background:var(--page);
 }
 
 .screen{
   display:flex;flex-direction:column;
   width:100%;height:100%;height:100dvh;
   max-width:430px;margin:0 auto;
-  background:#0e1525;
-  overflow:hidden;overflow-x:hidden;
-  position:relative;
+  background:var(--page);
+  overflow:hidden;position:relative;
 }
 
-/* ── HEADER ── */
+/* ── HEADER (navy) ── */
 .header{
-  background:var(--blue-dark);
-  padding:18px 20px 20px;
-  position:relative;overflow:hidden;
+  background:var(--navy);
+  padding:16px 18px 18px;
   flex-shrink:0;
+  position:relative;overflow:hidden;
 }
 
-.header::after{
+/* subtle grid texture */
+.header::before{
   content:'';position:absolute;inset:0;
   background-image:
     linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
     linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:44px 44px;
-  pointer-events:none;
+  background-size:32px 32px;pointer-events:none;
 }
 
-.header-glow-a{
-  position:absolute;
-  width:260px;height:260px;border-radius:50%;
-  background:rgba(0,61,165,.65);
-  filter:blur(60px);
-  top:-110px;right:-80px;
-  pointer-events:none;
-}
-
-.header-glow-b{
-  position:absolute;
-  width:180px;height:180px;border-radius:50%;
-  background:rgba(200,16,46,.2);
-  filter:blur(50px);
-  bottom:-60px;left:-30px;
-  pointer-events:none;
+.header-glow{
+  position:absolute;width:280px;height:280px;border-radius:50%;
+  background:rgba(26,111,255,.28);filter:blur(70px);
+  top:-120px;right:-80px;pointer-events:none;
 }
 
 .header-top{
-  display:flex;align-items:flex-start;
-  justify-content:space-between;
-  margin-bottom:14px;
-  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;position:relative;z-index:1;
 }
 
-.brand-wordmark{display:flex;flex-direction:column;gap:4px}
-.brand-logos{display:flex;align-items:center;gap:10px}
-.brand-logo-econet{height:30px;object-fit:contain;opacity:.95}
-.brand-logo-ecocash{height:40px;object-fit:contain;opacity:.95}
-.brand-sep{width:1px;height:26px;background:rgba(255,255,255,.28);flex-shrink:0}
-.brand-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.4);letter-spacing:.2px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-logo-econet{height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.brand-sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
+.brand-logo-ecocash{height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
 
-.plan-chip{
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  padding:5px 12px;border-radius:999px;
-  font-size:11px;font-weight:700;color:white;
-  letter-spacing:.3px;text-transform:uppercase;
-  flex-shrink:0;margin-top:2px;
-  transition:all .2s;
+.header-amount-block{position:relative;z-index:1;margin-bottom:14px}
+.amount-eyebrow{
+  font-size:9px;font-weight:700;color:rgba(255,255,255,.5);
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;
 }
-
-.header-hero{position:relative;z-index:1;margin-bottom:14px}
-
-.header-eyebrow{
-  font-size:10px;font-weight:700;
-  color:rgba(255,255,255,.4);
-  text-transform:uppercase;letter-spacing:1.2px;
-  margin-bottom:5px;
+.amount-row{display:flex;align-items:flex-end;gap:5px}
+.amount-cur{
+  font-family:var(--mono);font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.55);margin-bottom:5px;
 }
-
-.header-title{
-  font-size:26px;font-weight:900;
-  color:white;line-height:1.05;letter-spacing:-.7px;
+.amount-num{
+  font-family:var(--mono);font-size:38px;font-weight:700;
+  color:#fff;line-height:1;
+  transition:opacity .15s;
 }
-
-.header-title span{
-  color:transparent;
-  -webkit-text-stroke:1.5px rgba(255,255,255,.38);
-}
-
-.header-info{position:relative;z-index:1}
-
-.header-label{
-  font-size:11px;color:rgba(255,255,255,.5);
-  font-weight:500;margin-bottom:4px;
+.amount-tag{
+  margin-bottom:5px;padding:3px 9px;border-radius:999px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
+  font-size:9px;font-weight:700;color:rgba(255,255,255,.8);
   text-transform:uppercase;letter-spacing:.5px;
 }
 
-.price-row{
-  display:flex;align-items:flex-end;gap:5px;
-  margin-bottom:10px;
+/* mini bars */
+.mini-bars{display:flex;gap:10px;position:relative;z-index:1}
+.mini-bar-item{flex:1}
+.mini-bar-lbl{
+  font-size:8px;font-weight:700;color:rgba(255,255,255,.4);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;
 }
+.mini-track{height:2.5px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden}
+.mini-fill{height:100%;border-radius:999px;transition:width .3s ease}
+.mini-fill.v{background:rgba(255,100,100,.85)}
+.mini-fill.s{background:rgba(160,160,255,.85)}
+.mini-fill.d{background:rgba(130,200,255,.95)}
 
-.price-currency{
-  font-size:16px;font-weight:700;
-  color:rgba(255,255,255,.6);margin-bottom:4px;
+/* ── TAB BAR ── */
+.tab-bar{
+  display:flex;
+  background:var(--white);
+  border-bottom:1.5px solid var(--border);
+  flex-shrink:0;
+  overflow-x:auto;
 }
+.tab-bar::-webkit-scrollbar{display:none}
 
-.price-amount{
-  font-size:44px;font-weight:800;
-  color:white;line-height:1;
-  font-family:var(--mono);
-  font-variant-numeric:tabular-nums;
+.tab-item{
+  flex:1;min-width:68px;
+  display:flex;flex-direction:column;align-items:center;
+  padding:9px 6px 10px;
+  cursor:pointer;position:relative;
+  transition:background .15s;
+  user-select:none;
 }
+.tab-item:active{background:var(--sky)}
 
-.price-tag{
-  margin-bottom:4px;
-  background:rgba(255,255,255,.15);
-  padding:3px 8px;border-radius:6px;
-  font-size:10px;color:rgba(255,255,255,.8);
-  font-weight:700;text-transform:uppercase;letter-spacing:.4px;
+.tab-lbl{
+  font-size:11px;font-weight:700;
+  color:var(--ink-soft);letter-spacing:.1px;
+  transition:color .15s;
 }
+.tab-price{
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  color:var(--ink-faint);margin-top:2px;
+  transition:color .15s;
+}
+.tab-item::after{
+  content:'';position:absolute;bottom:0;left:16%;right:16%;
+  height:2.5px;border-radius:2px 2px 0 0;
+  background:var(--blue);transform:scaleX(0);
+  transition:transform .2s ease;
+}
+.tab-item.active .tab-lbl{color:var(--navy);font-weight:800}
+.tab-item.active .tab-price{color:var(--blue)}
+.tab-item.active::after{transform:scaleX(1)}
 
-.mini-bars{display:flex;gap:6px}
-.mini-bar-wrap{flex:1}
-.mini-bar-label{
-  font-size:9px;font-weight:700;
-  color:rgba(255,255,255,.45);
-  margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;
-}
-.mini-bar-track{
-  height:3px;background:rgba(255,255,255,.15);
-  border-radius:999px;overflow:hidden;
-}
-.mini-bar-fill{
-  height:100%;border-radius:999px;
-  background:rgba(255,255,255,.8);
-  transition:width .3s ease;
-}
-
-/* ── SCROLL BODY ── */
-.content-wrap{
-  flex:1;display:flex;flex-direction:column;
-  overflow:hidden;position:relative;min-height:0;
-}
-
+/* ── BODY ── */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:14px 14px 96px;
+  padding:16px 14px 100px;
   overscroll-behavior:contain;min-height:0;
 }
 .body::-webkit-scrollbar{display:none}
 
-/* ── PLAN CARDS ── */
-.plan-card{
-  border-radius:var(--radius-lg);
-  overflow:hidden;
-  margin-bottom:10px;
-  cursor:pointer;
-  transition:transform .18s ease, box-shadow .18s ease;
-  position:relative;
-}
+/* ── PLAN PANEL ── */
+.plan-panel{display:none;animation:fadeIn .18s ease}
+.plan-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-/* card shell base */
-.plan-card .card-shell{
-  border-radius:var(--radius-lg);
-  overflow:hidden;
-  position:relative;
-  transition:background .2s,border-color .2s,box-shadow .2s;
-}
-
-/* per-plan colour tints — closed */
-.plan-card[data-plan="daily"]   .card-shell{background:rgba(160,195,255,.13);border:1px solid rgba(160,195,255,.22)}
-.plan-card[data-plan="3days"]   .card-shell{background:rgba(245,158,11,.15); border:1px solid rgba(245,158,11,.28)}
-.plan-card[data-plan="weekly"]  .card-shell{background:rgba(250,204,21,.13); border:1px solid rgba(250,204,21,.26)}
-.plan-card[data-plan="2weeks"]  .card-shell{background:rgba(56,189,248,.15); border:1px solid rgba(56,189,248,.28)}
-.plan-card[data-plan="monthly"] .card-shell{background:rgba(200,16,46,.17);  border:1px solid rgba(200,16,46,.32)}
-
-/* per-plan colour tints — open/active (brighter) */
-.plan-card[data-plan="daily"].active   .card-shell{background:rgba(160,195,255,.24);border-color:rgba(160,195,255,.45);box-shadow:0 8px 28px rgba(100,160,255,.18)}
-.plan-card[data-plan="3days"].active   .card-shell{background:rgba(245,158,11,.26); border-color:rgba(245,158,11,.5); box-shadow:0 8px 28px rgba(245,158,11,.18)}
-.plan-card[data-plan="weekly"].active  .card-shell{background:rgba(250,204,21,.22); border-color:rgba(250,204,21,.46);box-shadow:0 8px 28px rgba(250,204,21,.15)}
-.plan-card[data-plan="2weeks"].active  .card-shell{background:rgba(56,189,248,.24); border-color:rgba(56,189,248,.5); box-shadow:0 8px 28px rgba(56,189,248,.18)}
-.plan-card[data-plan="monthly"].active .card-shell{background:rgba(200,16,46,.28);  border-color:rgba(200,16,46,.55); box-shadow:0 8px 28px rgba(200,16,46,.22)}
-
-/* accent top bar per plan */
-.plan-card .accent{height:4px;width:100%}
-.plan-card[data-plan="daily"]   .accent{background:rgba(160,195,255,.8)}
-.plan-card[data-plan="3days"]   .accent{background:#f59e0b}
-.plan-card[data-plan="weekly"]  .accent{background:#facc15}
-.plan-card[data-plan="2weeks"]  .accent{background:#38bdf8}
-.plan-card[data-plan="monthly"] .accent{background:var(--red)}
-
-.plan-card:active{transform:scale(.985)}
-
-/* CARD HEADER ROW */
-.card-head{
+/* Plan title row */
+.plan-title-row{
   display:flex;align-items:center;justify-content:space-between;
-  padding:14px 16px 12px;
+  margin-bottom:12px;
+}
+.plan-title{
+  font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.3px;
+}
+.plan-max{
+  font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink-soft);
 }
 
-.card-head-left{display:flex;flex-direction:column;gap:3px}
-
-.card-period{
-  font-size:10px;font-weight:800;
-  color:rgba(255,255,255,.5);
-  text-transform:uppercase;letter-spacing:.8px;
+/* Best value badge */
+.best-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#fffbeb;border:1px solid #fcd34d;
+  padding:4px 10px;border-radius:999px;
+  font-size:10px;font-weight:700;color:#92400e;
+  letter-spacing:.2px;margin-bottom:10px;
 }
 
-.card-price{
-  font-family:var(--mono);
-  font-size:24px;font-weight:700;
-  color:white;line-height:1;
+/* ── SLIDER CARD ── */
+.slider-card{
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:14px 15px;
+  margin-bottom:9px;
+  box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+.slider-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.voice-card::before{background:linear-gradient(90deg,#ef4444,#fca5a5)}
+.sms-card::before{background:linear-gradient(90deg,#6366f1,#a5b4fc)}
+.data-card::before{background:linear-gradient(90deg,var(--blue),#93c5fd)}
+
+.slider-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:11px;
+}
+.slider-label-grp{display:flex;align-items:center;gap:8px}
+.slider-ico{
+  width:30px;height:30px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;
+}
+.voice-card .slider-ico{background:#fef2f2}
+.sms-card .slider-ico{background:#eef2ff}
+.data-card .slider-ico{background:#eff6ff}
+
+.slider-name{
+  font-size:13px;font-weight:700;color:var(--ink);
 }
 
-.card-price sup{
-  font-size:12px;font-weight:600;
-  color:rgba(255,255,255,.6);
-  vertical-align:super;
-  margin-right:1px;
-}
-
-/* SPECS PILLS — shown when collapsed */
-.card-specs{
-  display:flex;gap:6px;flex-wrap:wrap;
-  padding:0 16px 14px;
-}
-
-.spec-pill{
-  background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:999px;
-  padding:3px 10px;
-  font-size:10px;font-weight:700;
-  color:rgba(255,255,255,.7);
-  font-family:var(--mono);
-}
-
-.plan-card.active .spec-pill{display:none}
-
-/* SELECTED BADGE */
-.selected-badge{
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.25);
-  border-radius:999px;
-  padding:4px 10px;
-  font-size:10px;font-weight:800;
-  color:white;
-  letter-spacing:.3px;
-  text-transform:uppercase;
-  display:none;
-}
-.plan-card.active .selected-badge{display:block}
-
-/* BEST VALUE badge for monthly */
-.plan-card[data-plan="monthly"] .best-badge{
-  background:var(--red);
-  border:none;
-  color:white;
-  font-size:9px;font-weight:800;
-  padding:3px 8px;border-radius:999px;
-  letter-spacing:.4px;text-transform:uppercase;
-  margin-left:6px;
-}
-
-/* SLIDERS SECTION inside card */
-.card-sliders{
-  display:none;
-  padding:0 14px 14px;
-  border-top:1px solid rgba(255,255,255,.06);
-}
-
-.plan-card.active .card-sliders{display:block}
-
-.slide-row{margin-bottom:12px}
-.slide-row:last-child{margin-bottom:0}
-
-.slide-head{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:7px;
-}
-
-.slide-label{
-  display:flex;align-items:center;gap:6px;
-  font-size:12px;font-weight:700;
-  color:rgba(255,255,255,.75);
-}
-
-.slide-emoji{font-size:14px;line-height:1}
-
-.slide-val{
+.slider-val-pill{
   font-family:var(--mono);font-size:12px;font-weight:700;
-  color:white;
+  color:var(--navy);
+  background:var(--sky);
+  border:1px solid var(--sky-deep);
+  padding:4px 10px;border-radius:999px;
 }
 
-/* RANGE on dark bg */
+/* range inputs */
 input[type=range]{
-  width:100%;height:7px;border-radius:999px;
+  width:100%;height:6px;border-radius:999px;
   appearance:none;outline:none;cursor:pointer;
-  background:rgba(255,255,255,.15);
-  transition:background .15s ease;
+  background:var(--sky-mid);
 }
-
 input[type=range]::-webkit-slider-thumb{
-  appearance:none;
-  width:20px;height:20px;border-radius:50%;
-  background:white;
-  border:2.5px solid currentColor;
-  cursor:grab;
-  box-shadow:0 2px 8px rgba(0,0,0,.3);
-  transition:transform .1s ease;
+  appearance:none;width:20px;height:20px;border-radius:50%;
+  background:#fff;border:2.5px solid;cursor:grab;
+  box-shadow:0 1px 6px rgba(0,51,160,.2);
+  transition:transform .1s;
 }
-input[type=range]:active::-webkit-slider-thumb{
-  cursor:grabbing;transform:scale(1.15);
-}
+input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.15)}
+.voice-card input::-webkit-slider-thumb{border-color:#ef4444}
+.sms-card input::-webkit-slider-thumb{border-color:#6366f1}
+.data-card input::-webkit-slider-thumb{border-color:var(--blue)}
 
-.voice-slider input[type=range]::-webkit-slider-thumb{border-color:#f87171}
-.sms-slider input[type=range]::-webkit-slider-thumb{border-color:#818cf8}
-.data-slider input[type=range]::-webkit-slider-thumb{border-color:#60a5fa}
-
-.slide-hint{
+.slider-limits{
   display:flex;justify-content:space-between;
-  font-size:9px;color:rgba(255,255,255,.3);
-  font-weight:600;margin-top:4px;letter-spacing:.2px;
+  font-size:9px;font-weight:600;color:var(--ink-faint);
+  margin-top:5px;
 }
 
-/* ── STICKY FOOTER ── */
-.sticky-footer{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:12px 14px max(20px,env(safe-area-inset-bottom));
-  background:linear-gradient(to top,#0e1525 72%,transparent);
-  z-index:10;
+/* ── PRICE ROW ── */
+.price-row{
+  background:var(--sky);
+  border:1.5px solid var(--sky-deep);
+  border-radius:var(--r-lg);
+  padding:13px 16px;
+  margin-bottom:10px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.price-row-lbl{font-size:12px;font-weight:600;color:var(--ink-mid)}
+.price-row-amt{
+  font-family:var(--mono);font-size:18px;font-weight:700;color:var(--navy);
 }
 
-.pay-btn{
-  background:var(--blue);color:white;
-  border:none;width:100%;padding:16px;
-  border-radius:var(--radius-md);
-  font-family:var(--font);font-size:15px;font-weight:800;
-  cursor:pointer;letter-spacing:-.1px;
-  transition:all .15s ease;
+/* ── SUBSCRIBE BUTTON ── */
+.sub-btn{
+  width:100%;padding:15px;border-radius:var(--r-lg);
+  border:none;cursor:pointer;
+  font-family:var(--font);font-size:14px;font-weight:800;
+  color:#fff;letter-spacing:.1px;
+  transition:transform .15s,box-shadow .15s;
+  position:relative;overflow:hidden;
 }
-.pay-btn:active{transform:scale(.98);background:var(--blue-dark)}
+.sub-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.12) 0%,transparent 100%);
+  pointer-events:none;
+}
+.sub-btn:active{transform:scale(.975)}
 
-/* ── MODAL SHEET ── */
+.daily-btn{background:var(--blue);box-shadow:0 4px 16px rgba(26,111,255,.35)}
+.three-btn{background:#d97706;box-shadow:0 4px 16px rgba(217,119,6,.3)}
+.weekly-btn{background:#16a34a;box-shadow:0 4px 16px rgba(22,163,74,.3)}
+.twoweek-btn{background:#0284c7;box-shadow:0 4px 16px rgba(2,132,199,.3)}
+.monthly-btn{background:var(--red);box-shadow:0 4px 16px rgba(208,2,27,.3)}
+
+/* ── MODAL (white sheet) ── */
 .modal-overlay{
   position:absolute;inset:0;
-  background:rgba(0,0,0,.65);
-  display:none;align-items:flex-end;justify-content:center;
-  z-index:100;
+  background:rgba(0,20,80,.5);
+  backdrop-filter:blur(3px);
+  display:none;align-items:flex-end;z-index:100;
 }
 .modal-overlay.open{display:flex}
 
 .modal-sheet{
   background:#fff;width:100%;
-  border-radius:var(--radius-xl) var(--radius-xl) 0 0;
-  padding:0 0 32px;
-  animation:slideUp .22s ease;overflow:hidden;
+  border-radius:24px 24px 0 0;
+  border-top:1.5px solid var(--border);
+  animation:sheetUp .22s ease;
 }
-
-@keyframes slideUp{
-  from{transform:translateY(100%);opacity:0}
-  to{transform:translateY(0);opacity:1}
-}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
 
 .sheet-handle{
-  width:36px;height:4px;background:var(--neutral-200);
+  width:34px;height:4px;background:var(--border-strong);
   border-radius:2px;margin:12px auto 0;
 }
-
-.sheet-header{
-  padding:16px 20px 14px;
-  border-bottom:1px solid var(--neutral-200);
+.sheet-hdr{
+  padding:16px 20px 12px;
+  border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
-
-.sheet-title{font-size:17px;font-weight:800;color:var(--neutral-900)}
-
+.sheet-title{font-size:16px;font-weight:800;color:var(--ink)}
 .sheet-close{
   width:28px;height:28px;border-radius:50%;
-  background:var(--neutral-100);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;cursor:pointer;
-  color:var(--neutral-500);font-weight:700;border:none;
+  background:var(--sky);border:none;cursor:pointer;
+  font-size:13px;color:var(--ink-soft);font-weight:700;
 }
-
-.sheet-body{padding:16px 20px}
-
+.sheet-body{padding:14px 20px 20px}
 .sheet-sub{
-  font-size:10px;text-transform:uppercase;
-  letter-spacing:.7px;font-weight:700;
-  color:var(--neutral-400);margin-bottom:10px;
+  font-size:9px;font-weight:700;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;
 }
-
 .sheet-rows{
-  background:var(--neutral-50);
-  border-radius:var(--radius-md);overflow:hidden;
-  border:1px solid var(--neutral-200);margin-bottom:14px;
+  background:var(--page);border-radius:var(--r-lg);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:12px;
 }
-
 .sheet-row{
   display:flex;justify-content:space-between;align-items:center;
-  padding:12px 14px;border-bottom:1px solid var(--neutral-100);
+  padding:11px 14px;border-bottom:1px solid var(--border);
 }
 .sheet-row:last-child{border-bottom:none}
-.sheet-row-key{font-size:13px;color:var(--neutral-500);font-weight:500}
-.sheet-row-val{font-size:13px;font-weight:700;color:var(--neutral-900)}
+.srow-k{font-size:12px;color:var(--ink-soft);font-weight:500}
+.srow-v{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink)}
 
 .sheet-total{
-  background:var(--blue-mid);border-radius:var(--radius-md);
-  padding:14px;display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:18px;border:1px solid rgba(0,61,165,.12);
+  background:var(--sky);border:1.5px solid var(--sky-deep);
+  border-radius:var(--r-lg);padding:13px 16px;
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
 }
+.stotal-lbl{font-size:13px;font-weight:700;color:var(--ink-mid)}
+.stotal-val{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--navy)}
 
-.sheet-total-label{font-size:13px;font-weight:700;color:var(--blue-dark)}
-.sheet-total-val{font-size:22px;font-weight:800;color:var(--blue);font-family:var(--mono)}
-
-.sheet-actions{display:flex;gap:10px}
-
+.sheet-actions{display:flex;gap:9px}
 .btn-cancel{
-  flex:1;padding:14px;border-radius:var(--radius-md);
-  border:1.5px solid var(--neutral-200);background:transparent;
-  font-family:var(--font);font-size:14px;font-weight:700;
-  color:var(--neutral-500);cursor:pointer;transition:.15s;
+  flex:1;padding:13px;border-radius:var(--r-lg);
+  border:1.5px solid var(--border);background:#fff;
+  font-family:var(--font);font-size:13px;font-weight:700;
+  color:var(--ink-soft);cursor:pointer;
 }
-.btn-cancel:active{background:var(--neutral-100)}
-
 .btn-confirm{
-  flex:2;padding:14px;border-radius:var(--radius-md);
+  flex:2;padding:13px;border-radius:var(--r-lg);
   border:none;background:var(--blue);
-  font-family:var(--font);font-size:14px;font-weight:800;
-  color:white;cursor:pointer;transition:.15s;
+  font-family:var(--font);font-size:13px;font-weight:800;
+  color:#fff;cursor:pointer;box-shadow:0 3px 12px rgba(26,111,255,.35);
 }
-.btn-confirm:active{background:var(--blue-dark);transform:scale(.98)}
+.btn-confirm:active{transform:scale(.98)}
 
 /* ── TOAST ── */
 .toast{
   position:absolute;top:16px;left:50%;
   transform:translateX(-50%) translateY(-8px);
-  background:#fff;color:var(--neutral-900);
-  padding:10px 18px;border-radius:999px;
+  background:var(--navy);color:#fff;
+  padding:9px 18px;border-radius:999px;
   font-size:12px;font-weight:700;
   opacity:0;pointer-events:none;
-  transition:.22s ease;z-index:200;
-  white-space:nowrap;
-  box-shadow:0 8px 24px rgba(0,0,0,.25);
+  transition:.22s ease;z-index:200;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(0,20,80,.25);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* POWERED BY */
+/* POWERED */
 .powered{
-  text-align:center;
-  padding:6px 0 2px;
-  font-size:10px;color:rgba(255,255,255,.25);
-  font-weight:500;letter-spacing:.3px;
+  text-align:center;padding:6px 0 2px;
+  font-size:9px;color:var(--ink-faint);font-weight:500;letter-spacing:.3px;
 }
-.powered strong{color:rgba(255,255,255,.4);font-weight:700}
 </style>
 </head>
 <body>
-
 <div class="screen">
 
   <!-- HEADER -->
   <div class="header">
-    <div class="header-glow-a"></div>
-    <div class="header-glow-b"></div>
-
+    <div class="header-glow"></div>
     <div class="header-top">
-      <div class="brand-wordmark">
-        <div class="brand-logos">
-          <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
-          <span class="brand-sep"></span>
-          <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
-        </div>
-        <div class="brand-sub">Mix Bundle Builder</div>
+      <div class="brand">
+        <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
+        <div class="brand-sep"></div>
+        <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
       </div>
-      <div class="plan-chip" id="planTag">Daily</div>
+      <div class="amount-tag" id="planTag">Daily</div>
     </div>
-
-    <div class="header-hero">
-      <div class="header-eyebrow">Build your perfect bundle</div>
-      <div class="header-title">Mix It <span>Your Way</span></div>
+    <div class="header-amount-block">
+      <div class="amount-eyebrow">Bundle Total</div>
+      <div class="amount-row">
+        <span class="amount-cur">USD</span>
+        <span class="amount-num" id="headerPrice">0.00</span>
+      </div>
     </div>
+    <div class="mini-bars">
+      <div class="mini-bar-item">
+        <div class="mini-bar-lbl">Voice</div>
+        <div class="mini-track"><div class="mini-fill v" id="voiceBar" style="width:100%"></div></div>
+      </div>
+      <div class="mini-bar-item">
+        <div class="mini-bar-lbl">SMS</div>
+        <div class="mini-track"><div class="mini-fill s" id="smsBar" style="width:100%"></div></div>
+      </div>
+      <div class="mini-bar-item">
+        <div class="mini-bar-lbl">Data</div>
+        <div class="mini-track"><div class="mini-fill d" id="dataBar" style="width:100%"></div></div>
+      </div>
+    </div>
+  </div>
 
-    <div class="header-info">
-      <div class="header-label">Bundle Total</div>
+  <!-- TAB BAR -->
+  <div class="tab-bar" id="tabBar">
+    <div class="tab-item active" data-key="daily" onclick="switchTab('daily')">
+      <div class="tab-lbl">Daily</div>
+      <div class="tab-price" id="tab-price-daily">$0.60</div>
+    </div>
+    <div class="tab-item" data-key="3days" onclick="switchTab('3days')">
+      <div class="tab-lbl">3 Days</div>
+      <div class="tab-price" id="tab-price-3days">$1.40</div>
+    </div>
+    <div class="tab-item" data-key="weekly" onclick="switchTab('weekly')">
+      <div class="tab-lbl">Weekly</div>
+      <div class="tab-price" id="tab-price-weekly">$2.80</div>
+    </div>
+    <div class="tab-item" data-key="2weeks" onclick="switchTab('2weeks')">
+      <div class="tab-lbl">2 Weeks</div>
+      <div class="tab-price" id="tab-price-2weeks">$5.20</div>
+    </div>
+    <div class="tab-item" data-key="monthly" onclick="switchTab('monthly')">
+      <div class="tab-lbl">Monthly</div>
+      <div class="tab-price" id="tab-price-monthly">$9.90</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- DAILY -->
+    <div class="plan-panel active" id="panel-daily">
+      <div class="plan-title-row">
+        <div class="plan-title">Daily Bundle</div>
+        <div class="plan-max">Max USD 0.60</div>
+      </div>
+      <div class="slider-card voice-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
+          <div class="slider-val-pill" id="sv-daily">20 Min</div>
+        </div>
+        <input type="range" id="sr-voice-daily" min="0" max="20" value="20" oninput="onSlide('daily','voice',this)">
+        <div class="slider-limits"><span>0</span><span>20 Min</span></div>
+      </div>
+      <div class="slider-card sms-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
+          <div class="slider-val-pill" id="ss-daily">25 SMS</div>
+        </div>
+        <input type="range" id="sr-sms-daily" min="0" max="25" value="25" oninput="onSlide('daily','sms',this)">
+        <div class="slider-limits"><span>0</span><span>25 SMS</span></div>
+      </div>
+      <div class="slider-card data-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
+          <div class="slider-val-pill" id="sd-daily">3 GB</div>
+        </div>
+        <input type="range" id="sr-data-daily" min="0" max="3" step="0.1" value="3" oninput="onSlide('daily','data',this)">
+        <div class="slider-limits"><span>0</span><span>3 GB</span></div>
+      </div>
       <div class="price-row">
-        <span class="price-currency">USD</span>
-        <span class="price-amount" id="price">0.00</span>
-        <span class="price-tag" id="planTagInline">DAILY</span>
+        <div class="price-row-lbl">Daily price</div>
+        <div class="price-row-amt" id="cp-daily">USD 0.60</div>
       </div>
-      <div class="mini-bars">
-        <div class="mini-bar-wrap">
-          <div class="mini-bar-label">Voice</div>
-          <div class="mini-bar-track"><div class="mini-bar-fill" id="voiceBar" style="width:100%"></div></div>
-        </div>
-        <div class="mini-bar-wrap">
-          <div class="mini-bar-label">SMS</div>
-          <div class="mini-bar-track"><div class="mini-bar-fill" id="smsBar" style="width:100%"></div></div>
-        </div>
-        <div class="mini-bar-wrap">
-          <div class="mini-bar-label">Data</div>
-          <div class="mini-bar-track"><div class="mini-bar-fill" id="dataBar" style="width:100%"></div></div>
-        </div>
-      </div>
+      <button class="sub-btn daily-btn" onclick="subscribePlan('daily')">Subscribe · Daily</button>
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
-  </div>
 
-  <!-- CONTENT -->
-  <div class="content-wrap">
-  <div class="body" id="planList">
-    <!-- plan cards injected by JS -->
-  </div>
+    <!-- 3 DAYS -->
+    <div class="plan-panel" id="panel-3days">
+      <div class="plan-title-row">
+        <div class="plan-title">3-Day Bundle</div>
+        <div class="plan-max">Max USD 1.40</div>
+      </div>
+      <div class="slider-card voice-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
+          <div class="slider-val-pill" id="sv-3days">50 Min</div>
+        </div>
+        <input type="range" id="sr-voice-3days" min="0" max="50" value="50" oninput="onSlide('3days','voice',this)">
+        <div class="slider-limits"><span>0</span><span>50 Min</span></div>
+      </div>
+      <div class="slider-card sms-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
+          <div class="slider-val-pill" id="ss-3days">75 SMS</div>
+        </div>
+        <input type="range" id="sr-sms-3days" min="0" max="75" value="75" oninput="onSlide('3days','sms',this)">
+        <div class="slider-limits"><span>0</span><span>75 SMS</span></div>
+      </div>
+      <div class="slider-card data-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
+          <div class="slider-val-pill" id="sd-3days">8 GB</div>
+        </div>
+        <input type="range" id="sr-data-3days" min="0" max="8" step="0.1" value="8" oninput="onSlide('3days','data',this)">
+        <div class="slider-limits"><span>0</span><span>8 GB</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-row-lbl">3-day price</div>
+        <div class="price-row-amt" id="cp-3days">USD 1.40</div>
+      </div>
+      <button class="sub-btn three-btn" onclick="subscribePlan('3days')">Subscribe · 3 Days</button>
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
+    </div>
 
-  <div class="sticky-footer">
-    <button class="pay-btn" onclick="openModal()">Proceed with EcoCash</button>
-  </div>
+    <!-- WEEKLY -->
+    <div class="plan-panel" id="panel-weekly">
+      <div class="plan-title-row">
+        <div class="plan-title">Weekly Bundle</div>
+        <div class="plan-max">Max USD 2.80</div>
+      </div>
+      <div class="slider-card voice-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
+          <div class="slider-val-pill" id="sv-weekly">120 Min</div>
+        </div>
+        <input type="range" id="sr-voice-weekly" min="0" max="120" value="120" oninput="onSlide('weekly','voice',this)">
+        <div class="slider-limits"><span>0</span><span>120 Min</span></div>
+      </div>
+      <div class="slider-card sms-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
+          <div class="slider-val-pill" id="ss-weekly">200 SMS</div>
+        </div>
+        <input type="range" id="sr-sms-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','sms',this)">
+        <div class="slider-limits"><span>0</span><span>200 SMS</span></div>
+      </div>
+      <div class="slider-card data-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
+          <div class="slider-val-pill" id="sd-weekly">20 GB</div>
+        </div>
+        <input type="range" id="sr-data-weekly" min="0" max="20" step="0.5" value="20" oninput="onSlide('weekly','data',this)">
+        <div class="slider-limits"><span>0</span><span>20 GB</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-row-lbl">Weekly price</div>
+        <div class="price-row-amt" id="cp-weekly">USD 2.80</div>
+      </div>
+      <button class="sub-btn weekly-btn" onclick="subscribePlan('weekly')">Subscribe · Weekly</button>
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
+    </div>
+
+    <!-- 2 WEEKS -->
+    <div class="plan-panel" id="panel-2weeks">
+      <div class="plan-title-row">
+        <div class="plan-title">2-Week Bundle</div>
+        <div class="plan-max">Max USD 5.20</div>
+      </div>
+      <div class="slider-card voice-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
+          <div class="slider-val-pill" id="sv-2weeks">250 Min</div>
+        </div>
+        <input type="range" id="sr-voice-2weeks" min="0" max="250" value="250" oninput="onSlide('2weeks','voice',this)">
+        <div class="slider-limits"><span>0</span><span>250 Min</span></div>
+      </div>
+      <div class="slider-card sms-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
+          <div class="slider-val-pill" id="ss-2weeks">450 SMS</div>
+        </div>
+        <input type="range" id="sr-sms-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','sms',this)">
+        <div class="slider-limits"><span>0</span><span>450 SMS</span></div>
+      </div>
+      <div class="slider-card data-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
+          <div class="slider-val-pill" id="sd-2weeks">45 GB</div>
+        </div>
+        <input type="range" id="sr-data-2weeks" min="0" max="45" step="0.5" value="45" oninput="onSlide('2weeks','data',this)">
+        <div class="slider-limits"><span>0</span><span>45 GB</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-row-lbl">2-week price</div>
+        <div class="price-row-amt" id="cp-2weeks">USD 5.20</div>
+      </div>
+      <button class="sub-btn twoweek-btn" onclick="subscribePlan('2weeks')">Subscribe · 2 Weeks</button>
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
+    </div>
+
+    <!-- MONTHLY -->
+    <div class="plan-panel" id="panel-monthly">
+      <div class="plan-title-row">
+        <div class="plan-title">Monthly Bundle</div>
+        <div class="plan-max">Max USD 9.90</div>
+      </div>
+      <div class="best-badge">⭐ Best value plan</div>
+      <div class="slider-card voice-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
+          <div class="slider-val-pill" id="sv-monthly">600 Min</div>
+        </div>
+        <input type="range" id="sr-voice-monthly" min="0" max="600" value="600" oninput="onSlide('monthly','voice',this)">
+        <div class="slider-limits"><span>0</span><span>600 Min</span></div>
+      </div>
+      <div class="slider-card sms-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
+          <div class="slider-val-pill" id="ss-monthly">1000 SMS</div>
+        </div>
+        <input type="range" id="sr-sms-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','sms',this)">
+        <div class="slider-limits"><span>0</span><span>1000 SMS</span></div>
+      </div>
+      <div class="slider-card data-card">
+        <div class="slider-head">
+          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
+          <div class="slider-val-pill" id="sd-monthly">100 GB</div>
+        </div>
+        <input type="range" id="sr-data-monthly" min="0" max="100" step="1" value="100" oninput="onSlide('monthly','data',this)">
+        <div class="slider-limits"><span>0</span><span>100 GB</span></div>
+      </div>
+      <div class="price-row">
+        <div class="price-row-lbl">Monthly price</div>
+        <div class="price-row-amt" id="cp-monthly">USD 9.90</div>
+      </div>
+      <button class="sub-btn monthly-btn" onclick="subscribePlan('monthly')">Subscribe · Monthly</button>
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
+    </div>
+
   </div>
 
   <!-- MODAL -->
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
     <div class="modal-sheet">
       <div class="sheet-handle"></div>
-      <div class="sheet-header">
+      <div class="sheet-hdr">
         <div class="sheet-title">Confirm Bundle</div>
         <button class="sheet-close" onclick="closeModal()">&#x2715;</button>
       </div>
@@ -568,8 +658,8 @@ input[type=range]:active::-webkit-slider-thumb{
         <div class="sheet-sub">Bundle Details</div>
         <div class="sheet-rows" id="details"></div>
         <div class="sheet-total">
-          <div class="sheet-total-label">Total to Pay</div>
-          <div class="sheet-total-val" id="modalTotal">USD 0.00</div>
+          <div class="stotal-lbl">Total to Pay</div>
+          <div class="stotal-val" id="modalTotal">USD 0.00</div>
         </div>
         <div class="sheet-actions">
           <button class="btn-cancel" onclick="closeModal()">Cancel</button>
@@ -579,252 +669,108 @@ input[type=range]:active::-webkit-slider-thumb{
     </div>
   </div>
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">✅ Bundle selected</div>
-
+  <div class="toast" id="toast">Bundle confirmed</div>
 </div>
 
 <script>
 const plans={
-  daily:  {label:"Daily",   maxVoice:20,  maxSms:25,   maxData:3,   price:.60},
-  "3days":{label:"3 Days",  maxVoice:50,  maxSms:75,   maxData:8,   price:1.40},
-  weekly: {label:"Weekly",  maxVoice:120, maxSms:200,  maxData:20,  price:2.80},
-  "2weeks":{label:"2 Weeks",maxVoice:250, maxSms:450,  maxData:45,  price:5.20},
-  monthly:{label:"Monthly", maxVoice:600, maxSms:1000, maxData:100, price:9.90}
+  daily:   {label:"Daily",   maxVoice:20,  maxSms:25,   maxData:3,   price:.60},
+  "3days": {label:"3 Days",  maxVoice:50,  maxSms:75,   maxData:8,   price:1.40},
+  weekly:  {label:"Weekly",  maxVoice:120, maxSms:200,  maxData:20,  price:2.80},
+  "2weeks":{label:"2 Weeks", maxVoice:250, maxSms:450,  maxData:45,  price:5.20},
+  monthly: {label:"Monthly", maxVoice:600, maxSms:1000, maxData:100, price:9.90}
 };
-
-// per-plan slider state — starts at max
 const state={};
-Object.keys(plans).forEach(k=>{
-  state[k]={voice:plans[k].maxVoice,sms:plans[k].maxSms,data:plans[k].maxData};
-});
+Object.keys(plans).forEach(k=>state[k]={voice:plans[k].maxVoice,sms:plans[k].maxSms,data:plans[k].maxData});
+let activeTab="daily",pendingPlan=null;
 
-let activePlan=null;
-
-/* ── Build cards ── */
-function buildCards(){
-  const list=document.getElementById("planList");
-  list.innerHTML="";
-
-  Object.keys(plans).forEach(key=>{
-    const p=plans[key];
-    const isMonthly=key==="monthly";
-
-    const card=document.createElement("div");
-    card.className="plan-card";
-    card.dataset.plan=key;
-
-    card.innerHTML=`
-      <div class="card-shell">
-        <div class="accent"></div>
-        <div class="card-head">
-          <div class="card-head-left">
-            <div class="card-period">${p.label}${isMonthly?'<span class="best-badge">Best Value</span>':''}</div>
-            <div class="card-price" id="cp-${key}"><sup>USD</sup>${calcPrice(key).toFixed(2)}</div>
-          </div>
-          <div style="display:flex;gap:6px;align-items:center">
-            <div class="selected-badge">Selected</div>
-          </div>
-        </div>
-
-        <div class="card-specs" id="specs-${key}">
-          <div class="spec-pill">${p.maxVoice} Min</div>
-          <div class="spec-pill">${p.maxSms} SMS</div>
-          <div class="spec-pill">${p.maxData} GB</div>
-        </div>
-
-        <div class="card-sliders">
-
-          <div class="slide-row voice-slider">
-            <div class="slide-head">
-              <div class="slide-label"><span class="slide-emoji">📞</span> Voice</div>
-              <div class="slide-val" id="sv-${key}">0 Min</div>
-            </div>
-            <input type="range" id="sr-voice-${key}" min="0" max="${p.maxVoice}" value="${state[key].voice}"
-              oninput="onSlide('${key}','voice',this)">
-            <div class="slide-hint"><span>0</span><span>${p.maxVoice} Min</span></div>
-          </div>
-
-          <div class="slide-row sms-slider">
-            <div class="slide-head">
-              <div class="slide-label"><span class="slide-emoji">💬</span> SMS</div>
-              <div class="slide-val" id="ss-${key}">0 SMS</div>
-            </div>
-            <input type="range" id="sr-sms-${key}" min="0" max="${p.maxSms}" value="${state[key].sms}"
-              oninput="onSlide('${key}','sms',this)">
-            <div class="slide-hint"><span>0</span><span>${p.maxSms} SMS</span></div>
-          </div>
-
-          <div class="slide-row data-slider">
-            <div class="slide-head">
-              <div class="slide-label"><span class="slide-emoji">🌐</span> Data</div>
-              <div class="slide-val" id="sd-${key}">0 GB</div>
-            </div>
-            <input type="range" id="sr-data-${key}" min="0" max="${p.maxData}" value="${state[key].data}"
-              oninput="onSlide('${key}','data',this)">
-            <div class="slide-hint"><span>0</span><span>${p.maxData} GB</span></div>
-          </div>
-
-        </div>
-      </div>
-    `;
-
-    card.addEventListener("click",e=>{
-      if(e.target.tagName==="INPUT") return;
-      selectPlan(key);
-    });
-
-    list.appendChild(card);
-  });
-
-  // powered by footer
-  const pw=document.createElement("div");
-  pw.className="powered";
-  pw.innerHTML='Powered by <strong>Econet Wireless</strong> &middot; <strong>EcoCash</strong>';
-  list.appendChild(pw);
-
-  refreshAll();
+function calcPrice(k){
+  const p=plans[k],s=state[k];
+  return Math.round(((s.data/p.maxData)+(s.voice/p.maxVoice)+(s.sms/p.maxSms))/3*p.price*100)/100;
 }
 
-/* ── Price calc ── */
-function calcPrice(key){
-  const p=plans[key];
-  const s=state[key];
-  return ((s.data/p.maxData)+(s.voice/p.maxVoice)+(s.sms/p.maxSms))/3*p.price;
+function fillSlider(el,c){
+  const pct=((el.value-el.min)/(el.max-el.min)*100)||0;
+  el.style.background=`linear-gradient(to right,${c} ${pct}%,#d0e4ff ${pct}%)`;
 }
 
-/* ── Slider fill ── */
-function fillSlider(el,color){
-  const pct=el.max>0?((el.value-el.min)/(el.max-el.min)*100):0;
-  el.style.background=`linear-gradient(to right,${color} ${pct}%,rgba(255,255,255,.15) ${pct}%)`;
+function onSlide(k,t,el){
+  state[k][t]=Number(el.value);
+  const cols={voice:"#ef4444",sms:"#6366f1",data:"#1a6fff"};
+  fillSlider(el,cols[t]);
+  refreshCard(k);
+  if(k===activeTab) refreshHeader();
 }
 
-/* ── On slide ── */
-function onSlide(key,type,el){
-  state[key][type]=Number(el.value);
-  if(type==="voice") fillSlider(el,"#f87171");
-  if(type==="sms")   fillSlider(el,"#818cf8");
-  if(type==="data")  fillSlider(el,"#60a5fa");
-  refreshCard(key);
-  if(key===activePlan) refreshHeader();
+function fmtData(v){return Number(v)===Math.floor(Number(v))?v:Number(v).toFixed(1)}
+
+function refreshCard(k){
+  const s=state[k];
+  const el_cp=document.getElementById("cp-"+k);
+  if(el_cp) el_cp.textContent="USD "+calcPrice(k).toFixed(2);
+  const sv=document.getElementById("sv-"+k);if(sv) sv.textContent=s.voice+" Min";
+  const ss=document.getElementById("ss-"+k);if(ss) ss.textContent=s.sms+" SMS";
+  const sd=document.getElementById("sd-"+k);if(sd) sd.textContent=fmtData(s.data)+" GB";
+  const tp=document.getElementById("tab-price-"+k);if(tp) tp.textContent="$"+calcPrice(k).toFixed(2);
 }
 
-/* ── Refresh single card ── */
-function refreshCard(key){
-  const s=state[key];
-  const price=calcPrice(key).toFixed(2);
-
-  const cp=document.getElementById("cp-"+key);
-  if(cp) cp.innerHTML=`<sup>USD</sup>${price}`;
-
-  const sv=document.getElementById("sv-"+key);
-  const ss=document.getElementById("ss-"+key);
-  const sd=document.getElementById("sd-"+key);
-  if(sv) sv.textContent=s.voice+" Min";
-  if(ss) ss.textContent=s.sms+" SMS";
-  if(sd) sd.textContent=s.data+" GB";
-}
-
-/* ── Refresh all cards + sliders ── */
-function refreshAll(){
-  Object.keys(plans).forEach(key=>{
-    refreshCard(key);
-    ["voice","sms","data"].forEach(t=>{
-      const el=document.getElementById("sr-"+t+"-"+key);
-      if(!el) return;
-      el.value=state[key][t];
-      const colors={voice:"#f87171",sms:"#818cf8",data:"#60a5fa"};
-      fillSlider(el,colors[t]);
-    });
-  });
-  refreshHeader();
-}
-
-/* ── Refresh header with active plan ── */
 function refreshHeader(){
-  if(!activePlan){
-    document.getElementById("price").textContent="0.00";
-    document.getElementById("planTag").textContent="Select";
-    document.getElementById("planTagInline").textContent="—";
-    document.getElementById("voiceBar").style.width="0%";
-    document.getElementById("smsBar").style.width="0%";
-    document.getElementById("dataBar").style.width="0%";
-    return;
-  }
-  const key=activePlan;
-  const p=plans[key];
-  const s=state[key];
-  const price=calcPrice(key).toFixed(2);
-
-  document.getElementById("price").textContent=price;
+  const k=activeTab,p=plans[k],s=state[k];
+  document.getElementById("headerPrice").textContent=calcPrice(k).toFixed(2);
   document.getElementById("planTag").textContent=p.label;
-  document.getElementById("planTagInline").textContent=p.label.toUpperCase();
-
   document.getElementById("voiceBar").style.width=(s.voice/p.maxVoice*100)+"%";
   document.getElementById("smsBar").style.width=(s.sms/p.maxSms*100)+"%";
-  document.getElementById("dataBar").style.width=(s.data/p.maxData*100)+"%";
+  document.getElementById("dataBar").style.width=(Number(s.data)/p.maxData*100)+"%";
 }
 
-/* ── Select plan ── */
-function selectPlan(key){
-  activePlan=key;
-  document.querySelectorAll(".plan-card").forEach(c=>{
-    c.classList.toggle("active",c.dataset.plan===key);
+function initSliders(){
+  const cols={voice:"#ef4444",sms:"#6366f1",data:"#1a6fff"};
+  Object.keys(plans).forEach(k=>{
+    ["voice","sms","data"].forEach(t=>{
+      const el=document.getElementById("sr-"+t+"-"+k);
+      if(el){el.value=state[k][t];fillSlider(el,cols[t]);}
+    });
+    refreshCard(k);
   });
   refreshHeader();
 }
 
-/* ── Modal ── */
-function openModal(){
-  if(!activePlan){
-    const toast=document.getElementById("toast");
-    toast.textContent="Please select a plan first";
-    toast.classList.add("show");
-    setTimeout(()=>toast.classList.remove("show"),2000);
-    return;
-  }
-  const key=activePlan;
-  const p=plans[key];
-  const s=state[key];
-  const amt="USD "+calcPrice(key).toFixed(2);
+function switchTab(k){
+  activeTab=k;
+  document.querySelectorAll(".tab-item").forEach(t=>t.classList.toggle("active",t.dataset.key===k));
+  document.querySelectorAll(".plan-panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+k));
+  refreshHeader();
+}
 
+function subscribePlan(k){
+  pendingPlan=k;
+  const p=plans[k],s=state[k];
   document.getElementById("details").innerHTML=`
-    <div class="sheet-row"><span class="sheet-row-key">Duration</span><span class="sheet-row-val">${p.label}</span></div>
-    <div class="sheet-row"><span class="sheet-row-key">Voice</span><span class="sheet-row-val">${s.voice} Minutes</span></div>
-    <div class="sheet-row"><span class="sheet-row-key">SMS</span><span class="sheet-row-val">${s.sms} SMS</span></div>
-    <div class="sheet-row"><span class="sheet-row-key">Data</span><span class="sheet-row-val">${s.data} GB</span></div>
-  `;
-  document.getElementById("modalTotal").textContent=amt;
+    <div class="sheet-row"><span class="srow-k">Duration</span><span class="srow-v">${p.label}</span></div>
+    <div class="sheet-row"><span class="srow-k">Voice</span><span class="srow-v">${s.voice} Min</span></div>
+    <div class="sheet-row"><span class="srow-k">SMS</span><span class="srow-v">${s.sms} SMS</span></div>
+    <div class="sheet-row"><span class="srow-k">Data</span><span class="srow-v">${fmtData(s.data)} GB</span></div>`;
+  document.getElementById("modalTotal").textContent="USD "+calcPrice(k).toFixed(2);
   document.getElementById("modal").classList.add("open");
 }
 
-function closeModal(){
-  document.getElementById("modal").classList.remove("open");
-}
-
-function handleOverlayClick(e){
-  if(e.target===document.getElementById("modal")) closeModal();
-}
+function closeModal(){document.getElementById("modal").classList.remove("open")}
+function handleOverlayClick(e){if(e.target===document.getElementById("modal"))closeModal()}
 
 function confirmBundle(){
-  if(!activePlan) return;
-  const key=activePlan;
-  const s=state[key];
+  if(!pendingPlan) return;
+  const k=pendingPlan,s=state[k];
   sessionStorage.setItem("selectedPlan",JSON.stringify({
-    duration:key,
-    voice:s.voice,
-    sms:s.sms,
-    data:s.data,
-    amount:calcPrice(key).toFixed(2)
+    duration:plans[k].label,voice:s.voice,sms:s.sms,
+    data:fmtData(s.data),amount:calcPrice(k).toFixed(2)
   }));
   closeModal();
-  const toast=document.getElementById("toast");
-  toast.classList.add("show");
-  setTimeout(()=>toast.classList.remove("show"),2200);
+  const t=document.getElementById("toast");
+  t.textContent="✓ Bundle confirmed";t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2000);
   setTimeout(()=>{window.location.href="login.html"},500);
 }
-
-buildCards();
+initSliders();
 </script>
 </body>
 </html>
