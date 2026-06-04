@@ -3,165 +3,108 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-<meta name="theme-color" content="#002370"/>
-<title>Bundle Request Received · Econet</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0033a0"/>
+<title>Bundle Confirmed · Econet</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 :root{
-  --blue:#003DA5;
-  --blue-dark:#002370;
-  --blue-mid:#e8f0fb;
-  --blue-light:#f2f6fd;
-  --green:#22c55e;
-  --green-dark:#16a34a;
-  --red:#C8102E;
-  --neutral-50:#fafafa;
-  --neutral-100:#f4f4f5;
-  --neutral-200:#e4e4e7;
-  --neutral-400:#a1a1aa;
-  --neutral-500:#71717a;
-  --neutral-700:#3f3f46;
-  --neutral-900:#18181b;
-  --white:#fff;
-  --font:'DM Sans',sans-serif;
+  --navy:#0033a0;
+  --navy-dark:#001f6b;
+  --blue:#1a6fff;
+  --sky:#e8f1ff;
+  --sky-mid:#d0e4ff;
+  --sky-deep:#b8d3ff;
+  --green:#059669;
+  --green-pale:#ecfdf5;
+  --green-border:#a7f3d0;
+  --red:#d0021b;
+  --page:#f0f5ff;
+  --white:#ffffff;
+  --border:#d5e3f7;
+  --border-strong:#b8ccef;
+  --ink:#0a1f44;
+  --ink-mid:#2d4470;
+  --ink-soft:#6b82a8;
+  --ink-faint:#9eb5d4;
+  --font:'Plus Jakarta Sans',sans-serif;
   --mono:'DM Mono',monospace;
-  --radius-md:16px;
-  --radius-lg:20px;
-  --radius-xl:28px;
+  --r:12px;
+  --r-lg:16px;
+  --shadow:0 1px 3px rgba(0,51,160,.08),0 4px 16px rgba(0,51,160,.06);
 }
 
 html,body{
   width:100%;height:100%;height:100dvh;
-  overflow:hidden;overflow-x:hidden;
-  font-family:var(--font);
-  background:#0e1525;
+  overflow:hidden;font-family:var(--font);background:var(--page);
 }
 
 .screen{
   display:flex;flex-direction:column;
   width:100%;height:100%;height:100dvh;
   max-width:430px;margin:0 auto;
-  background:#0e1525;
-  overflow:hidden;overflow-x:hidden;
-  position:relative;
+  background:var(--page);overflow:hidden;position:relative;
 }
 
-/* ── HEADER ── */
+/* HEADER */
 .header{
-  background:var(--blue-dark);
-  padding:18px 20px 22px;
-  position:relative;overflow:hidden;
-  flex-shrink:0;
+  background:var(--navy);
+  padding:16px 18px 20px;
+  flex-shrink:0;position:relative;overflow:hidden;
 }
-
-.header::after{
+.header::before{
   content:'';position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:44px 44px;
-  pointer-events:none;
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:32px 32px;pointer-events:none;
 }
-
-.header-glow-a{
-  position:absolute;
-  width:260px;height:260px;border-radius:50%;
-  background:rgba(0,61,165,.65);
-  filter:blur(60px);
-  top:-110px;right:-80px;pointer-events:none;
-}
-
-.header-glow-b{
-  position:absolute;
-  width:180px;height:180px;border-radius:50%;
-  background:rgba(34,197,94,.18);
-  filter:blur(50px);
-  bottom:-60px;left:-30px;pointer-events:none;
+.hglow{
+  position:absolute;width:240px;height:240px;border-radius:50%;
+  background:rgba(5,150,105,.22);filter:blur(70px);
+  top:-100px;right:-60px;pointer-events:none;
 }
 
 .header-top{
-  display:flex;align-items:flex-start;
-  justify-content:space-between;
-  margin-bottom:16px;
-  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:1;margin-bottom:16px;
 }
-
-.brand-wordmark{display:flex;flex-direction:column;gap:4px}
-.brand-logos{display:flex;align-items:center;gap:10px}
-.brand-logo-econet{height:30px;object-fit:contain;opacity:.95}
-.brand-logo-ecocash{height:40px;object-fit:contain;opacity:.95}
-.brand-sep{width:1px;height:26px;background:rgba(255,255,255,.28);flex-shrink:0}
-.brand-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.4);letter-spacing:.2px}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-logo-econet{height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.brand-sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
+.brand-logo-ecocash{height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
 
 .status-chip{
-  background:rgba(34,197,94,.2);
-  border:1px solid rgba(34,197,94,.35);
+  background:rgba(5,150,105,.25);
+  border:1px solid rgba(52,211,153,.4);
   padding:5px 12px;border-radius:999px;
   font-size:11px;font-weight:700;
-  color:#4ade80;
-  letter-spacing:.3px;flex-shrink:0;margin-top:2px;
+  color:#6ee7b7;letter-spacing:.3px;
 }
 
-/* HEADER INFO */
-.header-info{
-  position:relative;z-index:1;
-  margin-bottom:16px;
+.header-body{position:relative;z-index:1}
+.hdr-label{
+  font-size:9px;font-weight:700;color:rgba(255,255,255,.5);
+  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;
 }
-
-.header-eyebrow{
-  font-size:10px;font-weight:700;
-  color:rgba(255,255,255,.4);
-  text-transform:uppercase;letter-spacing:1.2px;
-  margin-bottom:5px;
-}
-
-.header-label{
-  font-size:11px;color:rgba(255,255,255,.5);
-  font-weight:500;margin-bottom:4px;
-  text-transform:uppercase;letter-spacing:.5px;
-}
-
-.header-amount-row{
-  display:flex;align-items:flex-end;gap:5px;
-}
-
-.header-amount-currency{
-  font-size:16px;font-weight:700;
-  color:rgba(255,255,255,.6);margin-bottom:4px;
-}
-
-.header-amount{
-  font-size:44px;font-weight:800;
-  color:white;line-height:1;
-  font-family:var(--mono);
-  font-variant-numeric:tabular-nums;
-}
+.amount-row{display:flex;align-items:flex-end;gap:4px;margin-bottom:14px}
+.amount-cur{font-family:var(--mono);font-size:13px;font-weight:500;color:rgba(255,255,255,.55);margin-bottom:5px}
+.amount-num{font-family:var(--mono);font-size:38px;font-weight:700;color:#fff;line-height:1}
 
 /* SUCCESS ROW */
-.success-ring{
-  display:flex;align-items:center;gap:12px;
-  position:relative;z-index:1;
-}
-
-.success-dot{
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(34,197,94,.2);
-  border:2px solid rgba(34,197,94,.5);
+.success-row{display:flex;align-items:center;gap:12px}
+.success-icon{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:rgba(5,150,105,.25);
+  border:1.5px solid rgba(52,211,153,.4);
   display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
 }
+.success-icon svg{stroke:#6ee7b7}
+.success-text{font-size:14px;font-weight:700;color:#fff}
+.success-sub{font-size:11px;color:rgba(255,255,255,.5);font-weight:500;margin-top:1px}
 
-.success-dot svg{
-  stroke:var(--green);fill:none;
-  stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;
-}
-
-.success-text{font-size:14px;font-weight:700;color:white;}
-.success-sub{font-size:11px;color:rgba(255,255,255,.5);font-weight:500;margin-top:2px;}
-
-/* ── BODY ── */
+/* BODY */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
@@ -170,126 +113,110 @@ html,body{
 }
 .body::-webkit-scrollbar{display:none}
 
-/* ── CARD ── */
+/* CARD */
 .card{
-  border-radius:var(--radius-lg);
-  overflow:hidden;
-  margin-bottom:10px;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--r-lg);
+  overflow:hidden;margin-bottom:10px;
+  box-shadow:var(--shadow);
 }
 
-.card .card-shell{
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:var(--radius-lg);
-  overflow:hidden;
+.card-top-bar{height:3px}
+.card-top-bar.brand-bar{
+  background:linear-gradient(90deg,var(--red) 0%,var(--blue) 50%,var(--navy) 100%);
 }
 
-.card-accent{height:3px;width:100%;background:linear-gradient(90deg,var(--red),#5b7cf7,var(--blue))}
-
-.card-header{
-  padding:13px 16px 11px;
-  border-bottom:1px solid rgba(255,255,255,.07);
+.card-hdr{
+  padding:12px 16px 11px;
+  border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
+.card-title{font-size:14px;font-weight:800;color:var(--ink)}
+.card-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
 
-.card-title{font-size:14px;font-weight:700;color:white}
-.card-sub{font-size:11px;color:rgba(255,255,255,.4);font-weight:500;margin-top:2px}
-
-.card-badge{
-  background:rgba(34,197,94,.18);
-  color:#4ade80;
-  font-size:10px;font-weight:800;
+.confirmed-badge{
+  background:var(--green-pale);
+  border:1px solid var(--green-border);
   padding:4px 10px;border-radius:999px;
-  text-transform:uppercase;letter-spacing:.4px;
+  font-size:10px;font-weight:700;color:var(--green);
+  text-transform:uppercase;letter-spacing:.3px;
+  white-space:nowrap;
 }
 
 /* BUNDLE ROWS */
 .bundle-rows{padding:4px 0}
-
-.bundle-row{
+.brow{
   display:flex;justify-content:space-between;align-items:center;
-  padding:11px 16px;
-  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:11px 16px;border-bottom:1px solid var(--border);
 }
-.bundle-row:last-child{border-bottom:none}
+.brow:last-child{border-bottom:none}
+.brow-key{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-soft);font-weight:500}
+.bdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.brow-val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink)}
 
-.bundle-key{
-  display:flex;align-items:center;gap:8px;
-  font-size:12px;color:rgba(255,255,255,.5);font-weight:500;
-}
-
-.bundle-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-
-.bundle-val{
-  font-size:13px;font-weight:700;
-  color:white;font-family:var(--mono);
-}
-
-.bundle-total-row{
-  background:rgba(34,197,94,.12);
-  border-top:1px solid rgba(34,197,94,.2);
+/* TOTAL */
+.total-row{
+  background:var(--sky);
+  border-top:1.5px solid var(--sky-deep);
   padding:13px 16px;
   display:flex;align-items:center;justify-content:space-between;
 }
-.bundle-total-label{font-size:13px;font-weight:700;color:rgba(255,255,255,.7)}
-.bundle-total-val{font-size:20px;font-weight:800;color:var(--green);font-family:var(--mono)}
+.total-lbl{font-size:13px;font-weight:700;color:var(--ink-mid)}
+.total-val{font-family:var(--mono);font-size:20px;font-weight:800;color:var(--navy)}
 
 /* NOTICE */
-.notice-card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:var(--radius-lg);
-  padding:16px;
-  margin-bottom:10px;
-  font-size:13px;line-height:1.7;
-  color:rgba(255,255,255,.45);font-weight:500;
+.notice{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:14px 16px;margin-bottom:10px;
+  font-size:12px;line-height:1.7;color:var(--ink-soft);font-weight:500;
+  box-shadow:var(--shadow);
 }
 
-/* POWERED BY */
+/* POWERED */
 .powered{
   text-align:center;padding:6px 0 2px;
-  font-size:10px;color:rgba(255,255,255,.22);
-  font-weight:500;letter-spacing:.3px;
+  font-size:9px;color:var(--ink-faint);font-weight:500;letter-spacing:.3px;
 }
-.powered strong{color:rgba(255,255,255,.38);font-weight:700}
+.powered strong{color:var(--ink-soft);font-weight:700}
+
+/* CONFETTI */
+.confetti-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.confetti-wrap canvas{width:100%;height:100%}
 </style>
 </head>
 <body>
-
 <div class="screen">
 
   <!-- HEADER -->
   <div class="header">
-    <div class="header-glow-a"></div>
-    <div class="header-glow-b"></div>
-
+    <div class="hglow"></div>
     <div class="header-top">
-      <div class="brand-wordmark">
-        <div class="brand-logos">
-          <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
-          <span class="brand-sep"></span>
-          <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
+      <div class="brand">
+        <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
+        <div class="brand-sep"></div>
+        <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
+      </div>
+      <div class="status-chip">Received ✓</div>
+    </div>
+    <div class="header-body">
+      <div class="hdr-label">Bundle Amount</div>
+      <div class="amount-row">
+        <span class="amount-cur">USD</span>
+        <span class="amount-num" id="headerAmount">0.00</span>
+      </div>
+      <div class="success-row">
+        <div class="success-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
         </div>
-        <div class="brand-sub">Mix Bundle Builder</div>
-      </div>
-      <div class="status-chip">Received</div>
-    </div>
-
-    <div class="header-info">
-      <div class="header-label">Bundle Amount</div>
-      <div class="header-amount-row">
-        <span class="header-amount-currency">USD</span>
-        <span class="header-amount" id="headerAmount">0.00</span>
-      </div>
-    </div>
-
-    <div class="success-ring">
-      <div class="success-dot">
-        <svg width="17" height="17" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <div>
-        <div class="success-text">Bundle Request Received</div>
-        <div class="success-sub">Processing your request shortly</div>
+        <div>
+          <div class="success-text">Bundle Request Received</div>
+          <div class="success-sub">Activating your bundle shortly</div>
+        </div>
       </div>
     </div>
   </div>
@@ -298,69 +225,90 @@ html,body{
   <div class="body">
 
     <div class="card">
-      <div class="card-shell">
-        <div class="card-accent"></div>
-        <div class="card-header">
-          <div>
-            <div class="card-title">Bundle Selected</div>
-            <div class="card-sub">Your Mix Bundle configuration</div>
-          </div>
-          <div class="card-badge">Confirmed</div>
+      <div class="card-top-bar brand-bar"></div>
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Bundle Configuration</div>
+          <div class="card-sub">Your selected mix bundle</div>
         </div>
-        <div class="bundle-rows" id="planLine"></div>
-        <div class="bundle-total-row">
-          <div class="bundle-total-label">💰 Total Amount</div>
-          <div class="bundle-total-val" id="totalVal">USD 0.00</div>
-        </div>
+        <div class="confirmed-badge">Confirmed</div>
+      </div>
+      <div class="bundle-rows" id="planRows"></div>
+      <div class="total-row">
+        <div class="total-lbl">Total Amount</div>
+        <div class="total-val" id="totalVal">USD 0.00</div>
       </div>
     </div>
 
-    <div class="notice-card">
-      Your selected bundle configuration has been captured successfully. Processing will be completed shortly using the selected Voice, SMS and Data allocation.
+    <div class="notice">
+      Your mix bundle configuration has been captured and is queued for activation. Your Voice, SMS and Data allocation will be applied to your number shortly.
     </div>
 
     <div class="powered">
-      Econet Financial Services &middot; <strong>Terms and conditions apply</strong>
+      Econet Financial Services &nbsp;·&nbsp; <strong>Terms and conditions apply</strong>
     </div>
 
   </div>
 
+  <div class="confetti-wrap"><canvas id="confettiCanvas"></canvas></div>
 </div>
 
 <script>
 (function(){
-  const rowsEl=document.getElementById("planLine");
+  const rowsEl=document.getElementById("planRows");
   const totalEl=document.getElementById("totalVal");
-  const amountEl=document.getElementById("headerAmount");
+  const amtEl=document.getElementById("headerAmount");
 
-  function row(dotColor,label,val){
-    return `<div class="bundle-row">
-      <div class="bundle-key"><div class="bundle-dot" style="background:${dotColor}"></div>${label}</div>
-      <div class="bundle-val">${val}</div>
-    </div>`;
+  function row(color,label,val){
+    return `<div class="brow"><div class="brow-key"><div class="bdot" style="background:${color}"></div>${label}</div><div class="brow-val">${val}</div></div>`;
   }
 
   try{
     const raw=sessionStorage.getItem("selectedPlan");
-    if(!raw){
-      rowsEl.innerHTML=row("#a1a1aa","Bundle","Not Available");
-      return;
-    }
+    if(!raw){rowsEl.innerHTML=row("#9eb5d4","Bundle","Not Available");return;}
     const plan=JSON.parse(raw);
-    const amt="USD "+(plan.amount||"0.00");
-
-    amountEl.textContent=plan.amount||"0.00";
-    totalEl.textContent=amt;
-
+    amtEl.textContent=plan.amount||"0.00";
+    totalEl.textContent="USD "+(plan.amount||"0.00");
     rowsEl.innerHTML=
-      row("#a1a1aa","Duration",plan.duration||"Daily")+
-      row("#C8102E","Voice",(plan.voice||0)+" Minutes")+
-      row("#5b7cf7","SMS",(plan.sms||0)+" SMS")+
-      row("#003DA5","Data",(plan.data||0)+" GB");
-
+      row("#9eb5d4","Duration",plan.duration||"Daily")+
+      row("#ef4444","Voice",(plan.voice||0)+" Minutes")+
+      row("#6366f1","SMS",(plan.sms||0)+" SMS")+
+      row("#1a6fff","Data",(plan.data||0)+" GB");
   }catch(e){
-    rowsEl.innerHTML=row("#a1a1aa","Bundle","Not Available");
+    rowsEl.innerHTML=row("#9eb5d4","Bundle","Not Available");
   }
+
+  /* confetti */
+  const canvas=document.getElementById("confettiCanvas");
+  const ctx=canvas.getContext("2d");
+  canvas.width=canvas.offsetWidth||375;canvas.height=250;
+  const cols=["#1a6fff","#059669","#f59e0b","#d0021b","#6366f1","#0033a0"];
+  const pieces=Array.from({length:55},()=>({
+    x:Math.random()*canvas.width,y:-10-Math.random()*80,
+    w:5+Math.random()*4,h:7+Math.random()*5,
+    color:cols[Math.floor(Math.random()*cols.length)],
+    speed:1.4+Math.random()*2,drift:(Math.random()-.5),
+    angle:Math.random()*360,spin:(Math.random()-.5)*3.5,
+    opacity:1
+  }));
+  let frame=0;
+  function draw(){
+    if(frame>200){ctx.clearRect(0,0,canvas.width,canvas.height);return}
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.y+=p.speed;p.x+=p.drift;p.angle+=p.spin;
+      if(frame>140) p.opacity=Math.max(0,1-(frame-140)/60);
+      ctx.save();ctx.globalAlpha=p.opacity;
+      ctx.translate(p.x+p.w/2,p.y+p.h/2);
+      ctx.rotate(p.angle*Math.PI/180);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+      if(p.y>canvas.height+10){p.y=-10;p.x=Math.random()*canvas.width}
+    });
+    frame++;requestAnimationFrame(draw);
+  }
+  setTimeout(draw,150);
 })();
 </script>
 </body>
