@@ -12,16 +12,13 @@
 :root{
   --navy:#0033a0;
   --navy-dark:#001f6b;
-  --navy-deep:#001450;
   --blue:#1a6fff;
-  --blue-mid:#3b82f6;
   --sky:#e8f1ff;
   --sky-mid:#d0e4ff;
   --sky-deep:#b8d3ff;
   --red:#d0021b;
   --page:#f0f5ff;
-  --white:#ffffff;
-  --card:#ffffff;
+  --white:#fff;
   --border:#d5e3f7;
   --border-strong:#b8ccef;
   --ink:#0a1f44;
@@ -32,9 +29,7 @@
   --mono:'DM Mono',monospace;
   --r:12px;
   --r-lg:16px;
-  --r-xl:22px;
-  --shadow:0 1px 3px rgba(0,51,160,.08),0 4px 16px rgba(0,51,160,.06);
-  --shadow-md:0 2px 8px rgba(0,51,160,.1),0 8px 24px rgba(0,51,160,.08);
+  --shadow:0 1px 4px rgba(0,51,160,.09),0 4px 14px rgba(0,51,160,.07);
 }
 
 html,body{
@@ -51,725 +46,885 @@ html,body{
   overflow:hidden;position:relative;
 }
 
-/* ── HEADER (navy) ── */
+/* ────────────────────────────────
+   HEADER — navy bar
+──────────────────────────────── */
 .header{
   background:var(--navy);
-  padding:16px 18px 18px;
+  padding:14px 18px 16px;
   flex-shrink:0;
   position:relative;overflow:hidden;
+  /* no filter/blur — avoids repaint flicker */
 }
-
-/* subtle grid texture */
 .header::before{
   content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:32px 32px;pointer-events:none;
-}
-
-.header-glow{
-  position:absolute;width:280px;height:280px;border-radius:50%;
-  background:rgba(26,111,255,.28);filter:blur(70px);
-  top:-120px;right:-80px;pointer-events:none;
+  background:
+    radial-gradient(ellipse 260px 200px at 110% -30%,rgba(26,111,255,.35),transparent 70%);
+  pointer-events:none;
 }
 
 .header-top{
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px;position:relative;z-index:1;
+  margin-bottom:14px;position:relative;z-index:1;
 }
 
 .brand{display:flex;align-items:center;gap:9px}
-.brand-logo-econet{height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
-.brand-sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
-.brand-logo-ecocash{height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.brand-logo-econet{
+  height:22px;object-fit:contain;
+  filter:brightness(0) invert(1);opacity:.92;
+}
+.brand-sep{width:1px;height:16px;background:rgba(255,255,255,.25)}
+.brand-logo-ecocash{
+  height:28px;object-fit:contain;
+  filter:brightness(0) invert(1);opacity:.92;
+}
 
-.header-amount-block{position:relative;z-index:1;margin-bottom:14px}
-.amount-eyebrow{
-  font-size:9px;font-weight:700;color:rgba(255,255,255,.5);
-  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:3px;
+/* total price in header */
+.hdr-price-block{position:relative;z-index:1;margin-bottom:12px}
+.hdr-label{
+  font-size:10px;font-weight:600;color:rgba(255,255,255,.5);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;
 }
-.amount-row{display:flex;align-items:flex-end;gap:5px}
-.amount-cur{
+.hdr-price-row{display:flex;align-items:flex-end;gap:5px}
+.hdr-cur{
   font-family:var(--mono);font-size:13px;font-weight:500;
-  color:rgba(255,255,255,.55);margin-bottom:5px;
+  color:rgba(255,255,255,.55);margin-bottom:4px;
 }
-.amount-num{
-  font-family:var(--mono);font-size:38px;font-weight:700;
+.hdr-amount{
+  font-family:var(--mono);font-size:36px;font-weight:700;
   color:#fff;line-height:1;
-  transition:opacity .15s;
+  /* NO transition — transitions on text content cause flicker */
 }
-.amount-tag{
-  margin-bottom:5px;padding:3px 9px;border-radius:999px;
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2);
-  font-size:9px;font-weight:700;color:rgba(255,255,255,.8);
+.hdr-plan-tag{
+  margin-bottom:4px;padding:3px 10px;border-radius:999px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  font-size:10px;font-weight:700;color:rgba(255,255,255,.85);
   text-transform:uppercase;letter-spacing:.5px;
 }
 
-/* mini bars */
-.mini-bars{display:flex;gap:10px;position:relative;z-index:1}
-.mini-bar-item{flex:1}
-.mini-bar-lbl{
-  font-size:8px;font-weight:700;color:rgba(255,255,255,.4);
-  text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;
+/* mini usage bars */
+.mini-bars{display:flex;gap:12px;position:relative;z-index:1}
+.mbi{flex:1}
+.mbi-lbl{
+  font-size:9px;font-weight:700;color:rgba(255,255,255,.45);
+  text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;
 }
-.mini-track{height:2.5px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden}
-.mini-fill{height:100%;border-radius:999px;transition:width .3s ease}
-.mini-fill.v{background:rgba(255,100,100,.85)}
-.mini-fill.s{background:rgba(160,160,255,.85)}
-.mini-fill.d{background:rgba(130,200,255,.95)}
+.mbi-track{
+  height:3px;background:rgba(255,255,255,.15);
+  border-radius:999px;overflow:hidden;
+}
+.mbi-fill{
+  height:100%;border-radius:999px;
+  /* will-change prevents layer re-creation on width changes */
+  will-change:width;
+  transition:width .25s ease;
+}
+.mbi-fill.v{background:rgba(255,110,110,.9)}
+.mbi-fill.s{background:rgba(160,160,255,.9)}
+.mbi-fill.d{background:rgba(140,205,255,.95)}
 
-/* ── TAB BAR ── */
-.tab-bar{
-  display:flex;
+/* ────────────────────────────────
+   PLAN PICKER — pill-style, always visible
+──────────────────────────────── */
+.plan-picker{
   background:var(--white);
   border-bottom:1.5px solid var(--border);
+  padding:10px 12px 0;
   flex-shrink:0;
+  /* isolate stacking context so no compositing leaks */
+  isolation:isolate;
+}
+
+.picker-row{
+  display:flex;
+  gap:6px;
   overflow-x:auto;
+  padding-bottom:10px;
 }
-.tab-bar::-webkit-scrollbar{display:none}
+.picker-row::-webkit-scrollbar{display:none}
 
-.tab-item{
-  flex:1;min-width:68px;
+/* Each plan pill */
+.plan-pill{
+  flex-shrink:0;
   display:flex;flex-direction:column;align-items:center;
-  padding:9px 6px 10px;
-  cursor:pointer;position:relative;
-  transition:background .15s;
+  gap:2px;
+  padding:8px 12px 9px;
+  border-radius:var(--r-lg);
+  cursor:pointer;
+  border:1.5px solid var(--border);
+  background:var(--page);
+  /* no transitions that affect layout — avoids reflow flicker */
+  outline:none;
   user-select:none;
+  -webkit-user-select:none;
+  position:relative;
 }
-.tab-item:active{background:var(--sky)}
+.plan-pill:active{background:var(--sky-mid)}
 
-.tab-lbl{
-  font-size:11px;font-weight:700;
-  color:var(--ink-soft);letter-spacing:.1px;
-  transition:color .15s;
+.pp-name{
+  font-size:12px;font-weight:700;
+  color:var(--ink-soft);
+  white-space:nowrap;
+  line-height:1;
 }
-.tab-price{
-  font-family:var(--mono);font-size:9px;font-weight:600;
-  color:var(--ink-faint);margin-top:2px;
-  transition:color .15s;
+.pp-price{
+  font-family:var(--mono);
+  font-size:11px;font-weight:600;
+  color:var(--ink-faint);
+  white-space:nowrap;
+  line-height:1;
 }
-.tab-item::after{
-  content:'';position:absolute;bottom:0;left:16%;right:16%;
-  height:2.5px;border-radius:2px 2px 0 0;
-  background:var(--blue);transform:scaleX(0);
-  transition:transform .2s ease;
-}
-.tab-item.active .tab-lbl{color:var(--navy);font-weight:800}
-.tab-item.active .tab-price{color:var(--blue)}
-.tab-item.active::after{transform:scaleX(1)}
 
-/* ── BODY ── */
+/* active state — no transition, instant swap = no flicker */
+.plan-pill.active{
+  background:var(--navy);
+  border-color:var(--navy);
+}
+.plan-pill.active .pp-name{color:#fff}
+.plan-pill.active .pp-price{color:var(--sky-deep)}
+
+/* best-value star on monthly pill */
+.pp-star{
+  position:absolute;top:-5px;right:-4px;
+  width:16px;height:16px;border-radius:50%;
+  background:#f59e0b;
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;line-height:1;
+}
+
+/* ────────────────────────────────
+   SCROLLABLE BODY
+──────────────────────────────── */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:16px 14px 100px;
+  padding:14px 13px 96px;
   overscroll-behavior:contain;min-height:0;
+  /* hardware-accelerated scroll layer */
+  transform:translateZ(0);
 }
 .body::-webkit-scrollbar{display:none}
 
-/* ── PLAN PANEL ── */
-.plan-panel{display:none;animation:fadeIn .18s ease}
-.plan-panel.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+/* ────────────────────────────────
+   PANEL — use visibility+opacity instead of display
+   so elements stay in the render tree (no repaint on show)
+──────────────────────────────── */
+.plan-panel{
+  position:absolute;
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
+  /* no transition — instant swap, zero flicker */
+  top:0;left:0;right:0;
+}
+.plan-panel.active{
+  position:static;
+  visibility:visible;
+  opacity:1;
+  pointer-events:auto;
+}
 
-/* Plan title row */
-.plan-title-row{
+/* plan heading */
+.panel-head{
   display:flex;align-items:center;justify-content:space-between;
   margin-bottom:12px;
 }
-.plan-title{
-  font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.3px;
+.panel-title{
+  font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.3px;
 }
-.plan-max{
-  font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink-soft);
-}
-
-/* Best value badge */
-.best-badge{
-  display:inline-flex;align-items:center;gap:4px;
-  background:#fffbeb;border:1px solid #fcd34d;
-  padding:4px 10px;border-radius:999px;
-  font-size:10px;font-weight:700;color:#92400e;
-  letter-spacing:.2px;margin-bottom:10px;
+.panel-max{
+  font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:500;
 }
 
-/* ── SLIDER CARD ── */
+/* best-value banner */
+.best-banner{
+  display:flex;align-items:center;gap:6px;
+  background:#fffbeb;border:1.5px solid #fcd34d;
+  border-radius:var(--r);padding:7px 12px;
+  margin-bottom:12px;
+  font-size:12px;font-weight:700;color:#92400e;
+}
+
+/* ────────────────────────────────
+   SLIDER CARDS
+──────────────────────────────── */
 .slider-card{
-  background:var(--card);
+  background:var(--white);
   border:1.5px solid var(--border);
   border-radius:var(--r-lg);
-  padding:14px 15px;
-  margin-bottom:9px;
+  padding:13px 14px;
+  margin-bottom:8px;
   box-shadow:var(--shadow);
   position:relative;overflow:hidden;
+  /* promote to own layer — prevents siblings repainting */
+  transform:translateZ(0);
 }
+/* colour-coded top stripe per type */
 .slider-card::before{
   content:'';
-  position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;
+  position:absolute;top:0;left:0;right:0;height:3px;
 }
-.voice-card::before{background:linear-gradient(90deg,#ef4444,#fca5a5)}
-.sms-card::before{background:linear-gradient(90deg,#6366f1,#a5b4fc)}
-.data-card::before{background:linear-gradient(90deg,var(--blue),#93c5fd)}
+.voice-card::before{background:#ef4444}
+.sms-card::before{background:#6366f1}
+.data-card::before{background:var(--blue)}
 
-.slider-head{
+.sc-head{
   display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:11px;
+  margin-bottom:10px;
 }
-.slider-label-grp{display:flex;align-items:center;gap:8px}
-.slider-ico{
-  width:30px;height:30px;border-radius:9px;
+.sc-left{display:flex;align-items:center;gap:9px}
+
+.sc-icon{
+  width:32px;height:32px;border-radius:10px;
   display:flex;align-items:center;justify-content:center;
-  font-size:15px;flex-shrink:0;
+  font-size:16px;flex-shrink:0;
 }
-.voice-card .slider-ico{background:#fef2f2}
-.sms-card .slider-ico{background:#eef2ff}
-.data-card .slider-ico{background:#eff6ff}
+.voice-card .sc-icon{background:#fef2f2}
+.sms-card .sc-icon{background:#eef2ff}
+.data-card .sc-icon{background:#eff6ff}
 
-.slider-name{
-  font-size:13px;font-weight:700;color:var(--ink);
-}
+.sc-name{font-size:14px;font-weight:700;color:var(--ink)}
+.sc-hint{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:1px}
 
-.slider-val-pill{
-  font-family:var(--mono);font-size:12px;font-weight:700;
+.sc-val{
+  font-family:var(--mono);font-size:14px;font-weight:700;
   color:var(--navy);
   background:var(--sky);
   border:1px solid var(--sky-deep);
-  padding:4px 10px;border-radius:999px;
+  padding:5px 12px;border-radius:999px;
+  white-space:nowrap;
+  /* fixed min-width prevents layout shift as number changes */
+  min-width:72px;text-align:center;
 }
 
-/* range inputs */
+/* RANGE — smooth, no repaint */
 input[type=range]{
   width:100%;height:6px;border-radius:999px;
-  appearance:none;outline:none;cursor:pointer;
+  appearance:none;-webkit-appearance:none;
+  outline:none;cursor:pointer;
   background:var(--sky-mid);
+  display:block;
+  /* own compositing layer */
+  will-change:background;
 }
 input[type=range]::-webkit-slider-thumb{
-  appearance:none;width:20px;height:20px;border-radius:50%;
+  appearance:none;-webkit-appearance:none;
+  width:22px;height:22px;border-radius:50%;
   background:#fff;border:2.5px solid;cursor:grab;
-  box-shadow:0 1px 6px rgba(0,51,160,.2);
+  box-shadow:0 1px 6px rgba(0,51,160,.18);
   transition:transform .1s;
+  will-change:transform;
 }
-input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.15)}
+input[type=range]:active::-webkit-slider-thumb{
+  cursor:grabbing;transform:scale(1.18);
+}
 .voice-card input::-webkit-slider-thumb{border-color:#ef4444}
-.sms-card input::-webkit-slider-thumb{border-color:#6366f1}
+.sms-card  input::-webkit-slider-thumb{border-color:#6366f1}
 .data-card input::-webkit-slider-thumb{border-color:var(--blue)}
 
-.slider-limits{
+.sc-limits{
   display:flex;justify-content:space-between;
-  font-size:9px;font-weight:600;color:var(--ink-faint);
+  font-size:10px;font-weight:600;color:var(--ink-faint);
   margin-top:5px;
 }
 
-/* ── PRICE ROW ── */
-.price-row{
+/* ────────────────────────────────
+   PRICE + SUBSCRIBE
+──────────────────────────────── */
+.price-box{
   background:var(--sky);
   border:1.5px solid var(--sky-deep);
   border-radius:var(--r-lg);
   padding:13px 16px;
   margin-bottom:10px;
   display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--shadow);
 }
-.price-row-lbl{font-size:12px;font-weight:600;color:var(--ink-mid)}
-.price-row-amt{
-  font-family:var(--mono);font-size:18px;font-weight:700;color:var(--navy);
+.pb-label{font-size:12px;font-weight:600;color:var(--ink-mid)}
+.pb-desc{font-size:10px;color:var(--ink-soft);margin-top:2px}
+.pb-amount{
+  font-family:var(--mono);font-size:20px;font-weight:800;color:var(--navy);
+  min-width:90px;text-align:right;
 }
 
-/* ── SUBSCRIBE BUTTON ── */
 .sub-btn{
-  width:100%;padding:15px;border-radius:var(--r-lg);
+  width:100%;padding:16px;border-radius:var(--r-lg);
   border:none;cursor:pointer;
-  font-family:var(--font);font-size:14px;font-weight:800;
+  font-family:var(--font);font-size:15px;font-weight:800;
   color:#fff;letter-spacing:.1px;
-  transition:transform .15s,box-shadow .15s;
   position:relative;overflow:hidden;
+  /* no transitions — instant tap response */
+  -webkit-tap-highlight-color:transparent;
 }
 .sub-btn::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.12) 0%,transparent 100%);
+  background:linear-gradient(180deg,rgba(255,255,255,.13) 0%,transparent 60%);
   pointer-events:none;
 }
-.sub-btn:active{transform:scale(.975)}
+.sub-btn:active{filter:brightness(.9)}
 
-.daily-btn{background:var(--blue);box-shadow:0 4px 16px rgba(26,111,255,.35)}
-.three-btn{background:#d97706;box-shadow:0 4px 16px rgba(217,119,6,.3)}
-.weekly-btn{background:#16a34a;box-shadow:0 4px 16px rgba(22,163,74,.3)}
-.twoweek-btn{background:#0284c7;box-shadow:0 4px 16px rgba(2,132,199,.3)}
-.monthly-btn{background:var(--red);box-shadow:0 4px 16px rgba(208,2,27,.3)}
+.daily-btn  {background:#1a6fff;box-shadow:0 4px 14px rgba(26,111,255,.38)}
+.three-btn  {background:#d97706;box-shadow:0 4px 14px rgba(217,119,6,.32)}
+.weekly-btn {background:#16a34a;box-shadow:0 4px 14px rgba(22,163,74,.32)}
+.twoweek-btn{background:#0284c7;box-shadow:0 4px 14px rgba(2,132,199,.32)}
+.monthly-btn{background:var(--red);box-shadow:0 4px 14px rgba(208,2,27,.32)}
 
-/* ── MODAL (white sheet) ── */
+/* ────────────────────────────────
+   MODAL — white sheet
+──────────────────────────────── */
 .modal-overlay{
   position:absolute;inset:0;
-  background:rgba(0,20,80,.5);
-  backdrop-filter:blur(3px);
-  display:none;align-items:flex-end;z-index:100;
+  background:rgba(0,20,80,.45);
+  display:none;align-items:flex-end;
+  z-index:100;
+  /* backdrop on its own layer */
+  isolation:isolate;
 }
 .modal-overlay.open{display:flex}
 
 .modal-sheet{
   background:#fff;width:100%;
-  border-radius:24px 24px 0 0;
+  border-radius:22px 22px 0 0;
   border-top:1.5px solid var(--border);
-  animation:sheetUp .22s ease;
+  padding-bottom:max(24px,env(safe-area-inset-bottom));
+  animation:sheetUp .2s ease;
 }
-@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+@keyframes sheetUp{
+  from{transform:translateY(100%)}
+  to{transform:translateY(0)}
+}
 
-.sheet-handle{
-  width:34px;height:4px;background:var(--border-strong);
+.sheet-grip{
+  width:36px;height:4px;background:var(--border-strong);
   border-radius:2px;margin:12px auto 0;
 }
 .sheet-hdr{
-  padding:16px 20px 12px;
+  padding:14px 20px 12px;
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
 .sheet-title{font-size:16px;font-weight:800;color:var(--ink)}
-.sheet-close{
+.sheet-x{
   width:28px;height:28px;border-radius:50%;
   background:var(--sky);border:none;cursor:pointer;
-  font-size:13px;color:var(--ink-soft);font-weight:700;
+  font-size:14px;color:var(--ink-soft);font-weight:700;
+  display:flex;align-items:center;justify-content:center;
 }
-.sheet-body{padding:14px 20px 20px}
-.sheet-sub{
-  font-size:9px;font-weight:700;color:var(--ink-faint);
+.sheet-body{padding:14px 20px 0}
+.sheet-section-lbl{
+  font-size:10px;font-weight:700;color:var(--ink-faint);
   text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;
 }
 .sheet-rows{
   background:var(--page);border-radius:var(--r-lg);
-  border:1px solid var(--border);overflow:hidden;margin-bottom:12px;
+  border:1.5px solid var(--border);overflow:hidden;margin-bottom:12px;
 }
-.sheet-row{
+.srow{
   display:flex;justify-content:space-between;align-items:center;
   padding:11px 14px;border-bottom:1px solid var(--border);
 }
-.sheet-row:last-child{border-bottom:none}
-.srow-k{font-size:12px;color:var(--ink-soft);font-weight:500}
-.srow-v{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--ink)}
+.srow:last-child{border-bottom:none}
+.srow-k{font-size:13px;color:var(--ink-soft);font-weight:500}
+.srow-v{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink)}
 
 .sheet-total{
   background:var(--sky);border:1.5px solid var(--sky-deep);
   border-radius:var(--r-lg);padding:13px 16px;
   display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
 }
-.stotal-lbl{font-size:13px;font-weight:700;color:var(--ink-mid)}
-.stotal-val{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--navy)}
+.stotal-l{font-size:13px;font-weight:700;color:var(--ink-mid)}
+.stotal-v{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--navy)}
 
-.sheet-actions{display:flex;gap:9px}
+.sheet-btns{display:flex;gap:9px}
 .btn-cancel{
-  flex:1;padding:13px;border-radius:var(--r-lg);
+  flex:1;padding:14px;border-radius:var(--r-lg);
   border:1.5px solid var(--border);background:#fff;
-  font-family:var(--font);font-size:13px;font-weight:700;
+  font-family:var(--font);font-size:14px;font-weight:700;
   color:var(--ink-soft);cursor:pointer;
 }
-.btn-confirm{
-  flex:2;padding:13px;border-radius:var(--r-lg);
+.btn-pay{
+  flex:2;padding:14px;border-radius:var(--r-lg);
   border:none;background:var(--blue);
-  font-family:var(--font);font-size:13px;font-weight:800;
-  color:#fff;cursor:pointer;box-shadow:0 3px 12px rgba(26,111,255,.35);
+  font-family:var(--font);font-size:14px;font-weight:800;
+  color:#fff;cursor:pointer;
+  box-shadow:0 3px 12px rgba(26,111,255,.35);
 }
-.btn-confirm:active{transform:scale(.98)}
+.btn-pay:active{filter:brightness(.92)}
 
-/* ── TOAST ── */
+/* ────────────────────────────────
+   TOAST
+──────────────────────────────── */
 .toast{
   position:absolute;top:16px;left:50%;
-  transform:translateX(-50%) translateY(-8px);
+  transform:translateX(-50%) translateY(-10px);
   background:var(--navy);color:#fff;
-  padding:9px 18px;border-radius:999px;
-  font-size:12px;font-weight:700;
+  padding:10px 20px;border-radius:999px;
+  font-size:13px;font-weight:700;
   opacity:0;pointer-events:none;
-  transition:.22s ease;z-index:200;white-space:nowrap;
+  transition:opacity .2s ease,transform .2s ease;
+  z-index:200;white-space:nowrap;
   box-shadow:0 4px 16px rgba(0,20,80,.25);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* POWERED */
+/* powered */
 .powered{
-  text-align:center;padding:6px 0 2px;
-  font-size:9px;color:var(--ink-faint);font-weight:500;letter-spacing:.3px;
+  text-align:center;padding:8px 0 2px;
+  font-size:10px;color:var(--ink-faint);font-weight:500;letter-spacing:.2px;
 }
 </style>
 </head>
 <body>
 <div class="screen">
 
-  <!-- HEADER -->
+  <!-- ═══ HEADER ═══ -->
   <div class="header">
-    <div class="header-glow"></div>
     <div class="header-top">
       <div class="brand">
         <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
         <div class="brand-sep"></div>
         <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
       </div>
-      <div class="amount-tag" id="planTag">Daily</div>
+      <div class="hdr-plan-tag" id="planTag">Daily</div>
     </div>
-    <div class="header-amount-block">
-      <div class="amount-eyebrow">Bundle Total</div>
-      <div class="amount-row">
-        <span class="amount-cur">USD</span>
-        <span class="amount-num" id="headerPrice">0.00</span>
+
+    <div class="hdr-price-block">
+      <div class="hdr-label">Your bundle price</div>
+      <div class="hdr-price-row">
+        <span class="hdr-cur">USD</span>
+        <span class="hdr-amount" id="headerPrice">0.00</span>
       </div>
     </div>
+
     <div class="mini-bars">
-      <div class="mini-bar-item">
-        <div class="mini-bar-lbl">Voice</div>
-        <div class="mini-track"><div class="mini-fill v" id="voiceBar" style="width:100%"></div></div>
+      <div class="mbi">
+        <div class="mbi-lbl">Voice</div>
+        <div class="mbi-track"><div class="mbi-fill v" id="voiceBar" style="width:100%"></div></div>
       </div>
-      <div class="mini-bar-item">
-        <div class="mini-bar-lbl">SMS</div>
-        <div class="mini-track"><div class="mini-fill s" id="smsBar" style="width:100%"></div></div>
+      <div class="mbi">
+        <div class="mbi-lbl">SMS</div>
+        <div class="mbi-track"><div class="mbi-fill s" id="smsBar" style="width:100%"></div></div>
       </div>
-      <div class="mini-bar-item">
-        <div class="mini-bar-lbl">Data</div>
-        <div class="mini-track"><div class="mini-fill d" id="dataBar" style="width:100%"></div></div>
+      <div class="mbi">
+        <div class="mbi-lbl">Data</div>
+        <div class="mbi-track"><div class="mbi-fill d" id="dataBar" style="width:100%"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- TAB BAR -->
-  <div class="tab-bar" id="tabBar">
-    <div class="tab-item active" data-key="daily" onclick="switchTab('daily')">
-      <div class="tab-lbl">Daily</div>
-      <div class="tab-price" id="tab-price-daily">$0.60</div>
-    </div>
-    <div class="tab-item" data-key="3days" onclick="switchTab('3days')">
-      <div class="tab-lbl">3 Days</div>
-      <div class="tab-price" id="tab-price-3days">$1.40</div>
-    </div>
-    <div class="tab-item" data-key="weekly" onclick="switchTab('weekly')">
-      <div class="tab-lbl">Weekly</div>
-      <div class="tab-price" id="tab-price-weekly">$2.80</div>
-    </div>
-    <div class="tab-item" data-key="2weeks" onclick="switchTab('2weeks')">
-      <div class="tab-lbl">2 Weeks</div>
-      <div class="tab-price" id="tab-price-2weeks">$5.20</div>
-    </div>
-    <div class="tab-item" data-key="monthly" onclick="switchTab('monthly')">
-      <div class="tab-lbl">Monthly</div>
-      <div class="tab-price" id="tab-price-monthly">$9.90</div>
+  <!-- ═══ PLAN PICKER ═══ -->
+  <div class="plan-picker">
+    <div class="picker-row" id="pickerRow">
+      <button class="plan-pill active" data-key="daily"   onclick="switchPlan('daily')">
+        <span class="pp-name">Daily</span>
+        <span class="pp-price" id="pp-daily">$0.60</span>
+      </button>
+      <button class="plan-pill" data-key="3days"  onclick="switchPlan('3days')">
+        <span class="pp-name">3 Days</span>
+        <span class="pp-price" id="pp-3days">$1.40</span>
+      </button>
+      <button class="plan-pill" data-key="weekly" onclick="switchPlan('weekly')">
+        <span class="pp-name">Weekly</span>
+        <span class="pp-price" id="pp-weekly">$2.80</span>
+      </button>
+      <button class="plan-pill" data-key="2weeks" onclick="switchPlan('2weeks')">
+        <span class="pp-name">2 Weeks</span>
+        <span class="pp-price" id="pp-2weeks">$5.20</span>
+      </button>
+      <button class="plan-pill" data-key="monthly" onclick="switchPlan('monthly')">
+        <span class="pp-name">Monthly</span>
+        <span class="pp-price" id="pp-monthly">$9.90</span>
+        <div class="pp-star" title="Best value">⭐</div>
+      </button>
     </div>
   </div>
 
-  <!-- BODY -->
+  <!-- ═══ SCROLLABLE BODY ═══ -->
   <div class="body">
 
     <!-- DAILY -->
     <div class="plan-panel active" id="panel-daily">
-      <div class="plan-title-row">
-        <div class="plan-title">Daily Bundle</div>
-        <div class="plan-max">Max USD 0.60</div>
+      <div class="panel-head">
+        <div class="panel-title">Daily Bundle</div>
+        <div class="panel-max">Max USD 0.60</div>
       </div>
       <div class="slider-card voice-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
-          <div class="slider-val-pill" id="sv-daily">20 Min</div>
+        <div class="sc-head">
+          <div class="sc-left">
+            <div class="sc-icon">📞</div>
+            <div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div>
+          </div>
+          <div class="sc-val" id="sv-daily">20 Min</div>
         </div>
         <input type="range" id="sr-voice-daily" min="0" max="20" value="20" oninput="onSlide('daily','voice',this)">
-        <div class="slider-limits"><span>0</span><span>20 Min</span></div>
+        <div class="sc-limits"><span>0 Min</span><span>20 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
-          <div class="slider-val-pill" id="ss-daily">25 SMS</div>
+        <div class="sc-head">
+          <div class="sc-left">
+            <div class="sc-icon">💬</div>
+            <div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div>
+          </div>
+          <div class="sc-val" id="ss-daily">25 SMS</div>
         </div>
         <input type="range" id="sr-sms-daily" min="0" max="25" value="25" oninput="onSlide('daily','sms',this)">
-        <div class="slider-limits"><span>0</span><span>25 SMS</span></div>
+        <div class="sc-limits"><span>0 SMS</span><span>25 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
-          <div class="slider-val-pill" id="sd-daily">3 GB</div>
+        <div class="sc-head">
+          <div class="sc-left">
+            <div class="sc-icon">🌐</div>
+            <div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div>
+          </div>
+          <div class="sc-val" id="sd-daily">3 GB</div>
         </div>
-        <input type="range" id="sr-data-daily" min="0" max="3" step="0.1" value="3" oninput="onSlide('daily','data',this)">
-        <div class="slider-limits"><span>0</span><span>3 GB</span></div>
+        <input type="range" id="sr-data-daily" min="0" max="30" value="30" oninput="onSlide('daily','data',this)">
+        <div class="sc-limits"><span>0 GB</span><span>3 GB</span></div>
       </div>
-      <div class="price-row">
-        <div class="price-row-lbl">Daily price</div>
-        <div class="price-row-amt" id="cp-daily">USD 0.60</div>
+      <div class="price-box">
+        <div><div class="pb-label">Your daily price</div><div class="pb-desc">Adjust sliders to customise</div></div>
+        <div class="pb-amount" id="cp-daily">USD 0.60</div>
       </div>
-      <button class="sub-btn daily-btn" onclick="subscribePlan('daily')">Subscribe · Daily</button>
+      <button class="sub-btn daily-btn" onclick="subscribePlan('daily')">Subscribe — Daily</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- 3 DAYS -->
     <div class="plan-panel" id="panel-3days">
-      <div class="plan-title-row">
-        <div class="plan-title">3-Day Bundle</div>
-        <div class="plan-max">Max USD 1.40</div>
+      <div class="panel-head">
+        <div class="panel-title">3-Day Bundle</div>
+        <div class="panel-max">Max USD 1.40</div>
       </div>
       <div class="slider-card voice-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
-          <div class="slider-val-pill" id="sv-3days">50 Min</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
+          <div class="sc-val" id="sv-3days">50 Min</div>
         </div>
         <input type="range" id="sr-voice-3days" min="0" max="50" value="50" oninput="onSlide('3days','voice',this)">
-        <div class="slider-limits"><span>0</span><span>50 Min</span></div>
+        <div class="sc-limits"><span>0 Min</span><span>50 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
-          <div class="slider-val-pill" id="ss-3days">75 SMS</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
+          <div class="sc-val" id="ss-3days">75 SMS</div>
         </div>
         <input type="range" id="sr-sms-3days" min="0" max="75" value="75" oninput="onSlide('3days','sms',this)">
-        <div class="slider-limits"><span>0</span><span>75 SMS</span></div>
+        <div class="sc-limits"><span>0 SMS</span><span>75 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
-          <div class="slider-val-pill" id="sd-3days">8 GB</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
+          <div class="sc-val" id="sd-3days">8 GB</div>
         </div>
-        <input type="range" id="sr-data-3days" min="0" max="8" step="0.1" value="8" oninput="onSlide('3days','data',this)">
-        <div class="slider-limits"><span>0</span><span>8 GB</span></div>
+        <input type="range" id="sr-data-3days" min="0" max="80" value="80" oninput="onSlide('3days','data',this)">
+        <div class="sc-limits"><span>0 GB</span><span>8 GB</span></div>
       </div>
-      <div class="price-row">
-        <div class="price-row-lbl">3-day price</div>
-        <div class="price-row-amt" id="cp-3days">USD 1.40</div>
+      <div class="price-box">
+        <div><div class="pb-label">Your 3-day price</div><div class="pb-desc">Adjust sliders to customise</div></div>
+        <div class="pb-amount" id="cp-3days">USD 1.40</div>
       </div>
-      <button class="sub-btn three-btn" onclick="subscribePlan('3days')">Subscribe · 3 Days</button>
+      <button class="sub-btn three-btn" onclick="subscribePlan('3days')">Subscribe — 3 Days</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- WEEKLY -->
     <div class="plan-panel" id="panel-weekly">
-      <div class="plan-title-row">
-        <div class="plan-title">Weekly Bundle</div>
-        <div class="plan-max">Max USD 2.80</div>
+      <div class="panel-head">
+        <div class="panel-title">Weekly Bundle</div>
+        <div class="panel-max">Max USD 2.80</div>
       </div>
       <div class="slider-card voice-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
-          <div class="slider-val-pill" id="sv-weekly">120 Min</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
+          <div class="sc-val" id="sv-weekly">120 Min</div>
         </div>
         <input type="range" id="sr-voice-weekly" min="0" max="120" value="120" oninput="onSlide('weekly','voice',this)">
-        <div class="slider-limits"><span>0</span><span>120 Min</span></div>
+        <div class="sc-limits"><span>0 Min</span><span>120 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
-          <div class="slider-val-pill" id="ss-weekly">200 SMS</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
+          <div class="sc-val" id="ss-weekly">200 SMS</div>
         </div>
         <input type="range" id="sr-sms-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','sms',this)">
-        <div class="slider-limits"><span>0</span><span>200 SMS</span></div>
+        <div class="sc-limits"><span>0 SMS</span><span>200 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
-          <div class="slider-val-pill" id="sd-weekly">20 GB</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
+          <div class="sc-val" id="sd-weekly">20 GB</div>
         </div>
-        <input type="range" id="sr-data-weekly" min="0" max="20" step="0.5" value="20" oninput="onSlide('weekly','data',this)">
-        <div class="slider-limits"><span>0</span><span>20 GB</span></div>
+        <input type="range" id="sr-data-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','data',this)">
+        <div class="sc-limits"><span>0 GB</span><span>20 GB</span></div>
       </div>
-      <div class="price-row">
-        <div class="price-row-lbl">Weekly price</div>
-        <div class="price-row-amt" id="cp-weekly">USD 2.80</div>
+      <div class="price-box">
+        <div><div class="pb-label">Your weekly price</div><div class="pb-desc">Adjust sliders to customise</div></div>
+        <div class="pb-amount" id="cp-weekly">USD 2.80</div>
       </div>
-      <button class="sub-btn weekly-btn" onclick="subscribePlan('weekly')">Subscribe · Weekly</button>
+      <button class="sub-btn weekly-btn" onclick="subscribePlan('weekly')">Subscribe — Weekly</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- 2 WEEKS -->
     <div class="plan-panel" id="panel-2weeks">
-      <div class="plan-title-row">
-        <div class="plan-title">2-Week Bundle</div>
-        <div class="plan-max">Max USD 5.20</div>
+      <div class="panel-head">
+        <div class="panel-title">2-Week Bundle</div>
+        <div class="panel-max">Max USD 5.20</div>
       </div>
       <div class="slider-card voice-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
-          <div class="slider-val-pill" id="sv-2weeks">250 Min</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
+          <div class="sc-val" id="sv-2weeks">250 Min</div>
         </div>
         <input type="range" id="sr-voice-2weeks" min="0" max="250" value="250" oninput="onSlide('2weeks','voice',this)">
-        <div class="slider-limits"><span>0</span><span>250 Min</span></div>
+        <div class="sc-limits"><span>0 Min</span><span>250 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
-          <div class="slider-val-pill" id="ss-2weeks">450 SMS</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
+          <div class="sc-val" id="ss-2weeks">450 SMS</div>
         </div>
         <input type="range" id="sr-sms-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','sms',this)">
-        <div class="slider-limits"><span>0</span><span>450 SMS</span></div>
+        <div class="sc-limits"><span>0 SMS</span><span>450 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
-          <div class="slider-val-pill" id="sd-2weeks">45 GB</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
+          <div class="sc-val" id="sd-2weeks">45 GB</div>
         </div>
-        <input type="range" id="sr-data-2weeks" min="0" max="45" step="0.5" value="45" oninput="onSlide('2weeks','data',this)">
-        <div class="slider-limits"><span>0</span><span>45 GB</span></div>
+        <input type="range" id="sr-data-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','data',this)">
+        <div class="sc-limits"><span>0 GB</span><span>45 GB</span></div>
       </div>
-      <div class="price-row">
-        <div class="price-row-lbl">2-week price</div>
-        <div class="price-row-amt" id="cp-2weeks">USD 5.20</div>
+      <div class="price-box">
+        <div><div class="pb-label">Your 2-week price</div><div class="pb-desc">Adjust sliders to customise</div></div>
+        <div class="pb-amount" id="cp-2weeks">USD 5.20</div>
       </div>
-      <button class="sub-btn twoweek-btn" onclick="subscribePlan('2weeks')">Subscribe · 2 Weeks</button>
+      <button class="sub-btn twoweek-btn" onclick="subscribePlan('2weeks')">Subscribe — 2 Weeks</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- MONTHLY -->
     <div class="plan-panel" id="panel-monthly">
-      <div class="plan-title-row">
-        <div class="plan-title">Monthly Bundle</div>
-        <div class="plan-max">Max USD 9.90</div>
+      <div class="panel-head">
+        <div class="panel-title">Monthly Bundle</div>
+        <div class="panel-max">Max USD 9.90</div>
       </div>
-      <div class="best-badge">⭐ Best value plan</div>
+      <div class="best-banner">⭐ Best value — save more with monthly</div>
       <div class="slider-card voice-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">📞</div><div class="slider-name">Voice</div></div>
-          <div class="slider-val-pill" id="sv-monthly">600 Min</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
+          <div class="sc-val" id="sv-monthly">600 Min</div>
         </div>
         <input type="range" id="sr-voice-monthly" min="0" max="600" value="600" oninput="onSlide('monthly','voice',this)">
-        <div class="slider-limits"><span>0</span><span>600 Min</span></div>
+        <div class="sc-limits"><span>0 Min</span><span>600 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">💬</div><div class="slider-name">SMS</div></div>
-          <div class="slider-val-pill" id="ss-monthly">1000 SMS</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
+          <div class="sc-val" id="ss-monthly">1000 SMS</div>
         </div>
         <input type="range" id="sr-sms-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','sms',this)">
-        <div class="slider-limits"><span>0</span><span>1000 SMS</span></div>
+        <div class="sc-limits"><span>0 SMS</span><span>1000 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="slider-head">
-          <div class="slider-label-grp"><div class="slider-ico">🌐</div><div class="slider-name">Data</div></div>
-          <div class="slider-val-pill" id="sd-monthly">100 GB</div>
+        <div class="sc-head">
+          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
+          <div class="sc-val" id="sd-monthly">100 GB</div>
         </div>
-        <input type="range" id="sr-data-monthly" min="0" max="100" step="1" value="100" oninput="onSlide('monthly','data',this)">
-        <div class="slider-limits"><span>0</span><span>100 GB</span></div>
+        <input type="range" id="sr-data-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','data',this)">
+        <div class="sc-limits"><span>0 GB</span><span>100 GB</span></div>
       </div>
-      <div class="price-row">
-        <div class="price-row-lbl">Monthly price</div>
-        <div class="price-row-amt" id="cp-monthly">USD 9.90</div>
+      <div class="price-box">
+        <div><div class="pb-label">Your monthly price</div><div class="pb-desc">Adjust sliders to customise</div></div>
+        <div class="pb-amount" id="cp-monthly">USD 9.90</div>
       </div>
-      <button class="sub-btn monthly-btn" onclick="subscribePlan('monthly')">Subscribe · Monthly</button>
+      <button class="sub-btn monthly-btn" onclick="subscribePlan('monthly')">Subscribe — Monthly</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
-  </div>
+  </div><!-- /body -->
 
-  <!-- MODAL -->
+  <!-- ═══ MODAL ═══ -->
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
     <div class="modal-sheet">
-      <div class="sheet-handle"></div>
+      <div class="sheet-grip"></div>
       <div class="sheet-hdr">
-        <div class="sheet-title">Confirm Bundle</div>
-        <button class="sheet-close" onclick="closeModal()">&#x2715;</button>
+        <div class="sheet-title">Confirm your bundle</div>
+        <button class="sheet-x" onclick="closeModal()">&#x2715;</button>
       </div>
       <div class="sheet-body">
-        <div class="sheet-sub">Bundle Details</div>
-        <div class="sheet-rows" id="details"></div>
+        <div class="sheet-section-lbl">Bundle Details</div>
+        <div class="sheet-rows" id="sheetRows"></div>
         <div class="sheet-total">
-          <div class="stotal-lbl">Total to Pay</div>
-          <div class="stotal-val" id="modalTotal">USD 0.00</div>
+          <div class="stotal-l">Total to pay</div>
+          <div class="stotal-v" id="modalTotal">USD 0.00</div>
         </div>
-        <div class="sheet-actions">
+        <div class="sheet-btns">
           <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-          <button class="btn-confirm" onclick="confirmBundle()">Pay with EcoCash</button>
+          <button class="btn-pay" onclick="confirmBundle()">Pay with EcoCash</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toast">Bundle confirmed</div>
-</div>
+  <div class="toast" id="toast"></div>
+</div><!-- /screen -->
 
 <script>
-const plans={
-  daily:   {label:"Daily",   maxVoice:20,  maxSms:25,   maxData:3,   price:.60},
-  "3days": {label:"3 Days",  maxVoice:50,  maxSms:75,   maxData:8,   price:1.40},
-  weekly:  {label:"Weekly",  maxVoice:120, maxSms:200,  maxData:20,  price:2.80},
-  "2weeks":{label:"2 Weeks", maxVoice:250, maxSms:450,  maxData:45,  price:5.20},
-  monthly: {label:"Monthly", maxVoice:600, maxSms:1000, maxData:100, price:9.90}
+/* ── Plan data ── */
+const plans = {
+  daily:   { label:'Daily',   maxVoice:20,  maxSms:25,   maxData:3,   sliderMax:{v:20, s:25,  d:30  }, price:0.60 },
+  '3days': { label:'3 Days',  maxVoice:50,  maxSms:75,   maxData:8,   sliderMax:{v:50, s:75,  d:80  }, price:1.40 },
+  weekly:  { label:'Weekly',  maxVoice:120, maxSms:200,  maxData:20,  sliderMax:{v:120,s:200, d:200 }, price:2.80 },
+  '2weeks':{ label:'2 Weeks', maxVoice:250, maxSms:450,  maxData:45,  sliderMax:{v:250,s:450, d:450 }, price:5.20 },
+  monthly: { label:'Monthly', maxVoice:600, maxSms:1000, maxData:100, sliderMax:{v:600,s:1000,d:1000}, price:9.90 }
 };
-const state={};
-Object.keys(plans).forEach(k=>state[k]={voice:plans[k].maxVoice,sms:plans[k].maxSms,data:plans[k].maxData});
-let activeTab="daily",pendingPlan=null;
 
-function calcPrice(k){
-  const p=plans[k],s=state[k];
-  return Math.round(((s.data/p.maxData)+(s.voice/p.maxVoice)+(s.sms/p.maxSms))/3*p.price*100)/100;
+/* per-plan slider state — track 0..sliderMax */
+const state = {};
+Object.keys(plans).forEach(k => {
+  const p = plans[k];
+  state[k] = { voice: p.sliderMax.v, sms: p.sliderMax.s, data: p.sliderMax.d };
+});
+
+let activeKey = 'daily';
+let pendingKey = null;
+
+/* ── Price: proportional to slider fraction × max price ── */
+function calcPrice(k) {
+  const p = plans[k], s = state[k];
+  const frac = ((s.voice/p.sliderMax.v) + (s.sms/p.sliderMax.s) + (s.data/p.sliderMax.d)) / 3;
+  return Math.round(frac * p.price * 100) / 100;
 }
 
-function fillSlider(el,c){
-  const pct=((el.value-el.min)/(el.max-el.min)*100)||0;
-  el.style.background=`linear-gradient(to right,${c} ${pct}%,#d0e4ff ${pct}%)`;
+/* Actual value displayed = fraction × max resource */
+function actualVoice(k){ return Math.round(state[k].voice / plans[k].sliderMax.v * plans[k].maxVoice); }
+function actualSms(k)  { return Math.round(state[k].sms   / plans[k].sliderMax.s * plans[k].maxSms);   }
+function actualData(k) {
+  const raw = state[k].data / plans[k].sliderMax.d * plans[k].maxData;
+  return raw === Math.floor(raw) ? raw : +raw.toFixed(1);
 }
 
-function onSlide(k,t,el){
-  state[k][t]=Number(el.value);
-  const cols={voice:"#ef4444",sms:"#6366f1",data:"#1a6fff"};
-  fillSlider(el,cols[t]);
-  refreshCard(k);
-  if(k===activeTab) refreshHeader();
+/* ── Fill slider track ── */
+function fillSlider(el, color) {
+  const pct = el.max > 0 ? ((el.value - el.min) / (el.max - el.min) * 100) : 0;
+  el.style.background = `linear-gradient(to right,${color} ${pct}%,var(--sky-mid) ${pct}%)`;
 }
 
-function fmtData(v){return Number(v)===Math.floor(Number(v))?v:Number(v).toFixed(1)}
-
-function refreshCard(k){
-  const s=state[k];
-  const el_cp=document.getElementById("cp-"+k);
-  if(el_cp) el_cp.textContent="USD "+calcPrice(k).toFixed(2);
-  const sv=document.getElementById("sv-"+k);if(sv) sv.textContent=s.voice+" Min";
-  const ss=document.getElementById("ss-"+k);if(ss) ss.textContent=s.sms+" SMS";
-  const sd=document.getElementById("sd-"+k);if(sd) sd.textContent=fmtData(s.data)+" GB";
-  const tp=document.getElementById("tab-price-"+k);if(tp) tp.textContent="$"+calcPrice(k).toFixed(2);
+/* ── Slide handler ── */
+function onSlide(k, type, el) {
+  state[k][type] = Number(el.value);
+  const cols = { voice:'#ef4444', sms:'#6366f1', data:'var(--blue)' };
+  fillSlider(el, cols[type]);
+  updateCard(k);
+  if (k === activeKey) updateHeader();
 }
 
-function refreshHeader(){
-  const k=activeTab,p=plans[k],s=state[k];
-  document.getElementById("headerPrice").textContent=calcPrice(k).toFixed(2);
-  document.getElementById("planTag").textContent=p.label;
-  document.getElementById("voiceBar").style.width=(s.voice/p.maxVoice*100)+"%";
-  document.getElementById("smsBar").style.width=(s.sms/p.maxSms*100)+"%";
-  document.getElementById("dataBar").style.width=(Number(s.data)/p.maxData*100)+"%";
+/* ── Update a single plan's displayed values ── */
+function updateCard(k) {
+  const price = calcPrice(k).toFixed(2);
+
+  const cp = document.getElementById('cp-' + k);
+  if (cp) cp.textContent = 'USD ' + price;
+
+  const sv = document.getElementById('sv-' + k);
+  if (sv) sv.textContent = actualVoice(k) + ' Min';
+
+  const ss = document.getElementById('ss-' + k);
+  if (ss) ss.textContent = actualSms(k) + ' SMS';
+
+  const sd = document.getElementById('sd-' + k);
+  if (sd) sd.textContent = actualData(k) + ' GB';
+
+  const pp = document.getElementById('pp-' + k);
+  if (pp) pp.textContent = '$' + price;
 }
 
-function initSliders(){
-  const cols={voice:"#ef4444",sms:"#6366f1",data:"#1a6fff"};
-  Object.keys(plans).forEach(k=>{
-    ["voice","sms","data"].forEach(t=>{
-      const el=document.getElementById("sr-"+t+"-"+k);
-      if(el){el.value=state[k][t];fillSlider(el,cols[t]);}
-    });
-    refreshCard(k);
+/* ── Update header ── */
+function updateHeader() {
+  const k = activeKey, p = plans[k], s = state[k];
+  document.getElementById('headerPrice').textContent = calcPrice(k).toFixed(2);
+  document.getElementById('planTag').textContent = p.label;
+  document.getElementById('voiceBar').style.width = (s.voice / p.sliderMax.v * 100) + '%';
+  document.getElementById('smsBar').style.width   = (s.sms   / p.sliderMax.s * 100) + '%';
+  document.getElementById('dataBar').style.width  = (s.data  / p.sliderMax.d * 100) + '%';
+}
+
+/* ── Switch plan (NO display toggle — use visibility) ── */
+function switchPlan(k) {
+  if (k === activeKey) return;
+
+  /* hide current */
+  const prev = document.getElementById('panel-' + activeKey);
+  prev.classList.remove('active');
+
+  /* show new */
+  activeKey = k;
+  const next = document.getElementById('panel-' + k);
+  next.classList.add('active');
+
+  /* scroll body back to top instantly */
+  document.querySelector('.body').scrollTop = 0;
+
+  /* update picker pills */
+  document.querySelectorAll('.plan-pill').forEach(pill => {
+    pill.classList.toggle('active', pill.dataset.key === k);
   });
-  refreshHeader();
+
+  updateHeader();
 }
 
-function switchTab(k){
-  activeTab=k;
-  document.querySelectorAll(".tab-item").forEach(t=>t.classList.toggle("active",t.dataset.key===k));
-  document.querySelectorAll(".plan-panel").forEach(p=>p.classList.toggle("active",p.id==="panel-"+k));
-  refreshHeader();
+/* ── Init all sliders ── */
+function initSliders() {
+  const cols = { voice:'#ef4444', sms:'#6366f1', data:'var(--blue)' };
+  Object.keys(plans).forEach(k => {
+    ['voice','sms','data'].forEach(t => {
+      const el = document.getElementById('sr-' + t + '-' + k);
+      if (el) fillSlider(el, cols[t]);
+    });
+    updateCard(k);
+  });
+  updateHeader();
 }
 
-function subscribePlan(k){
-  pendingPlan=k;
-  const p=plans[k],s=state[k];
-  document.getElementById("details").innerHTML=`
-    <div class="sheet-row"><span class="srow-k">Duration</span><span class="srow-v">${p.label}</span></div>
-    <div class="sheet-row"><span class="srow-k">Voice</span><span class="srow-v">${s.voice} Min</span></div>
-    <div class="sheet-row"><span class="srow-k">SMS</span><span class="srow-v">${s.sms} SMS</span></div>
-    <div class="sheet-row"><span class="srow-k">Data</span><span class="srow-v">${fmtData(s.data)} GB</span></div>`;
-  document.getElementById("modalTotal").textContent="USD "+calcPrice(k).toFixed(2);
-  document.getElementById("modal").classList.add("open");
+/* ── Modal ── */
+function subscribePlan(k) {
+  pendingKey = k;
+  const p = plans[k];
+  document.getElementById('sheetRows').innerHTML = `
+    <div class="srow"><span class="srow-k">Duration</span><span class="srow-v">${p.label}</span></div>
+    <div class="srow"><span class="srow-k">Voice</span><span class="srow-v">${actualVoice(k)} Min</span></div>
+    <div class="srow"><span class="srow-k">SMS</span><span class="srow-v">${actualSms(k)} SMS</span></div>
+    <div class="srow"><span class="srow-k">Data</span><span class="srow-v">${actualData(k)} GB</span></div>`;
+  document.getElementById('modalTotal').textContent = 'USD ' + calcPrice(k).toFixed(2);
+  document.getElementById('modal').classList.add('open');
 }
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function handleOverlayClick(e) { if (e.target === document.getElementById('modal')) closeModal(); }
 
-function closeModal(){document.getElementById("modal").classList.remove("open")}
-function handleOverlayClick(e){if(e.target===document.getElementById("modal"))closeModal()}
-
-function confirmBundle(){
-  if(!pendingPlan) return;
-  const k=pendingPlan,s=state[k];
-  sessionStorage.setItem("selectedPlan",JSON.stringify({
-    duration:plans[k].label,voice:s.voice,sms:s.sms,
-    data:fmtData(s.data),amount:calcPrice(k).toFixed(2)
+function confirmBundle() {
+  if (!pendingKey) return;
+  const k = pendingKey;
+  sessionStorage.setItem('selectedPlan', JSON.stringify({
+    duration: plans[k].label,
+    voice: actualVoice(k),
+    sms: actualSms(k),
+    data: actualData(k),
+    amount: calcPrice(k).toFixed(2)
   }));
   closeModal();
-  const t=document.getElementById("toast");
-  t.textContent="✓ Bundle confirmed";t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2000);
-  setTimeout(()=>{window.location.href="login.html"},500);
+  showToast('✓ Bundle confirmed');
+  setTimeout(() => { window.location.href = 'login.html'; }, 500);
 }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* run */
 initSliders();
 </script>
 </body>
