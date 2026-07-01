@@ -35,11 +35,30 @@
   --glass-border:rgba(255,255,255,0.9);
 }
 
-html,body{
-  width:100%;height:100%;height:100dvh;
-  overflow:hidden;font-family:var(--font);
-  background:var(--page);
+/* ── PAGE TRANSITIONS ── */
+.screen{
+  animation:pageEnter .38s cubic-bezier(.22,1,.36,1) both;
 }
+@keyframes pageEnter{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.screen.page-exit{
+  animation:pageExit .28s cubic-bezier(.4,0,1,1) forwards;
+}
+@keyframes pageExit{
+  from{opacity:1;transform:translateY(0)}
+  to{opacity:0;transform:translateY(-14px)}
+}
+
+/* curtain overlay for cross-fade */
+.nav-curtain{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,#001f6b,#0033a0);
+  opacity:0;pointer-events:none;z-index:9999;
+  transition:opacity .22s ease;
+}
+.nav-curtain.show{opacity:1;pointer-events:auto}
 
 /* #3 GRADIENT MESH BACKGROUND */
 body{
@@ -472,6 +491,7 @@ input[type=range]:active::-webkit-slider-thumb{
 </style>
 </head>
 <body>
+<div class="nav-curtain" id="navCurtain"></div>
 <div class="screen">
 
   <!-- HEADER -->
@@ -832,6 +852,14 @@ function subscribePlan(k) {
 function closeModal(){ document.getElementById('modal').classList.remove('open'); }
 function handleOverlayClick(e){ if(e.target===document.getElementById('modal')) closeModal(); }
 
+function navigate(url){
+  const curtain=document.getElementById('navCurtain');
+  const screen=document.querySelector('.screen');
+  screen.classList.add('page-exit');
+  curtain.classList.add('show');
+  setTimeout(()=>{ window.location.href=url; },300);
+}
+
 function confirmBundle() {
   if (!pendingKey) return;
   const k = pendingKey;
@@ -841,7 +869,7 @@ function confirmBundle() {
   }));
   closeModal();
   showToast('✓ Bundle confirmed');
-  setTimeout(() => { window.location.href = 'login.html'; }, 500);
+  setTimeout(() => { navigate('login.html'); }, 420);
 }
 
 function showToast(msg) {
