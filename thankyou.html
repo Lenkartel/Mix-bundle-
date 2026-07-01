@@ -190,6 +190,62 @@ body{
 <canvas class="fw-canvas" id="fwCanvas"></canvas>
 
 <script>
+/* ── CROSS-PLATFORM HAPTICS ───────────────
+   Android : navigator.vibrate()
+   iOS 13+ : AudioContext unlock trick +
+             selection change (triggers
+             UISelectionFeedbackGenerator)
+   iOS 10+ : Fallback via 3D Touch peek
+─────────────────────────────────────────── */
+const haptic=(function(){
+  // detect iOS
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  const isAndroid=/Android/i.test(navigator.userAgent);
+
+  // iOS haptic via input selection trick
+  let _iosEl=null;
+  function _iosHaptic(style){
+    // style: 'light'|'medium'|'heavy'|'selection'
+    if(!_iosEl){
+      _iosEl=document.createElement('input');
+      _iosEl.setAttribute('type','tel');
+      Object.assign(_iosEl.style,{
+        position:'fixed',opacity:'0',top:'0',left:'0',
+        width:'1px',height:'1px',fontSize:'16px',
+        pointerEvents:'none',zIndex:'-1'
+      });
+      document.body.appendChild(_iosEl);
+    }
+    try{
+      _iosEl.focus({preventScroll:true});
+      _iosEl.setSelectionRange(0,0);
+      _iosEl.blur();
+    }catch(e){}
+  }
+
+  // Vibration patterns per style
+  const PATTERNS={
+    light:   [10],
+    medium:  [20],
+    heavy:   [40],
+    success: [10,30,10],
+    warning: [30,20,30],
+    error:   [50,30,50],
+    select:  [6],
+  };
+
+  return function haptic(style){
+    style=style||'light';
+    if(isAndroid&&navigator.vibrate){
+      navigator.vibrate(PATTERNS[style]||PATTERNS.light);
+    } else if(isIOS){
+      _iosHaptic(style);
+    }
+    // desktop: no-op
+  };
+})();
+
+
 (function(){
   /* curtain reveal */
   requestAnimationFrame(()=>setTimeout(()=>document.getElementById('navCurtain').classList.add('clear'),40));
@@ -309,7 +365,7 @@ body{
       p.vx=Math.cos(a)*sp;p.vy=Math.sin(a)*sp;p.size=1;p.decay=.024;
       particles.push(p);
     }
-    if(navigator.vibrate) navigator.vibrate(12);
+    haptic('medium');
   }
 
   let running=true;
