@@ -1044,9 +1044,8 @@ function confirmBundle(){
     sms:actualSms(k),data:actualData(k),amount:calcPrice(k).toFixed(2)
   }));
   closeModal();
-  showToast('Bundle confirmed');
-  resetSessionTimer();
-  setTimeout(()=>navigate('login.html'),400);
+  haptic('success');
+  navigate('login.html');
 }
 
 /* ── TOAST ────────────────────────────────── */
@@ -1073,6 +1072,12 @@ function resetSessionTimer(){
   document.addEventListener(e,resetSessionTimer,{passive:true});
 });
 resetSessionTimer();
+
+/* ── BACK BUTTON SUPPORT ─────────────────── */
+history.replaceState({page:'index'},'','');
+window.addEventListener('popstate',function(e){
+  // already on index, nothing to do
+},{passive:true});
 
 /* ── #14 SKELETON → INIT ──────────────────── */
 document.querySelectorAll('.slider-card').forEach(c=>{
