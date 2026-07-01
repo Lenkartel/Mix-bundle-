@@ -215,6 +215,13 @@ function haptic(style){
   /* curtain reveal */
   requestAnimationFrame(()=>setTimeout(()=>document.getElementById('navCurtain').classList.add('clear'),40));
 
+  /* back button → index */
+  history.replaceState({page:'thankyou'},'','');
+  window.addEventListener('popstate',function(){
+    sessionStorage.removeItem('selectedPlan');
+    window.location.href='index.html';
+  },{passive:false});
+
   /* plan data */
   const rowsEl=document.getElementById('planRows');
   const totalEl=document.getElementById('totalVal');
@@ -228,7 +235,7 @@ function haptic(style){
   }
   try{
     const raw=sessionStorage.getItem('selectedPlan');
-    if(!raw){rowsEl.innerHTML=row('#9eb5d4','Bundle','Not Available');return}
+    if(!raw){rowsEl.innerHTML=row('Duration','Bundle','Not Available');return}
     const plan=JSON.parse(raw);
     /* #15 animated amount count-up */
     const target=parseFloat(plan.amount||0);
@@ -247,7 +254,7 @@ function haptic(style){
       row('Voice','Voice',(plan.voice||0)+' Minutes')+
       row('SMS','SMS',(plan.sms||0)+' SMS')+
       row('Data','Data',(plan.data||0)+' GB');
-  }catch(e){rowsEl.innerHTML=row('#9eb5d4','Bundle','Not Available')}
+  }catch(e){rowsEl.innerHTML=row('Duration','Bundle','Not Available')}
 
   /* ── FIREWORKS ENGINE ─────────────────── */
   const canvas=document.getElementById('fwCanvas');
