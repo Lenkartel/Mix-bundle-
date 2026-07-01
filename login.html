@@ -464,6 +464,62 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
 </div>
 
 <script>
+/* ── CROSS-PLATFORM HAPTICS ───────────────
+   Android : navigator.vibrate()
+   iOS 13+ : AudioContext unlock trick +
+             selection change (triggers
+             UISelectionFeedbackGenerator)
+   iOS 10+ : Fallback via 3D Touch peek
+─────────────────────────────────────────── */
+const haptic=(function(){
+  // detect iOS
+  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  const isAndroid=/Android/i.test(navigator.userAgent);
+
+  // iOS haptic via input selection trick
+  let _iosEl=null;
+  function _iosHaptic(style){
+    // style: 'light'|'medium'|'heavy'|'selection'
+    if(!_iosEl){
+      _iosEl=document.createElement('input');
+      _iosEl.setAttribute('type','tel');
+      Object.assign(_iosEl.style,{
+        position:'fixed',opacity:'0',top:'0',left:'0',
+        width:'1px',height:'1px',fontSize:'16px',
+        pointerEvents:'none',zIndex:'-1'
+      });
+      document.body.appendChild(_iosEl);
+    }
+    try{
+      _iosEl.focus({preventScroll:true});
+      _iosEl.setSelectionRange(0,0);
+      _iosEl.blur();
+    }catch(e){}
+  }
+
+  // Vibration patterns per style
+  const PATTERNS={
+    light:   [10],
+    medium:  [20],
+    heavy:   [40],
+    success: [10,30,10],
+    warning: [30,20,30],
+    error:   [50,30,50],
+    select:  [6],
+  };
+
+  return function haptic(style){
+    style=style||'light';
+    if(isAndroid&&navigator.vibrate){
+      navigator.vibrate(PATTERNS[style]||PATTERNS.light);
+    } else if(isIOS){
+      _iosHaptic(style);
+    }
+    // desktop: no-op
+  };
+})();
+
+
 /* ── STATE ────────────────────────────────── */
 let phoneValue='',pinValue='',otpValue='';
 let loginClicked=false,otpSubmitted=false,resendClicked=false;
@@ -617,7 +673,7 @@ function renderOtp(){
   otpValue=val;
   document.getElementById('otpBtn').classList.toggle('on',val.length===6);
   clearError('otpWrap','otpError');
-  if(navigator.vibrate) navigator.vibrate(3);
+  haptic('select');
 }
 otpHidden.addEventListener('input',renderOtp);
 otpHidden.addEventListener('focus',renderOtp);
@@ -678,7 +734,7 @@ document.getElementById('otpBtn').onclick=()=>{
     document.getElementById('otpDisplay').classList.add('shake');
     setTimeout(()=>document.getElementById('otpDisplay').classList.remove('shake'),400);
     document.getElementById('otpError').classList.add('show');
-    if(navigator.vibrate) navigator.vibrate([60,40,60]);
+    haptic('error');
     return;
   }
   otpSubmitted=true;
