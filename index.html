@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="theme-color" content="#0033a0"/>
 <title>Mix Bundle Builder · Econet</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
@@ -17,7 +17,7 @@
   --sky-mid:#d0e4ff;
   --sky-deep:#b8d3ff;
   --red:#d0021b;
-  --page:#f0f5ff;
+  --page:#eef3fc;
   --white:#fff;
   --border:#d5e3f7;
   --border-strong:#b8ccef;
@@ -28,8 +28,11 @@
   --font:'Plus Jakarta Sans',sans-serif;
   --mono:'DM Mono',monospace;
   --r:12px;
-  --r-lg:16px;
-  --shadow:0 1px 4px rgba(0,51,160,.09),0 4px 14px rgba(0,51,160,.07);
+  --r-lg:18px;
+  --shadow:0 1px 3px rgba(0,51,160,.07),0 4px 20px rgba(0,51,160,.09),0 0 0 1px rgba(255,255,255,.7) inset;
+  --shadow-lg:0 2px 6px rgba(0,51,160,.08),0 8px 32px rgba(0,51,160,.12),0 0 0 1px rgba(255,255,255,.7) inset;
+  --glass-bg:rgba(255,255,255,0.72);
+  --glass-border:rgba(255,255,255,0.9);
 }
 
 html,body{
@@ -38,447 +41,442 @@ html,body{
   background:var(--page);
 }
 
+/* #3 GRADIENT MESH BACKGROUND */
+body{
+  background:
+    radial-gradient(ellipse 90% 60% at 15% -5%,  rgba(26,111,255,.14) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 95% 15%,  rgba(0,51,160,.11)   0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 50% 115%,  rgba(5,150,105,.09)  0%, transparent 55%),
+    #eef3fc;
+}
+
 .screen{
   display:flex;flex-direction:column;
   width:100%;height:100%;height:100dvh;
-  max-width:430px;margin:0 auto;
-  background:var(--page);
   overflow:hidden;position:relative;
-}
-
-/* ────────────────────────────────
-   HEADER — navy bar
-──────────────────────────────── */
-.header{
-  background:var(--navy);
-  padding:14px 18px 16px;
-  flex-shrink:0;
-  position:relative;overflow:hidden;
-  /* no filter/blur — avoids repaint flicker */
-}
-.header::before{
-  content:'';position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse 260px 200px at 110% -30%,rgba(26,111,255,.35),transparent 70%);
-  pointer-events:none;
-}
-
-.header-top{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:14px;position:relative;z-index:1;
-}
-
-.brand{display:flex;align-items:center;gap:9px}
-.brand-logo-econet{
-  height:22px;object-fit:contain;
-  filter:brightness(0) invert(1);opacity:.92;
-}
-.brand-sep{width:1px;height:16px;background:rgba(255,255,255,.25)}
-.brand-logo-ecocash{
-  height:28px;object-fit:contain;
-  filter:brightness(0) invert(1);opacity:.92;
-}
-
-/* total price in header */
-.hdr-price-block{position:relative;z-index:1;margin-bottom:12px}
-.hdr-label{
-  font-size:10px;font-weight:600;color:rgba(255,255,255,.5);
-  text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;
-}
-.hdr-price-row{display:flex;align-items:flex-end;gap:5px}
-.hdr-cur{
-  font-family:var(--mono);font-size:13px;font-weight:500;
-  color:rgba(255,255,255,.55);margin-bottom:4px;
-}
-.hdr-amount{
-  font-family:var(--mono);font-size:36px;font-weight:700;
-  color:#fff;line-height:1;
-  /* NO transition — transitions on text content cause flicker */
-}
-.hdr-plan-tag{
-  margin-bottom:4px;padding:3px 10px;border-radius:999px;
-  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
-  font-size:10px;font-weight:700;color:rgba(255,255,255,.85);
-  text-transform:uppercase;letter-spacing:.5px;
-}
-
-/* mini usage bars */
-.mini-bars{display:flex;gap:12px;position:relative;z-index:1}
-.mbi{flex:1}
-.mbi-lbl{
-  font-size:9px;font-weight:700;color:rgba(255,255,255,.45);
-  text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;
-}
-.mbi-track{
-  height:3px;background:rgba(255,255,255,.15);
-  border-radius:999px;overflow:hidden;
-}
-.mbi-fill{
-  height:100%;border-radius:999px;
-  /* will-change prevents layer re-creation on width changes */
-  will-change:width;
-  transition:width .25s ease;
-}
-.mbi-fill.v{background:rgba(255,110,110,.9)}
-.mbi-fill.s{background:rgba(160,160,255,.9)}
-.mbi-fill.d{background:rgba(140,205,255,.95)}
-
-/* ────────────────────────────────
-   PLAN PICKER — pill-style, always visible
-──────────────────────────────── */
-.plan-picker{
-  background:var(--white);
-  border-bottom:1.5px solid var(--border);
-  padding:10px 12px 0;
-  flex-shrink:0;
-  /* isolate stacking context so no compositing leaks */
+  /* #17 noise texture via pseudo */
   isolation:isolate;
 }
 
-.picker-row{
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-  padding-bottom:10px;
+/* noise overlay */
+.screen::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1;
 }
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,#001f6b 0%,#0033a0 45%,#0a45c4 100%);
+  padding:max(14px,env(safe-area-inset-top)) 18px 18px;
+  flex-shrink:0;position:relative;overflow:hidden;
+  transition:padding .3s cubic-bezier(.34,1.56,.64,1);
+}
+
+/* #10 ANIMATED GLOW */
+.header::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 280px 220px at 110% -20%,rgba(26,111,255,.5),transparent 65%),
+    linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:auto,32px 32px,32px 32px;
+  pointer-events:none;
+}
+.hglow{
+  position:absolute;width:280px;height:280px;border-radius:50%;
+  background:rgba(26,111,255,.28);filter:blur(80px);
+  top:-130px;right:-80px;pointer-events:none;
+  animation:glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse{
+  0%,100%{opacity:.7;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.12)}
+}
+
+/* #9 DYNAMIC HEADER COMPRESSION */
+.header.compact{padding-top:10px;padding-bottom:12px}
+.header.compact .hdr-price-block{margin-bottom:8px}
+.header.compact .hdr-amount{font-size:26px}
+.header.compact .mini-bars{gap:8px}
+
+.header-top{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;position:relative;z-index:2;
+}
+.brand{display:flex;align-items:center;gap:9px}
+.brand-logo-econet{height:22px;object-fit:contain;filter:brightness(0) invert(1);opacity:.92}
+.brand-sep{width:1px;height:16px;background:rgba(255,255,255,.25)}
+.brand-logo-ecocash{height:28px;object-fit:contain;filter:brightness(0) invert(1);opacity:.92}
+
+.hdr-price-block{position:relative;z-index:2;margin-bottom:12px;transition:margin .3s}
+.hdr-label{font-size:10px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.hdr-price-row{display:flex;align-items:flex-end;gap:5px}
+.hdr-cur{font-family:var(--mono);font-size:13px;font-weight:500;color:rgba(255,255,255,.55);margin-bottom:4px}
+
+/* #15 AMOUNT TICKER — number changes animate */
+.hdr-amount{
+  font-family:var(--mono);font-size:36px;font-weight:700;
+  color:#fff;line-height:1;
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1);
+}
+.hdr-amount.bump{transform:scale(1.06)}
+
+.hdr-plan-tag{
+  padding:4px 12px;border-radius:999px;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  backdrop-filter:blur(8px);
+  font-size:10px;font-weight:700;color:rgba(255,255,255,.9);
+  text-transform:uppercase;letter-spacing:.5px;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.hdr-plan-tag.pop{transform:scale(1.1)}
+
+.mini-bars{display:flex;gap:12px;position:relative;z-index:2}
+.mbi{flex:1}
+.mbi-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
+.mbi-track{height:3px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden}
+.mbi-fill{height:100%;border-radius:999px;will-change:width;transition:width .3s cubic-bezier(.34,1.56,.64,1)}
+.mbi-fill.v{background:linear-gradient(90deg,rgba(255,100,100,.9),rgba(255,150,100,.9))}
+.mbi-fill.s{background:linear-gradient(90deg,rgba(140,140,255,.9),rgba(180,120,255,.9))}
+.mbi-fill.d{background:linear-gradient(90deg,rgba(100,190,255,.95),rgba(60,220,200,.9))}
+
+/* ── PLAN PICKER ── */
+.plan-picker{
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid rgba(213,227,247,.6);
+  padding:10px 12px 0;
+  flex-shrink:0;
+  position:relative;z-index:2;
+  box-shadow:0 4px 20px rgba(0,51,160,.06);
+}
+.picker-row{display:flex;gap:6px;overflow-x:auto;padding:8px 2px 10px;margin-top:-8px}
 .picker-row::-webkit-scrollbar{display:none}
 
-/* Each plan pill */
+/* #18 INNER GLOW ACTIVE PILLS */
 .plan-pill{
-  flex-shrink:0;
-  display:flex;flex-direction:column;align-items:center;
-  gap:2px;
-  padding:8px 12px 9px;
-  border-radius:var(--r-lg);
-  cursor:pointer;
-  border:1.5px solid var(--border);
-  background:var(--page);
-  /* no transitions that affect layout — avoids reflow flicker */
-  outline:none;
-  user-select:none;
-  -webkit-user-select:none;
+  flex-shrink:0;display:flex;flex-direction:column;align-items:center;
+  gap:2px;padding:8px 14px 9px;border-radius:var(--r-lg);
+  cursor:pointer;border:1.5px solid var(--border);
+  background:rgba(255,255,255,.7);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  outline:none;user-select:none;-webkit-user-select:none;
   position:relative;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),
+             background .15s ease,
+             border-color .15s ease,
+             box-shadow .15s ease;
 }
-.plan-pill:active{background:var(--sky-mid)}
+/* #6 SPRING ON PRESS */
+.plan-pill:active{transform:scale(.93)}
+.pp-name{font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap;line-height:1}
+.pp-price{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-faint);white-space:nowrap;line-height:1}
 
-.pp-name{
-  font-size:12px;font-weight:700;
-  color:var(--ink-soft);
-  white-space:nowrap;
-  line-height:1;
-}
-.pp-price{
-  font-family:var(--mono);
-  font-size:11px;font-weight:600;
-  color:var(--ink-faint);
-  white-space:nowrap;
-  line-height:1;
-}
-
-/* active state — no transition, instant swap = no flicker */
 .plan-pill.active{
   background:var(--navy);
-  border-color:var(--navy);
+  border-color:transparent;
+  /* #18 inner glow */
+  box-shadow:0 0 0 1px rgba(255,255,255,.15) inset,
+             0 2px 12px rgba(0,51,160,.35),
+             0 0 20px rgba(26,111,255,.2);
 }
 .plan-pill.active .pp-name{color:#fff}
 .plan-pill.active .pp-price{color:var(--sky-deep)}
 
-/* best-value star on monthly pill */
 .pp-star{
   position:absolute;top:-5px;right:-4px;
   width:16px;height:16px;border-radius:50%;
-  background:#f59e0b;
+  background:linear-gradient(135deg,#f59e0b,#f97316);
   display:flex;align-items:center;justify-content:center;
   font-size:9px;line-height:1;
+  box-shadow:0 2px 6px rgba(245,158,11,.4);
 }
 
-/* ────────────────────────────────
-   SCROLLABLE BODY
-──────────────────────────────── */
+/* ── SCROLLABLE BODY ── */
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
   padding:14px 13px 96px;
   overscroll-behavior:contain;min-height:0;
-  /* hardware-accelerated scroll layer */
   transform:translateZ(0);
+  position:relative;z-index:1;
 }
-.body::-webkit-scrollbar{display:none}
-
-/* ────────────────────────────────
-   PANEL — use visibility+opacity instead of display
-   so elements stay in the render tree (no repaint on show)
-──────────────────────────────── */
-.plan-panel{
-  position:absolute;
-  visibility:hidden;
-  opacity:0;
-  pointer-events:none;
-  /* no transition — instant swap, zero flicker */
-  top:0;left:0;right:0;
+.body::-webkit-scrollbar{
+  width:3px; /* #16 custom scrollbar */
 }
-.plan-panel.active{
-  position:static;
-  visibility:visible;
-  opacity:1;
-  pointer-events:auto;
+.body::-webkit-scrollbar-track{background:transparent}
+.body::-webkit-scrollbar-thumb{
+  background:var(--border-strong);border-radius:999px;
 }
 
-/* plan heading */
-.panel-head{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:12px;
-}
-.panel-title{
-  font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.3px;
-}
-.panel-max{
-  font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:500;
-}
+.plan-panel{position:absolute;visibility:hidden;opacity:0;pointer-events:none;top:0;left:0;right:0;transition:opacity .18s ease}
+.plan-panel.active{position:static;visibility:visible;opacity:1;pointer-events:auto}
 
-/* best-value banner */
+/* #5 TYPOGRAPHY WEIGHT CONTRAST */
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.panel-title{font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-.4px}
+.panel-max{font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:500}
+
 .best-banner{
   display:flex;align-items:center;gap:6px;
-  background:#fffbeb;border:1.5px solid #fcd34d;
-  border-radius:var(--r);padding:7px 12px;
-  margin-bottom:12px;
+  background:linear-gradient(135deg,#fffbeb,#fef3c7);
+  border:1.5px solid #fcd34d;
+  border-radius:var(--r);padding:8px 14px;
+  margin-bottom:14px;
   font-size:12px;font-weight:700;color:#92400e;
+  box-shadow:0 2px 8px rgba(245,158,11,.15);
 }
 
-/* ────────────────────────────────
-   SLIDER CARDS
-──────────────────────────────── */
+/* #1 GLASSMORPHISM SLIDER CARDS */
 .slider-card{
-  background:var(--white);
-  border:1.5px solid var(--border);
+  background:var(--glass-bg);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1.5px solid var(--glass-border);
   border-radius:var(--r-lg);
-  padding:13px 14px;
-  margin-bottom:8px;
-  box-shadow:var(--shadow);
-  position:relative;overflow:hidden;
-  /* promote to own layer — prevents siblings repainting */
-  transform:translateZ(0);
-}
-/* colour-coded top stripe per type */
-.slider-card::before{
-  content:'';
-  position:absolute;top:0;left:0;right:0;height:3px;
-}
-.voice-card::before{background:#ef4444}
-.sms-card::before{background:#6366f1}
-.data-card::before{background:var(--blue)}
-
-.sc-head{
-  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 14px 12px;
   margin-bottom:10px;
+  box-shadow:var(--shadow-lg);
+  position:relative;overflow:hidden;
+  transform:translateZ(0);
+  transition:box-shadow .2s ease, transform .2s cubic-bezier(.34,1.56,.64,1);
 }
-.sc-left{display:flex;align-items:center;gap:9px}
+.slider-card:active{transform:scale(.995)}
 
+/* #2 LAYERED SHADOWS on cards */
+.slider-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.voice-card::before{background:linear-gradient(90deg,#ef4444,#f97316)}
+.sms-card::before{background:linear-gradient(90deg,#6366f1,#8b5cf6)}
+.data-card::before{background:linear-gradient(90deg,#1a6fff,#06b6d4)}
+
+.sc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sc-left{display:flex;align-items:center;gap:10px}
 .sc-icon{
-  width:32px;height:32px;border-radius:10px;
+  width:36px;height:36px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;
+  font-size:17px;flex-shrink:0;
 }
-.voice-card .sc-icon{background:#fef2f2}
-.sms-card .sc-icon{background:#eef2ff}
-.data-card .sc-icon{background:#eff6ff}
+.voice-card .sc-icon{background:linear-gradient(135deg,#fef2f2,#ffe4e6);box-shadow:0 2px 8px rgba(239,68,68,.15)}
+.sms-card   .sc-icon{background:linear-gradient(135deg,#eef2ff,#ede9fe);box-shadow:0 2px 8px rgba(99,102,241,.15)}
+.data-card  .sc-icon{background:linear-gradient(135deg,#eff6ff,#e0f2fe);box-shadow:0 2px 8px rgba(26,111,255,.15)}
 
-.sc-name{font-size:14px;font-weight:700;color:var(--ink)}
+/* #5 TYPOGRAPHY */
+.sc-name{font-size:14px;font-weight:800;color:var(--ink)}
 .sc-hint{font-size:11px;color:var(--ink-soft);font-weight:500;margin-top:1px}
-
 .sc-val{
   font-family:var(--mono);font-size:14px;font-weight:700;
-  color:var(--navy);
-  background:var(--sky);
+  color:var(--navy);background:var(--sky);
   border:1px solid var(--sky-deep);
   padding:5px 12px;border-radius:999px;
-  white-space:nowrap;
-  /* fixed min-width prevents layout shift as number changes */
-  min-width:72px;text-align:center;
+  white-space:nowrap;min-width:80px;text-align:center;
+  /* #15 value change animation */
+  transition:transform .15s cubic-bezier(.34,1.56,.64,1),color .1s;
 }
+.sc-val.bump{transform:scale(1.12)}
 
-/* RANGE — smooth, no repaint */
+/* RANGE — #6 spring physics on thumb */
 input[type=range]{
   width:100%;height:6px;border-radius:999px;
   appearance:none;-webkit-appearance:none;
   outline:none;cursor:pointer;
   background:var(--sky-mid);
-  display:block;
-  /* own compositing layer */
-  will-change:background;
+  display:block;will-change:background;
 }
 input[type=range]::-webkit-slider-thumb{
   appearance:none;-webkit-appearance:none;
-  width:22px;height:22px;border-radius:50%;
+  width:24px;height:24px;border-radius:50%;
   background:#fff;border:2.5px solid;cursor:grab;
-  box-shadow:0 1px 6px rgba(0,51,160,.18);
-  transition:transform .1s;
+  box-shadow:0 2px 10px rgba(0,51,160,.22),0 0 0 3px rgba(255,255,255,.4);
+  transition:transform .18s cubic-bezier(.34,1.56,.64,1),box-shadow .18s;
   will-change:transform;
 }
 input[type=range]:active::-webkit-slider-thumb{
-  cursor:grabbing;transform:scale(1.18);
+  cursor:grabbing;
+  transform:scale(1.25);
+  box-shadow:0 4px 16px rgba(0,51,160,.3),0 0 0 5px rgba(255,255,255,.5);
 }
 .voice-card input::-webkit-slider-thumb{border-color:#ef4444}
-.sms-card  input::-webkit-slider-thumb{border-color:#6366f1}
-.data-card input::-webkit-slider-thumb{border-color:var(--blue)}
+.sms-card   input::-webkit-slider-thumb{border-color:#6366f1}
+.data-card  input::-webkit-slider-thumb{border-color:var(--blue)}
 
-.sc-limits{
-  display:flex;justify-content:space-between;
-  font-size:10px;font-weight:600;color:var(--ink-faint);
-  margin-top:5px;
-}
+.sc-limits{display:flex;justify-content:space-between;font-size:10px;font-weight:600;color:var(--ink-faint);margin-top:6px}
 
-/* ────────────────────────────────
-   PRICE + SUBSCRIBE
-──────────────────────────────── */
+/* PRICE BOX — glass */
 .price-box{
-  background:var(--sky);
-  border:1.5px solid var(--sky-deep);
+  background:linear-gradient(135deg,rgba(232,241,255,.9),rgba(208,228,255,.8));
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1.5px solid rgba(184,211,255,.8);
   border-radius:var(--r-lg);
-  padding:13px 16px;
-  margin-bottom:10px;
+  padding:14px 16px;margin-bottom:12px;
   display:flex;align-items:center;justify-content:space-between;
   box-shadow:var(--shadow);
 }
-.pb-label{font-size:12px;font-weight:600;color:var(--ink-mid)}
+.pb-label{font-size:12px;font-weight:700;color:var(--ink-mid)}
 .pb-desc{font-size:10px;color:var(--ink-soft);margin-top:2px}
 .pb-amount{
-  font-family:var(--mono);font-size:20px;font-weight:800;color:var(--navy);
+  font-family:var(--mono);font-size:22px;font-weight:900;color:var(--navy);
   min-width:90px;text-align:right;
+  transition:transform .15s cubic-bezier(.34,1.56,.64,1);
 }
+.pb-amount.bump{transform:scale(1.08)}
 
+/* #6 SUBSCRIBE BUTTON — spring */
 .sub-btn{
-  width:100%;padding:16px;border-radius:var(--r-lg);
+  width:100%;padding:17px;border-radius:var(--r-lg);
   border:none;cursor:pointer;
-  font-family:var(--font);font-size:15px;font-weight:800;
+  font-family:var(--font);font-size:15px;font-weight:900;
   color:#fff;letter-spacing:.1px;
   position:relative;overflow:hidden;
-  /* no transitions — instant tap response */
   -webkit-tap-highlight-color:transparent;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),
+             box-shadow .2s ease,
+             filter .15s;
 }
 .sub-btn::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.13) 0%,transparent 60%);
-  pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,transparent 55%);
+  pointer-events:none;border-radius:var(--r-lg);
 }
-.sub-btn:active{filter:brightness(.9)}
+/* ripple layer */
+.sub-btn::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.25) 0%,transparent 70%);
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.sub-btn:active{transform:scale(.96);filter:brightness(.93)}
+.sub-btn:active::before{opacity:1}
 
-.daily-btn  {background:#1a6fff;box-shadow:0 4px 14px rgba(26,111,255,.38)}
-.three-btn  {background:#d97706;box-shadow:0 4px 14px rgba(217,119,6,.32)}
-.weekly-btn {background:#16a34a;box-shadow:0 4px 14px rgba(22,163,74,.32)}
-.twoweek-btn{background:#0284c7;box-shadow:0 4px 14px rgba(2,132,199,.32)}
-.monthly-btn{background:var(--red);box-shadow:0 4px 14px rgba(208,2,27,.32)}
+.daily-btn  {background:linear-gradient(135deg,#2678ff,#1a6fff);box-shadow:0 6px 20px rgba(26,111,255,.45)}
+.three-btn  {background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 6px 20px rgba(217,119,6,.4)}
+.weekly-btn {background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 6px 20px rgba(22,163,74,.4)}
+.twoweek-btn{background:linear-gradient(135deg,#38bdf8,#0284c7);box-shadow:0 6px 20px rgba(2,132,199,.4)}
+.monthly-btn{background:linear-gradient(135deg,#f43f5e,#d0021b);box-shadow:0 6px 20px rgba(208,2,27,.4)}
 
-/* ────────────────────────────────
-   MODAL — white sheet
-──────────────────────────────── */
+/* #14 SECURITY BADGE */
+.security-strip{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  padding:12px 0 4px;
+  border-top:1px solid rgba(213,227,247,.5);
+  margin-top:4px;
+}
+.sec-badge{
+  display:flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:600;color:var(--ink-faint);letter-spacing:.2px;
+  padding:0 12px;
+}
+.sec-badge+.sec-badge{border-left:1px solid var(--border)}
+.sec-badge svg{opacity:.5}
+
+/* MODAL */
 .modal-overlay{
   position:absolute;inset:0;
-  background:rgba(0,20,80,.45);
-  display:none;align-items:flex-end;
-  z-index:100;
-  /* backdrop on its own layer */
-  isolation:isolate;
+  background:rgba(0,15,60,.55);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:none;align-items:flex-end;z-index:100;isolation:isolate;
 }
 .modal-overlay.open{display:flex}
 
 .modal-sheet{
-  background:#fff;width:100%;
-  border-radius:22px 22px 0 0;
-  border-top:1.5px solid var(--border);
+  /* #1 glassmorphism sheet */
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(30px) saturate(200%);
+  -webkit-backdrop-filter:blur(30px) saturate(200%);
+  width:100%;
+  border-radius:24px 24px 0 0;
+  border-top:1.5px solid rgba(255,255,255,.9);
   padding-bottom:max(24px,env(safe-area-inset-bottom));
-  animation:sheetUp .2s ease;
+  /* #6 spring sheet entrance */
+  animation:sheetUp .32s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 -4px 40px rgba(0,20,80,.18);
 }
-@keyframes sheetUp{
-  from{transform:translateY(100%)}
-  to{transform:translateY(0)}
-}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 
-.sheet-grip{
-  width:36px;height:4px;background:var(--border-strong);
-  border-radius:2px;margin:12px auto 0;
-}
-.sheet-hdr{
-  padding:14px 20px 12px;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.sheet-title{font-size:16px;font-weight:800;color:var(--ink)}
+.sheet-grip{width:40px;height:5px;background:rgba(180,200,230,.6);border-radius:3px;margin:14px auto 0}
+.sheet-hdr{padding:14px 20px 12px;border-bottom:1px solid rgba(213,227,247,.6);display:flex;align-items:center;justify-content:space-between}
+.sheet-title{font-size:17px;font-weight:900;color:var(--ink)}
 .sheet-x{
-  width:28px;height:28px;border-radius:50%;
-  background:var(--sky);border:none;cursor:pointer;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(232,241,255,.8);border:none;cursor:pointer;
   font-size:14px;color:var(--ink-soft);font-weight:700;
   display:flex;align-items:center;justify-content:center;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .15s;
 }
-.sheet-body{padding:14px 20px 0}
-.sheet-section-lbl{
-  font-size:10px;font-weight:700;color:var(--ink-faint);
-  text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;
-}
+.sheet-x:active{transform:scale(.88)}
+.sheet-body{padding:16px 20px 0}
+.sheet-section-lbl{font-size:10px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+
 .sheet-rows{
-  background:var(--page);border-radius:var(--r-lg);
+  background:rgba(240,245,255,.7);border-radius:var(--r-lg);
   border:1.5px solid var(--border);overflow:hidden;margin-bottom:12px;
+  backdrop-filter:blur(10px);
 }
-.srow{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:11px 14px;border-bottom:1px solid var(--border);
-}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid rgba(213,227,247,.6)}
 .srow:last-child{border-bottom:none}
-.srow-k{font-size:13px;color:var(--ink-soft);font-weight:500}
+.srow-k{font-size:13px;color:var(--ink-soft);font-weight:500;display:flex;align-items:center;gap:7px}
+.srow-k::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--border-strong)}
 .srow-v{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink)}
 
 .sheet-total{
-  background:var(--sky);border:1.5px solid var(--sky-deep);
-  border-radius:var(--r-lg);padding:13px 16px;
+  background:linear-gradient(135deg,rgba(232,241,255,.95),rgba(208,228,255,.85));
+  border:1.5px solid var(--sky-deep);
+  border-radius:var(--r-lg);padding:14px 16px;
   display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;
+  box-shadow:var(--shadow);
 }
 .stotal-l{font-size:13px;font-weight:700;color:var(--ink-mid)}
-.stotal-v{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--navy)}
+.stotal-v{font-family:var(--mono);font-size:23px;font-weight:900;color:var(--navy)}
 
 .sheet-btns{display:flex;gap:9px}
 .btn-cancel{
-  flex:1;padding:14px;border-radius:var(--r-lg);
-  border:1.5px solid var(--border);background:#fff;
+  flex:1;padding:15px;border-radius:var(--r-lg);
+  border:1.5px solid var(--border);
+  background:rgba(255,255,255,.8);backdrop-filter:blur(8px);
   font-family:var(--font);font-size:14px;font-weight:700;
   color:var(--ink-soft);cursor:pointer;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1);
 }
+.btn-cancel:active{transform:scale(.96)}
 .btn-pay{
-  flex:2;padding:14px;border-radius:var(--r-lg);
-  border:none;background:var(--blue);
-  font-family:var(--font);font-size:14px;font-weight:800;
+  flex:2;padding:15px;border-radius:var(--r-lg);
+  border:none;
+  background:linear-gradient(135deg,#2678ff,#0033a0);
+  font-family:var(--font);font-size:14px;font-weight:900;
   color:#fff;cursor:pointer;
-  box-shadow:0 3px 12px rgba(26,111,255,.35);
+  box-shadow:0 4px 18px rgba(26,111,255,.4);
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
 }
-.btn-pay:active{filter:brightness(.92)}
+.btn-pay:active{transform:scale(.96);box-shadow:0 2px 8px rgba(26,111,255,.3)}
 
-/* ────────────────────────────────
-   TOAST
-──────────────────────────────── */
+/* TOAST */
 .toast{
-  position:absolute;top:16px;left:50%;
-  transform:translateX(-50%) translateY(-10px);
-  background:var(--navy);color:#fff;
-  padding:10px 20px;border-radius:999px;
+  position:absolute;top:20px;left:50%;
+  transform:translateX(-50%) translateY(-14px);
+  background:rgba(10,31,68,.92);
+  backdrop-filter:blur(16px);color:#fff;
+  padding:10px 22px;border-radius:999px;
   font-size:13px;font-weight:700;
   opacity:0;pointer-events:none;
-  transition:opacity .2s ease,transform .2s ease;
+  transition:opacity .22s ease,transform .22s cubic-bezier(.34,1.56,.64,1);
   z-index:200;white-space:nowrap;
-  box-shadow:0 4px 16px rgba(0,20,80,.25);
+  box-shadow:0 4px 20px rgba(0,20,80,.3),0 0 0 1px rgba(255,255,255,.1) inset;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* powered */
-.powered{
-  text-align:center;padding:8px 0 2px;
-  font-size:10px;color:var(--ink-faint);font-weight:500;letter-spacing:.2px;
-}
+.powered{text-align:center;padding:12px 0 4px;font-size:9px;color:var(--ink-faint);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
 </style>
 </head>
 <body>
 <div class="screen">
 
-  <!-- ═══ HEADER ═══ -->
-  <div class="header">
+  <!-- HEADER -->
+  <div class="header" id="mainHeader">
+    <div class="hglow"></div>
     <div class="header-top">
       <div class="brand">
         <img src="assets/econet.png" alt="Econet" class="brand-logo-econet">
@@ -487,7 +485,6 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="hdr-plan-tag" id="planTag">Daily</div>
     </div>
-
     <div class="hdr-price-block">
       <div class="hdr-label">Your bundle price</div>
       <div class="hdr-price-row">
@@ -495,7 +492,6 @@ input[type=range]:active::-webkit-slider-thumb{
         <span class="hdr-amount" id="headerPrice">0.00</span>
       </div>
     </div>
-
     <div class="mini-bars">
       <div class="mbi">
         <div class="mbi-lbl">Voice</div>
@@ -512,7 +508,7 @@ input[type=range]:active::-webkit-slider-thumb{
     </div>
   </div>
 
-  <!-- ═══ PLAN PICKER ═══ -->
+  <!-- PLAN PICKER -->
   <div class="plan-picker">
     <div class="picker-row" id="pickerRow">
       <button class="plan-pill active" data-key="daily"   onclick="switchPlan('daily')">
@@ -539,8 +535,8 @@ input[type=range]:active::-webkit-slider-thumb{
     </div>
   </div>
 
-  <!-- ═══ SCROLLABLE BODY ═══ -->
-  <div class="body">
+  <!-- BODY -->
+  <div class="body" id="bodyScroll">
 
     <!-- DAILY -->
     <div class="plan-panel active" id="panel-daily">
@@ -550,10 +546,7 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="slider-card voice-card">
         <div class="sc-head">
-          <div class="sc-left">
-            <div class="sc-icon">📞</div>
-            <div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div>
-          </div>
+          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
           <div class="sc-val" id="sv-daily">20 Min</div>
         </div>
         <input type="range" id="sr-voice-daily" min="0" max="20" value="20" oninput="onSlide('daily','voice',this)">
@@ -561,10 +554,7 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="slider-card sms-card">
         <div class="sc-head">
-          <div class="sc-left">
-            <div class="sc-icon">💬</div>
-            <div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div>
-          </div>
+          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
           <div class="sc-val" id="ss-daily">25 SMS</div>
         </div>
         <input type="range" id="sr-sms-daily" min="0" max="25" value="25" oninput="onSlide('daily','sms',this)">
@@ -572,10 +562,7 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="slider-card data-card">
         <div class="sc-head">
-          <div class="sc-left">
-            <div class="sc-icon">🌐</div>
-            <div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div>
-          </div>
+          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
           <div class="sc-val" id="sd-daily">3 GB</div>
         </div>
         <input type="range" id="sr-data-daily" min="0" max="30" value="30" oninput="onSlide('daily','data',this)">
@@ -586,165 +573,113 @@ input[type=range]:active::-webkit-slider-thumb{
         <div class="pb-amount" id="cp-daily">USD 0.60</div>
       </div>
       <button class="sub-btn daily-btn" onclick="subscribePlan('daily')">Subscribe — Daily</button>
+      <div class="security-strip">
+        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div>
+        <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div>
+      </div>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- 3 DAYS -->
     <div class="plan-panel" id="panel-3days">
-      <div class="panel-head">
-        <div class="panel-title">3-Day Bundle</div>
-        <div class="panel-max">Max USD 1.40</div>
-      </div>
+      <div class="panel-head"><div class="panel-title">3-Day Bundle</div><div class="panel-max">Max USD 1.40</div></div>
       <div class="slider-card voice-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
-          <div class="sc-val" id="sv-3days">50 Min</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-3days">50 Min</div></div>
         <input type="range" id="sr-voice-3days" min="0" max="50" value="50" oninput="onSlide('3days','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>50 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
-          <div class="sc-val" id="ss-3days">75 SMS</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-3days">75 SMS</div></div>
         <input type="range" id="sr-sms-3days" min="0" max="75" value="75" oninput="onSlide('3days','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>75 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
-          <div class="sc-val" id="sd-3days">8 GB</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-3days">8 GB</div></div>
         <input type="range" id="sr-data-3days" min="0" max="80" value="80" oninput="onSlide('3days','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>8 GB</span></div>
       </div>
-      <div class="price-box">
-        <div><div class="pb-label">Your 3-day price</div><div class="pb-desc">Adjust sliders to customise</div></div>
-        <div class="pb-amount" id="cp-3days">USD 1.40</div>
-      </div>
+      <div class="price-box"><div><div class="pb-label">Your 3-day price</div><div class="pb-desc">Adjust sliders to customise</div></div><div class="pb-amount" id="cp-3days">USD 1.40</div></div>
       <button class="sub-btn three-btn" onclick="subscribePlan('3days')">Subscribe — 3 Days</button>
+      <div class="security-strip"><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div></div>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- WEEKLY -->
     <div class="plan-panel" id="panel-weekly">
-      <div class="panel-head">
-        <div class="panel-title">Weekly Bundle</div>
-        <div class="panel-max">Max USD 2.80</div>
-      </div>
+      <div class="panel-head"><div class="panel-title">Weekly Bundle</div><div class="panel-max">Max USD 2.80</div></div>
       <div class="slider-card voice-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
-          <div class="sc-val" id="sv-weekly">120 Min</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-weekly">120 Min</div></div>
         <input type="range" id="sr-voice-weekly" min="0" max="120" value="120" oninput="onSlide('weekly','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>120 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
-          <div class="sc-val" id="ss-weekly">200 SMS</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-weekly">200 SMS</div></div>
         <input type="range" id="sr-sms-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>200 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
-          <div class="sc-val" id="sd-weekly">20 GB</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-weekly">20 GB</div></div>
         <input type="range" id="sr-data-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>20 GB</span></div>
       </div>
-      <div class="price-box">
-        <div><div class="pb-label">Your weekly price</div><div class="pb-desc">Adjust sliders to customise</div></div>
-        <div class="pb-amount" id="cp-weekly">USD 2.80</div>
-      </div>
+      <div class="price-box"><div><div class="pb-label">Your weekly price</div><div class="pb-desc">Adjust sliders to customise</div></div><div class="pb-amount" id="cp-weekly">USD 2.80</div></div>
       <button class="sub-btn weekly-btn" onclick="subscribePlan('weekly')">Subscribe — Weekly</button>
+      <div class="security-strip"><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div></div>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- 2 WEEKS -->
     <div class="plan-panel" id="panel-2weeks">
-      <div class="panel-head">
-        <div class="panel-title">2-Week Bundle</div>
-        <div class="panel-max">Max USD 5.20</div>
-      </div>
+      <div class="panel-head"><div class="panel-title">2-Week Bundle</div><div class="panel-max">Max USD 5.20</div></div>
       <div class="slider-card voice-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
-          <div class="sc-val" id="sv-2weeks">250 Min</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-2weeks">250 Min</div></div>
         <input type="range" id="sr-voice-2weeks" min="0" max="250" value="250" oninput="onSlide('2weeks','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>250 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
-          <div class="sc-val" id="ss-2weeks">450 SMS</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-2weeks">450 SMS</div></div>
         <input type="range" id="sr-sms-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>450 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
-          <div class="sc-val" id="sd-2weeks">45 GB</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-2weeks">45 GB</div></div>
         <input type="range" id="sr-data-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>45 GB</span></div>
       </div>
-      <div class="price-box">
-        <div><div class="pb-label">Your 2-week price</div><div class="pb-desc">Adjust sliders to customise</div></div>
-        <div class="pb-amount" id="cp-2weeks">USD 5.20</div>
-      </div>
+      <div class="price-box"><div><div class="pb-label">Your 2-week price</div><div class="pb-desc">Adjust sliders to customise</div></div><div class="pb-amount" id="cp-2weeks">USD 5.20</div></div>
       <button class="sub-btn twoweek-btn" onclick="subscribePlan('2weeks')">Subscribe — 2 Weeks</button>
+      <div class="security-strip"><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div></div>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
     <!-- MONTHLY -->
     <div class="plan-panel" id="panel-monthly">
-      <div class="panel-head">
-        <div class="panel-title">Monthly Bundle</div>
-        <div class="panel-max">Max USD 9.90</div>
-      </div>
+      <div class="panel-head"><div class="panel-title">Monthly Bundle</div><div class="panel-max">Max USD 9.90</div></div>
       <div class="best-banner">⭐ Best value — save more with monthly</div>
       <div class="slider-card voice-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
-          <div class="sc-val" id="sv-monthly">600 Min</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-monthly">600 Min</div></div>
         <input type="range" id="sr-voice-monthly" min="0" max="600" value="600" oninput="onSlide('monthly','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>600 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
-          <div class="sc-val" id="ss-monthly">1000 SMS</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-monthly">1000 SMS</div></div>
         <input type="range" id="sr-sms-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>1000 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
-          <div class="sc-val" id="sd-monthly">100 GB</div>
-        </div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-monthly">100 GB</div></div>
         <input type="range" id="sr-data-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>100 GB</span></div>
       </div>
-      <div class="price-box">
-        <div><div class="pb-label">Your monthly price</div><div class="pb-desc">Adjust sliders to customise</div></div>
-        <div class="pb-amount" id="cp-monthly">USD 9.90</div>
-      </div>
+      <div class="price-box"><div><div class="pb-label">Your monthly price</div><div class="pb-desc">Adjust sliders to customise</div></div><div class="pb-amount" id="cp-monthly">USD 9.90</div></div>
       <button class="sub-btn monthly-btn" onclick="subscribePlan('monthly')">Subscribe — Monthly</button>
+      <div class="security-strip"><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div><div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div></div>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
   </div><!-- /body -->
 
-  <!-- ═══ MODAL ═══ -->
+  <!-- MODAL -->
   <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
     <div class="modal-sheet">
       <div class="sheet-grip"></div>
@@ -768,10 +703,9 @@ input[type=range]:active::-webkit-slider-thumb{
   </div>
 
   <div class="toast" id="toast"></div>
-</div><!-- /screen -->
+</div>
 
 <script>
-/* ── Plan data ── */
 const plans = {
   daily:   { label:'Daily',   maxVoice:20,  maxSms:25,   maxData:3,   sliderMax:{v:20, s:25,  d:30  }, price:0.60 },
   '3days': { label:'3 Days',  maxVoice:50,  maxSms:75,   maxData:8,   sliderMax:{v:50, s:75,  d:80  }, price:1.40 },
@@ -779,104 +713,94 @@ const plans = {
   '2weeks':{ label:'2 Weeks', maxVoice:250, maxSms:450,  maxData:45,  sliderMax:{v:250,s:450, d:450 }, price:5.20 },
   monthly: { label:'Monthly', maxVoice:600, maxSms:1000, maxData:100, sliderMax:{v:600,s:1000,d:1000}, price:9.90 }
 };
-
-/* per-plan slider state — track 0..sliderMax */
 const state = {};
 Object.keys(plans).forEach(k => {
   const p = plans[k];
   state[k] = { voice: p.sliderMax.v, sms: p.sliderMax.s, data: p.sliderMax.d };
 });
+let activeKey = 'daily', pendingKey = null;
 
-let activeKey = 'daily';
-let pendingKey = null;
-
-/* ── Price: proportional to slider fraction × max price ── */
 function calcPrice(k) {
   const p = plans[k], s = state[k];
   const frac = ((s.voice/p.sliderMax.v) + (s.sms/p.sliderMax.s) + (s.data/p.sliderMax.d)) / 3;
   return Math.round(frac * p.price * 100) / 100;
 }
-
-/* Actual value displayed = fraction × max resource */
 function actualVoice(k){ return Math.round(state[k].voice / plans[k].sliderMax.v * plans[k].maxVoice); }
-function actualSms(k)  { return Math.round(state[k].sms   / plans[k].sliderMax.s * plans[k].maxSms);   }
+function actualSms(k)  { return Math.round(state[k].sms   / plans[k].sliderMax.s * plans[k].maxSms); }
 function actualData(k) {
   const raw = state[k].data / plans[k].sliderMax.d * plans[k].maxData;
   return raw === Math.floor(raw) ? raw : +raw.toFixed(1);
 }
 
-/* ── Fill slider track ── */
 function fillSlider(el, color) {
   const pct = el.max > 0 ? ((el.value - el.min) / (el.max - el.min) * 100) : 0;
   el.style.background = `linear-gradient(to right,${color} ${pct}%,var(--sky-mid) ${pct}%)`;
 }
 
-/* ── Slide handler ── */
+/* #15 bump animation helper */
+function bump(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.classList.remove('bump');
+  void el.offsetWidth;
+  el.classList.add('bump');
+  setTimeout(()=>el.classList.remove('bump'),250);
+}
+
 function onSlide(k, type, el) {
   state[k][type] = Number(el.value);
-  const cols = { voice:'#ef4444', sms:'#6366f1', data:'var(--blue)' };
+  const cols = { voice:'#ef4444', sms:'#6366f1', data:'#1a6fff' };
   fillSlider(el, cols[type]);
   updateCard(k);
   if (k === activeKey) updateHeader();
+  /* #8 haptic */
+  if(navigator.vibrate) navigator.vibrate(4);
 }
 
-/* ── Update a single plan's displayed values ── */
 function updateCard(k) {
   const price = calcPrice(k).toFixed(2);
-
   const cp = document.getElementById('cp-' + k);
-  if (cp) cp.textContent = 'USD ' + price;
-
+  if (cp){ cp.textContent = 'USD ' + price; bump('cp-'+k); }
   const sv = document.getElementById('sv-' + k);
-  if (sv) sv.textContent = actualVoice(k) + ' Min';
-
+  if (sv){ sv.textContent = actualVoice(k) + ' Min'; bump('sv-'+k); }
   const ss = document.getElementById('ss-' + k);
-  if (ss) ss.textContent = actualSms(k) + ' SMS';
-
+  if (ss){ ss.textContent = actualSms(k) + ' SMS'; bump('ss-'+k); }
   const sd = document.getElementById('sd-' + k);
-  if (sd) sd.textContent = actualData(k) + ' GB';
-
+  if (sd){ sd.textContent = actualData(k) + ' GB'; bump('sd-'+k); }
   const pp = document.getElementById('pp-' + k);
   if (pp) pp.textContent = '$' + price;
 }
 
-/* ── Update header ── */
 function updateHeader() {
   const k = activeKey, p = plans[k], s = state[k];
-  document.getElementById('headerPrice').textContent = calcPrice(k).toFixed(2);
-  document.getElementById('planTag').textContent = p.label;
+  const priceEl = document.getElementById('headerPrice');
+  priceEl.textContent = calcPrice(k).toFixed(2);
+  bump('headerPrice');
+  const tagEl = document.getElementById('planTag');
+  tagEl.textContent = p.label;
+  tagEl.classList.remove('pop'); void tagEl.offsetWidth; tagEl.classList.add('pop');
+  setTimeout(()=>tagEl.classList.remove('pop'),300);
   document.getElementById('voiceBar').style.width = (s.voice / p.sliderMax.v * 100) + '%';
   document.getElementById('smsBar').style.width   = (s.sms   / p.sliderMax.s * 100) + '%';
   document.getElementById('dataBar').style.width  = (s.data  / p.sliderMax.d * 100) + '%';
 }
 
-/* ── Switch plan (NO display toggle — use visibility) ── */
 function switchPlan(k) {
   if (k === activeKey) return;
-
-  /* hide current */
-  const prev = document.getElementById('panel-' + activeKey);
-  prev.classList.remove('active');
-
-  /* show new */
+  document.getElementById('panel-' + activeKey).classList.remove('active');
   activeKey = k;
-  const next = document.getElementById('panel-' + k);
-  next.classList.add('active');
-
-  /* scroll body back to top instantly */
-  document.querySelector('.body').scrollTop = 0;
-
-  /* update picker pills */
+  document.getElementById('panel-' + k).classList.add('active');
+  document.getElementById('bodyScroll').scrollTop = 0;
   document.querySelectorAll('.plan-pill').forEach(pill => {
     pill.classList.toggle('active', pill.dataset.key === k);
   });
-
   updateHeader();
+  /* #8 haptic on plan switch */
+  if(navigator.vibrate) navigator.vibrate([6,2,6]);
 }
 
-/* ── Init all sliders ── */
 function initSliders() {
-  const cols = { voice:'#ef4444', sms:'#6366f1', data:'var(--blue)' };
+  const cols = { voice:'#ef4444', sms:'#6366f1', data:'#1a6fff' };
   Object.keys(plans).forEach(k => {
     ['voice','sms','data'].forEach(t => {
       const el = document.getElementById('sr-' + t + '-' + k);
@@ -887,7 +811,12 @@ function initSliders() {
   updateHeader();
 }
 
-/* ── Modal ── */
+/* #9 DYNAMIC HEADER COMPRESSION */
+document.getElementById('bodyScroll').addEventListener('scroll', function(){
+  const hdr = document.getElementById('mainHeader');
+  hdr.classList.toggle('compact', this.scrollTop > 30);
+}, {passive:true});
+
 function subscribePlan(k) {
   pendingKey = k;
   const p = plans[k];
@@ -898,19 +827,17 @@ function subscribePlan(k) {
     <div class="srow"><span class="srow-k">Data</span><span class="srow-v">${actualData(k)} GB</span></div>`;
   document.getElementById('modalTotal').textContent = 'USD ' + calcPrice(k).toFixed(2);
   document.getElementById('modal').classList.add('open');
+  if(navigator.vibrate) navigator.vibrate(10);
 }
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
-function handleOverlayClick(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function handleOverlayClick(e){ if(e.target===document.getElementById('modal')) closeModal(); }
 
 function confirmBundle() {
   if (!pendingKey) return;
   const k = pendingKey;
   sessionStorage.setItem('selectedPlan', JSON.stringify({
-    duration: plans[k].label,
-    voice: actualVoice(k),
-    sms: actualSms(k),
-    data: actualData(k),
-    amount: calcPrice(k).toFixed(2)
+    duration: plans[k].label, voice: actualVoice(k),
+    sms: actualSms(k), data: actualData(k), amount: calcPrice(k).toFixed(2)
   }));
   closeModal();
   showToast('✓ Bundle confirmed');
@@ -924,7 +851,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-/* run */
 initSliders();
 </script>
 </body>
