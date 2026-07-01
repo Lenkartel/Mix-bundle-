@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="theme-color" content="#0033a0"/>
 <title>Mix Bundle Builder · Econet</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
@@ -25,8 +25,8 @@
   --ink-mid:#2d4470;
   --ink-soft:#6b82a8;
   --ink-faint:#9eb5d4;
-  --font:'Plus Jakarta Sans',sans-serif;
-  --mono:'DM Mono',monospace;
+  --font:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
   --r:12px;
   --r-lg:18px;
   --shadow:0 1px 3px rgba(0,51,160,.07),0 4px 20px rgba(0,51,160,.09),0 0 0 1px rgba(255,255,255,.7) inset;
@@ -36,9 +36,6 @@
 }
 
 /* ── PAGE TRANSITIONS ── */
-.screen{
-  animation:pageEnter .38s cubic-bezier(.22,1,.36,1) both;
-}
 @keyframes pageEnter{
   from{opacity:0;transform:translateY(18px)}
   to{opacity:1;transform:translateY(0)}
@@ -114,11 +111,12 @@
   animation:ncStatusIn .3s .2s ease both;
 }
 .nc-dot{
-  width:7px;height:7px;border-radius:50%;
+  height:7px;border-radius:999px;
   background:rgba(255,255,255,.25);
-  transition:background .3s,transform .3s cubic-bezier(.34,1.56,.64,1);
+  width:7px;
+  transition:background .3s,transform .3s cubic-bezier(.34,1.56,.64,1),width .3s cubic-bezier(.34,1.56,.64,1);
 }
-.nc-dot.active{background:#fff;transform:scale(1.3)}
+.nc-dot.active{background:#fff;width:20px}
 .nc-dot.done{background:rgba(255,255,255,.55)}
 
 /* #3 GRADIENT MESH BACKGROUND */
@@ -134,8 +132,8 @@ body{
   display:flex;flex-direction:column;
   width:100%;height:100%;height:100dvh;
   overflow:hidden;position:relative;
-  /* #17 noise texture via pseudo */
   isolation:isolate;
+  animation:pageEnter .38s cubic-bezier(.22,1,.36,1) both;
 }
 
 /* noise overlay */
@@ -216,7 +214,7 @@ body{
 .mini-bars{display:flex;gap:12px;position:relative;z-index:2}
 .mbi{flex:1}
 .mbi-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
-.mbi-track{height:3px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden}
+.mbi-track{height:4px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden}
 .mbi-fill{height:100%;border-radius:999px;will-change:width;transition:width .3s cubic-bezier(.34,1.56,.64,1)}
 .mbi-fill.v{background:linear-gradient(90deg,rgba(255,100,100,.9),rgba(255,150,100,.9))}
 .mbi-fill.s{background:linear-gradient(90deg,rgba(140,140,255,.9),rgba(180,120,255,.9))}
@@ -253,7 +251,8 @@ body{
 /* #6 SPRING ON PRESS */
 .plan-pill:active{transform:scale(.93)}
 .pp-name{font-size:12px;font-weight:700;color:var(--ink-soft);white-space:nowrap;line-height:1}
-.pp-price{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-faint);white-space:nowrap;line-height:1}
+.pp-price{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ink-faint);white-space:nowrap;line-height:1;font-variant-numeric:tabular-nums;transition:color .2s,opacity .15s}
+.plan-pill.active .pp-price{opacity:.8}
 
 .plan-pill.active{
   background:var(--navy);
@@ -279,18 +278,14 @@ body{
 .body{
   flex:1;overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:14px 13px 96px;
+  padding:14px 13px max(96px,calc(80px + env(safe-area-inset-bottom)));
   overscroll-behavior:contain;min-height:0;
   transform:translateZ(0);
   position:relative;z-index:1;
 }
-.body::-webkit-scrollbar{
-  width:3px; /* #16 custom scrollbar */
-}
+.body::-webkit-scrollbar{width:3px}
 .body::-webkit-scrollbar-track{background:transparent}
-.body::-webkit-scrollbar-thumb{
-  background:var(--border-strong);border-radius:999px;
-}
+.body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:999px}
 
 .plan-panel{position:absolute;visibility:hidden;opacity:0;pointer-events:none;top:0;left:0;right:0;transition:opacity .18s ease}
 .plan-panel.active{position:static;visibility:visible;opacity:1;pointer-events:auto}
@@ -328,7 +323,7 @@ body{
 
 /* #2 LAYERED SHADOWS on cards */
 .slider-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
   border-radius:var(--r-lg) var(--r-lg) 0 0;
 }
 .voice-card::before{background:linear-gradient(90deg,#ef4444,#f97316)}
@@ -340,11 +335,15 @@ body{
 .sc-icon{
   width:36px;height:36px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  font-size:17px;flex-shrink:0;
+  flex-shrink:0;
 }
+.sc-icon svg{width:18px;height:18px}
 .voice-card .sc-icon{background:linear-gradient(135deg,#fef2f2,#ffe4e6);box-shadow:0 2px 8px rgba(239,68,68,.15)}
+.voice-card .sc-icon svg{stroke:#ef4444}
 .sms-card   .sc-icon{background:linear-gradient(135deg,#eef2ff,#ede9fe);box-shadow:0 2px 8px rgba(99,102,241,.15)}
+.sms-card   .sc-icon svg{stroke:#6366f1}
 .data-card  .sc-icon{background:linear-gradient(135deg,#eff6ff,#e0f2fe);box-shadow:0 2px 8px rgba(26,111,255,.15)}
+.data-card  .sc-icon svg{stroke:#1a6fff}
 
 /* #5 TYPOGRAPHY */
 .sc-name{font-size:14px;font-weight:800;color:var(--ink)}
@@ -402,6 +401,7 @@ input[type=range]:active::-webkit-slider-thumb{
 .pb-amount{
   font-family:var(--mono);font-size:22px;font-weight:900;color:var(--navy);
   min-width:90px;text-align:right;
+  font-variant-numeric:tabular-nums;
   transition:transform .15s cubic-bezier(.34,1.56,.64,1);
 }
 .pb-amount.bump{transform:scale(1.08)}
@@ -446,12 +446,12 @@ input[type=range]:active::-webkit-slider-thumb{
   margin-top:4px;
 }
 .sec-badge{
-  display:flex;align-items:center;gap:4px;
-  font-size:9px;font-weight:600;color:var(--ink-faint);letter-spacing:.2px;
+  display:flex;align-items:center;gap:5px;
+  font-size:9px;font-weight:700;color:#059669;letter-spacing:.3px;
   padding:0 12px;
 }
 .sec-badge+.sec-badge{border-left:1px solid var(--border)}
-.sec-badge svg{opacity:.5}
+.sec-badge svg{opacity:.7;stroke:#059669}
 
 /* MODAL */
 .modal-overlay{
@@ -463,15 +463,13 @@ input[type=range]:active::-webkit-slider-thumb{
 .modal-overlay.open{display:flex}
 
 .modal-sheet{
-  /* #1 glassmorphism sheet */
   background:rgba(255,255,255,.94);
   backdrop-filter:blur(30px) saturate(200%);
   -webkit-backdrop-filter:blur(30px) saturate(200%);
   width:100%;
   border-radius:24px 24px 0 0;
   border-top:1.5px solid rgba(255,255,255,.9);
-  padding-bottom:max(24px,env(safe-area-inset-bottom));
-  /* #6 spring sheet entrance */
+  padding-bottom:max(28px,env(safe-area-inset-bottom));
   animation:sheetUp .32s cubic-bezier(.34,1.56,.64,1);
   box-shadow:0 -4px 40px rgba(0,20,80,.18);
 }
@@ -633,7 +631,7 @@ input[type=range]:active::-webkit-slider-thumb{
       <button class="plan-pill" data-key="monthly" onclick="switchPlan('monthly')">
         <span class="pp-name">Monthly</span>
         <span class="pp-price" id="pp-monthly">$9.90</span>
-        <div class="pp-star" title="Best value">⭐</div>
+        <div class="pp-star" title="Best value"><svg width="9" height="9" viewBox="0 0 24 24" fill="#fff" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg></div>
       </button>
     </div>
   </div>
@@ -649,7 +647,7 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="slider-card voice-card">
         <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
+          <div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.14 1.18 2 2 0 012.13 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div>
           <div class="sc-val" id="sv-daily">20 Min</div>
         </div>
         <input type="range" id="sr-voice-daily" min="0" max="20" value="20" oninput="onSlide('daily','voice',this)">
@@ -657,7 +655,7 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="slider-card sms-card">
         <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
+          <div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div>
           <div class="sc-val" id="ss-daily">25 SMS</div>
         </div>
         <input type="range" id="sr-sms-daily" min="0" max="25" value="25" oninput="onSlide('daily','sms',this)">
@@ -665,7 +663,7 @@ input[type=range]:active::-webkit-slider-thumb{
       </div>
       <div class="slider-card data-card">
         <div class="sc-head">
-          <div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
+          <div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div>
           <div class="sc-val" id="sd-daily">3 GB</div>
         </div>
         <input type="range" id="sr-data-daily" min="0" max="30" value="30" oninput="onSlide('daily','data',this)">
@@ -687,17 +685,17 @@ input[type=range]:active::-webkit-slider-thumb{
     <div class="plan-panel" id="panel-3days">
       <div class="panel-head"><div class="panel-title">3-Day Bundle</div><div class="panel-max">Max USD 1.40</div></div>
       <div class="slider-card voice-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-3days">50 Min</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.14 1.18 2 2 0 012.13 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-3days">50 Min</div></div>
         <input type="range" id="sr-voice-3days" min="0" max="50" value="50" oninput="onSlide('3days','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>50 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-3days">75 SMS</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-3days">75 SMS</div></div>
         <input type="range" id="sr-sms-3days" min="0" max="75" value="75" oninput="onSlide('3days','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>75 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-3days">8 GB</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-3days">8 GB</div></div>
         <input type="range" id="sr-data-3days" min="0" max="80" value="80" oninput="onSlide('3days','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>8 GB</span></div>
       </div>
@@ -711,17 +709,17 @@ input[type=range]:active::-webkit-slider-thumb{
     <div class="plan-panel" id="panel-weekly">
       <div class="panel-head"><div class="panel-title">Weekly Bundle</div><div class="panel-max">Max USD 2.80</div></div>
       <div class="slider-card voice-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-weekly">120 Min</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.14 1.18 2 2 0 012.13 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-weekly">120 Min</div></div>
         <input type="range" id="sr-voice-weekly" min="0" max="120" value="120" oninput="onSlide('weekly','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>120 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-weekly">200 SMS</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-weekly">200 SMS</div></div>
         <input type="range" id="sr-sms-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>200 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-weekly">20 GB</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-weekly">20 GB</div></div>
         <input type="range" id="sr-data-weekly" min="0" max="200" value="200" oninput="onSlide('weekly','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>20 GB</span></div>
       </div>
@@ -735,17 +733,17 @@ input[type=range]:active::-webkit-slider-thumb{
     <div class="plan-panel" id="panel-2weeks">
       <div class="panel-head"><div class="panel-title">2-Week Bundle</div><div class="panel-max">Max USD 5.20</div></div>
       <div class="slider-card voice-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-2weeks">250 Min</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.14 1.18 2 2 0 012.13 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-2weeks">250 Min</div></div>
         <input type="range" id="sr-voice-2weeks" min="0" max="250" value="250" oninput="onSlide('2weeks','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>250 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-2weeks">450 SMS</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-2weeks">450 SMS</div></div>
         <input type="range" id="sr-sms-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>450 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-2weeks">45 GB</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-2weeks">45 GB</div></div>
         <input type="range" id="sr-data-2weeks" min="0" max="450" value="450" oninput="onSlide('2weeks','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>45 GB</span></div>
       </div>
@@ -758,19 +756,19 @@ input[type=range]:active::-webkit-slider-thumb{
     <!-- MONTHLY -->
     <div class="plan-panel" id="panel-monthly">
       <div class="panel-head"><div class="panel-title">Monthly Bundle</div><div class="panel-max">Max USD 9.90</div></div>
-      <div class="best-banner">⭐ Best value — save more with monthly</div>
+      <div class="best-banner"><svg width="14" height="14" viewBox="0 0 24 24" fill="#d97706" stroke="none"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg> Best value — save more with monthly</div>
       <div class="slider-card voice-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">📞</div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-monthly">600 Min</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.14 1.18 2 2 0 012.13 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg></div><div><div class="sc-name">Voice calls</div><div class="sc-hint">Local minutes</div></div></div><div class="sc-val" id="sv-monthly">600 Min</div></div>
         <input type="range" id="sr-voice-monthly" min="0" max="600" value="600" oninput="onSlide('monthly','voice',this)">
         <div class="sc-limits"><span>0 Min</span><span>600 Min</span></div>
       </div>
       <div class="slider-card sms-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">💬</div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-monthly">1000 SMS</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div><div class="sc-name">SMS messages</div><div class="sc-hint">Text messages</div></div></div><div class="sc-val" id="ss-monthly">1000 SMS</div></div>
         <input type="range" id="sr-sms-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','sms',this)">
         <div class="sc-limits"><span>0 SMS</span><span>1000 SMS</span></div>
       </div>
       <div class="slider-card data-card">
-        <div class="sc-head"><div class="sc-left"><div class="sc-icon">🌐</div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-monthly">100 GB</div></div>
+        <div class="sc-head"><div class="sc-left"><div class="sc-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><div><div class="sc-name">Mobile data</div><div class="sc-hint">Internet usage</div></div></div><div class="sc-val" id="sd-monthly">100 GB</div></div>
         <input type="range" id="sr-data-monthly" min="0" max="1000" value="1000" oninput="onSlide('monthly','data',this)">
         <div class="sc-limits"><span>0 GB</span><span>100 GB</span></div>
       </div>
