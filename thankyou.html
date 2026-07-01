@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="theme-color" content="#0033a0"/>
 <title>Bundle Confirmed · Econet</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -15,7 +15,7 @@
   --red:#d0021b;--page:#eef3fc;--white:#fff;
   --border:#d5e3f7;--border-strong:#b8ccef;
   --ink:#0a1f44;--ink-mid:#2d4470;--ink-soft:#6b82a8;--ink-faint:#9eb5d4;
-  --font:'Plus Jakarta Sans',sans-serif;--mono:'DM Mono',monospace;
+  --font:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
   --r:12px;--r-lg:18px;
   --shadow:0 1px 3px rgba(0,51,160,.07),0 4px 20px rgba(0,51,160,.09),0 0 0 1px rgba(255,255,255,.7) inset;
   --glass-bg:rgba(255,255,255,0.72);--glass-border:rgba(255,255,255,0.9);
@@ -140,7 +140,7 @@ body{
 }
 @keyframes cardEntrance{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
 
-.card-top-bar{height:3px}
+.card-top-bar{height:4px}
 .brand-bar{background:linear-gradient(90deg,var(--red) 0%,var(--blue) 50%,var(--navy) 100%)}
 
 .card-hdr{
@@ -205,12 +205,12 @@ body{
   margin-top:2px;
 }
 .sec-badge{
-  display:flex;align-items:center;gap:4px;
-  font-size:9px;font-weight:600;color:var(--ink-faint);letter-spacing:.2px;
+  display:flex;align-items:center;gap:5px;
+  font-size:9px;font-weight:700;color:#059669;letter-spacing:.3px;
   padding:0 12px;
 }
 .sec-badge+.sec-badge{border-left:1px solid var(--border)}
-.sec-badge svg{opacity:.5}
+.sec-badge svg{opacity:.7;stroke:#059669}
 
 .powered{text-align:center;padding:8px 0 2px;font-size:9px;color:var(--ink-faint);font-weight:600;letter-spacing:.4px;text-transform:uppercase}
 .powered strong{color:var(--ink-soft);font-weight:700;text-transform:none}
@@ -334,6 +334,7 @@ body{
   const ctx=canvas.getContext("2d");
   function resize(){canvas.width=canvas.offsetWidth||390;canvas.height=window.innerHeight||800;}
   resize();
+  window.addEventListener('resize',()=>{resize();},{ passive:true });
 
   const COLORS=[
     '#fff','#ffe066','#ff6b6b','#51cf66','#74c0fc','#cc5de8',
