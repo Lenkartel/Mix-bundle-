@@ -62,10 +62,10 @@ body{
 @keyframes glowPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.12)}}
 
 .header-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2;margin-bottom:16px;}
-.brand{display:flex;align-items:center;gap:9px}
-.brand-logo-econet{height:24px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
-.brand-sep{width:1px;height:18px;background:rgba(255,255,255,.25)}
-.brand-logo-ecocash{height:30px;object-fit:contain;filter:brightness(0) invert(1);opacity:.9}
+.brand{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.92);padding:5px 10px;border-radius:10px;backdrop-filter:blur(8px)}
+.brand-logo-econet{height:20px;object-fit:contain}
+.brand-sep{width:1px;height:16px;background:rgba(0,0,0,.12)}
+.brand-logo-ecocash{height:26px;object-fit:contain}
 
 .amount-chip{
   background:rgba(255,255,255,.15);
@@ -203,14 +203,6 @@ input:focus{
 .otp-box.filled{background:var(--white);border-color:var(--sky-deep);transform:scale(1.04)}
 .otp-box.active{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4px rgba(26,111,255,.14);transform:scale(1.06)}
 .otp-box.disabled{opacity:.4;background:var(--border)}
-
-/* #12 PIN SHIMMER on fill */
-.otp-box.filled::after{
-  content:'●';
-  background:linear-gradient(135deg,var(--navy),var(--blue));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
 
 .timer-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0 0}
 .timer-lbl{font-size:12px;color:var(--ink-soft);font-weight:500}
