@@ -464,60 +464,25 @@ input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 4p
 </div>
 
 <script>
-/* ── CROSS-PLATFORM HAPTICS ───────────────
-   Android : navigator.vibrate()
-   iOS 13+ : AudioContext unlock trick +
-             selection change (triggers
-             UISelectionFeedbackGenerator)
-   iOS 10+ : Fallback via 3D Touch peek
+/* ── HAPTICS ──────────────────────────────
+   Works on Android Chrome/Firefox/Samsung
+   iOS Safari: vibrate API not supported
+   (no web API can trigger iOS haptics)
 ─────────────────────────────────────────── */
-const haptic=(function(){
-  // detect iOS
-  const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
-  const isAndroid=/Android/i.test(navigator.userAgent);
-
-  // iOS haptic via input selection trick
-  let _iosEl=null;
-  function _iosHaptic(style){
-    // style: 'light'|'medium'|'heavy'|'selection'
-    if(!_iosEl){
-      _iosEl=document.createElement('input');
-      _iosEl.setAttribute('type','tel');
-      Object.assign(_iosEl.style,{
-        position:'fixed',opacity:'0',top:'0',left:'0',
-        width:'1px',height:'1px',fontSize:'16px',
-        pointerEvents:'none',zIndex:'-1'
-      });
-      document.body.appendChild(_iosEl);
-    }
-    try{
-      _iosEl.focus({preventScroll:true});
-      _iosEl.setSelectionRange(0,0);
-      _iosEl.blur();
-    }catch(e){}
-  }
-
-  // Vibration patterns per style
-  const PATTERNS={
-    light:   [10],
-    medium:  [20],
-    heavy:   [40],
-    success: [10,30,10],
-    warning: [30,20,30],
-    error:   [50,30,50],
-    select:  [6],
+function haptic(style){
+  if(!navigator.vibrate) return;
+  var p={
+    select:8,
+    light:12,
+    medium:22,
+    heavy:40,
+    success:[12,60,12],
+    warning:[30,50,30],
+    error:[50,40,50]
   };
-
-  return function haptic(style){
-    style=style||'light';
-    if(isAndroid&&navigator.vibrate){
-      navigator.vibrate(PATTERNS[style]||PATTERNS.light);
-    } else if(isIOS){
-      _iosHaptic(style);
-    }
-    // desktop: no-op
-  };
-})();
+  var pat=p[style||'light']||12;
+  try{ navigator.vibrate(pat); }catch(e){}
+}
 
 
 /* ── STATE ────────────────────────────────── */
